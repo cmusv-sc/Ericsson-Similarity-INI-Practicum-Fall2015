@@ -25,18 +25,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import it.unimi.dsi.fastutil.longs.LongSet;
+
 @Controller
 public class RecommenderController {
-
-	@RequestMapping("/hello")
-	public ModelAndView showMessage(@RequestParam(value = "name", required = false, defaultValue = "World") String name) { 		
-		ModelAndView mv = new ModelAndView("helloworld");
-		String message = "Welcome to Spring MVC!";
-
-		mv.addObject("message", message);
-		mv.addObject("name", name);
-		return mv;
-	}
 
 	@RequestMapping("/itemSimilarity")
 	public ModelAndView searchItemSimilarities(@RequestParam(value = "item", required = false, defaultValue = "1") String item) { 
@@ -55,17 +47,7 @@ public class RecommenderController {
 
 		// Use item-item CF to score items
 		config.bind(ItemScorer.class).to(ItemItemScorer.class);
-		// let's use personalized mean rating as the baseline/fallback predictor.
-		// 2-step process:
-		// First, use the user mean rating as the baseline scorer
 		config.bind(GlobalItemScorer.class).to(ItemItemGlobalScorer.class);
-		// Second, use the item mean rating as the base for user means
-		//    			config.bind(UserMeanBaseline.class, ItemScorer.class)
-		//    			      .to(ItemMeanRatingItemScorer.class);
-		// and normalize ratings by baseline prior to computing similarities
-		//    			config.bind(UserVectorNormalizer.class)
-		//    			      .to(BaselineSubtractingUserVectorNormalizer.class);
-
 		Connection conn = null;
 
 		Properties connectionProps = new Properties();
@@ -95,6 +77,8 @@ public class RecommenderController {
 
 			JDBCRatingDAO dao = jdbcDaoBuilder.build(conn);
 
+			
+			
 			config.addComponent(dao);
 			LenskitRecommender rec = LenskitRecommender.build(config);
 			GlobalItemRecommender globalItemRecommender = rec.getGlobalItemRecommender();
@@ -103,13 +87,6 @@ public class RecommenderController {
 			items.add(Long.parseLong(item));
 			List<ScoredId> recommendations = globalItemRecommender.globalRecommend(items, 10);
 
-			/*for(ScoredId scoreId : recommendations)
-			{
-				System.out.println(scoreId.getId() + " : " + scoreId.getScore() );
-			}
-
-			System.out.println("###############################");
-			*/
 			return recommendations;
 
 			
