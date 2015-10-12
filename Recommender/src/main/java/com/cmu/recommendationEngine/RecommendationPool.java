@@ -45,7 +45,7 @@ public class RecommendationPool {
 		
 		while (i < recommendationPool.size() && j < otherPool.size()){
 			if(i >= recommendationPool.size()){
-				mergedPool.add(otherPool.get(j);
+				mergedPool.add(otherPool.get(j));
 				j++;
 			}
 			else if (j >= otherPool.size()){

@@ -1,4 +1,4 @@
-package com.cmu.dao;
+package com.cmu.model;
 
 public class Movie {
 
