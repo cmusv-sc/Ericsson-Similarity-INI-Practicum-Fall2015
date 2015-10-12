@@ -12,26 +12,30 @@
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
-	var array = "${recommendations}".split("score");
-	var arraySize = "${recommendations.size()}";
+	var arrayOfIds = JSON.parse("${movieIds}");
+	var arraySize = "${movieIds.size()}";
+	var strLen = "${movieTitles}".length;
+	var arrayOfTitles = "${movieTitles}".substring(1,strLen-1).split(",");
+	
 	var itemPosition = 0;
+
 	function nextItem(){
 		if (itemPosition > arraySize){
 			return;
 		}
-		var item = "${recommendations[0].id}"
-		var code = '<h4>Movie '+ item +'</h4>' +
+		var item = arrayOfIds[itemPosition];
+		var code = '<h4>'+ arrayOfTitles[itemPosition] +'</h4>' +
 		'<img' +
 		'	src="https://image.tmdb.org/t/p/w780/qFYwztFX1gx9PZLnTEokQw5q04G.jpg"' +
 		'	alt="Mountain View" class="img-responsive">' +
 		'<div class="btn-toolbar" role="toolbar">' +
 		'	<div class="btn-group">' +
 		'		<button type="button" class="btn btn-default"' +
-		'			aria-label="Left Align" onclick="getNewItem())">' +
+		'			aria-label="Left Align" onclick="getNewItem('+ item +')">' +
 		'			<span class="glyphicon  glyphicon-remove" aria-hidden="true"></span>' +
 		'		</button>' +
 		'		<button type="button" class="btn btn-default"' +
-		'			aria-label="Center Align" onclick="getNewItem()">' +
+		'			aria-label="Center Align" onclick="getNewItem('+ item +')">' +
 		'			<span class="glyphicon  glyphicon-question-sign"' +
 		'				aria-hidden="true"></span>' +
 		'		</button>' +
@@ -41,7 +45,7 @@
 		'				aria-hidden="true"></span>' +
 		'		</button>' +
 		'		<button type="button" class="btn btn-default"' +
-		'			aria-label="Right Align" onclick="getNewItem()">' +
+		'			aria-label="Right Align" onclick="getNewItem('+ item +')">' +
 		'			<span class="glyphicon  glyphicon-ok" aria-hidden="true"></span>' +
 		'		</button>' +
 		'	</div>';
@@ -51,12 +55,20 @@
 	
 	function getNewItem(id) {
 		$("#movie"+id).fadeOut();
-		$("#movie"+id).fadeIn();		
+		
+		if(itemPosition < arraySize){
+			$("#movie"+id).fadeIn();		
 
-		document.getElementById("movie".concat(id)).innerHTML = nextItem();
-		document.getElementById("movie".concat(id)).id = "movie${recommendations[0].id}";
+			document.getElementById("movie".concat(id)).innerHTML = nextItem();
+			document.getElementById("movie".concat(id)).id = "movie"+ arrayOfIds[itemPosition-1];
+		}
 	}
-	
+	$( document ).ready(function() {
+		getNewItem("First");
+		getNewItem("Second");
+		getNewItem("Third");
+		getNewItem("Fourth");
+	});
 </script>
 
 	<div class="container">
@@ -67,7 +79,7 @@
 		<div class="jumbotron">
 			<div class="row">
 				<div class="col-xs-6 col-lg-4">
-					<h2>Movie ${item} Title</h2>
+					<h2>${selectedMovieTitle}</h2>
 					<img
 						src="https://image.tmdb.org/t/p/w780/y7N276seR43H31xvDbWMWxEsDr.jpg"
 						alt="Mountain View" class="img-responsive">
@@ -85,39 +97,17 @@
 		</div>
 
 		<div class="row">
-			<h2>Are these movies similar to Movie ${item}</h2>
+			<h2>Are these movies similar to ${selectedMovieTitle}?</h2>
 
-			<c:forEach items="${recommendations}" var="item">
 
-				<div id="movie${item.id}" class="col-xs-3 col-lg-4">
-					<h4>Movie ${item.id}</h4>
-					<img
-						src="https://image.tmdb.org/t/p/w780/qFYwztFX1gx9PZLnTEokQw5q04G.jpg"
-						alt="Mountain View" class="img-responsive">
-					<div class="btn-toolbar" role="toolbar">
-						<div class="btn-group">
-							<button type="button" class="btn btn-default"
-								aria-label="Left Align" onclick="getNewItem(${item.id})">
-								<span class="glyphicon  glyphicon-remove" aria-hidden="true"></span>
-							</button>
-							<button type="button" class="btn btn-default"
-								aria-label="Center Align" onclick="getNewItem(${item.id})">
-								<span class="glyphicon  glyphicon-question-sign"
-									aria-hidden="true"></span>
-							</button>
-							<button type="button" class="btn btn-default"
-								aria-label="Center Align">
-								<span class="glyphicon  glyphicon glyphicon-info-sign"
-									aria-hidden="true"></span>
-							</button>
-							<button type="button" class="btn btn-default"
-								aria-label="Right Align" onclick="getNewItem(${item.id})">
-								<span class="glyphicon  glyphicon-ok" aria-hidden="true"></span>
-							</button>
-						</div>
-					</div>
+				<div id="movieFirst" class="col-xs-3 col-lg-3">
 				</div>
-			</c:forEach>
+				<div id="movieSecond" class="col-xs-3 col-lg-3">
+				</div>
+				<div id="movieThird" class="col-xs-3 col-lg-3">
+				</div>
+				<div id="movieFourth" class="col-xs-3 col-lg-3">
+				</div>
 
 		</div>
 
