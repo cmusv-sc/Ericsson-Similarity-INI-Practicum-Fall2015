@@ -1,5 +1,5 @@
-Ericsson Similarity Practicum
-=============================
+Ericsson Item-Similarity Practicum
+==================================
 
 Overview
 --------
