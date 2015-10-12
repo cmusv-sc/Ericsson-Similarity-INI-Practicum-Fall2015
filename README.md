@@ -63,6 +63,6 @@ Team
 
 **Jia Zhang** - Associate Research Professor at Carnegie Mellon University - Silicon Valley
 
-**Alvin Jude Hari Haran** - Ericsson Research
+**Alvin Jude** - Ericsson Research
 
 **Per-Erik Brodin** - Ericsson Research
