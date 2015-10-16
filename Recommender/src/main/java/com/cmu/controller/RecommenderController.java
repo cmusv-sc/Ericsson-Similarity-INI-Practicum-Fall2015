@@ -26,8 +26,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmu.dao.DBConnection;
+import com.cmu.dao.ModelDaoImpl;
 import com.cmu.dao.Movie;
 import com.cmu.dao.MovieDao;
+import com.cmu.dao.RecommendationDaoImpl;
+import com.cmu.enums.Algorithm;
+import com.cmu.interfaces.ModelDao;
+import com.cmu.interfaces.RecommendationDao;
+import com.cmu.model.ItemScore;
+import com.cmu.model.Recommendation;
 
 @Controller
 public class RecommenderController {
@@ -101,6 +108,24 @@ public class RecommenderController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
+	}
+	
+	@RequestMapping("/test")
+	public ModelAndView test(){
+		ModelDao m = new ModelDaoImpl();
+		RecommendationDao r = new RecommendationDaoImpl();
+		String name = Algorithm.COSINE_SIMILARITY.toString();
+		List<ItemScore> li = new ArrayList<ItemScore>();
+		ItemScore a = new ItemScore(1L,0.331);
+		ItemScore b = new ItemScore(2L,0.443);
+		ItemScore c = new ItemScore(3L,0.567);
+		li.add(a);
+		li.add(b);
+		li.add(c);
+		//m.addToModel(10L, li, Algorithm.COSINE_SIMILARITY);
+		//m.deleteModel(10L, Algorithm.COSINE_SIMILARITY);
+		List<Recommendation> rr = r.getRecommendation(10L, Algorithm.COSINE_SIMILARITY);
 		return null;
 	}
 
