@@ -101,7 +101,7 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		return mv;
 	}
 	
-	//todo: find out a way to implement this function
+	//TODO: find out a way to implement this function
 	/*public List<com.cmu.model.Movie> getMovieDatas(List<Long> ids){
 		try {
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
