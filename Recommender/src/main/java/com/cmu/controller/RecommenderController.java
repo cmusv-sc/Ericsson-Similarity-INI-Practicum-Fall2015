@@ -59,6 +59,28 @@ public class RecommenderController {
 		return mv;
 	}
 
+	@RequestMapping("/home")
+	public ModelAndView home() { 
+		
+		MovieDao movieDao = new MovieDao();
+		List<Movie> recommendations = getRandomItems();
+		ModelAndView mv = new ModelAndView("home");
+		List<Long> movieIds = new ArrayList<Long>();
+		List<String> movieTitles = new ArrayList<String>();
+		for(int i = 0; i < recommendations.size(); i++){
+			movieIds.add(i, recommendations.get(i).getId());
+			movieTitles.add(i, recommendations.get(i).getTitle());
+		}
+		String poster = "https://image.tmdb.org/t/p/w780/qFYwztFX1gx9PZLnTEokQw5q04G.jpg";
+		mv.addObject("poster",poster);
+		mv.addObject("movieIds", movieIds);
+		mv.addObject("movieTitles", movieTitles);
+		return mv;
+	}
+	
+	private List<Movie> getRandomItems() {
+		return getItems("1", "");
+	}
 	private List<Movie> getItems(String item, String algorithm) {
 
 		System.out.println(item);
