@@ -67,28 +67,7 @@
 			document.getElementById("movie".concat(id)).id = "movie"+ arrayOfIds[itemPosition-1];
 		}
 	}
-	function getItemInfo(id) {
-		alert("inside function getItemInfo");
-	}
-	$(function() {
-	    $( "#dialog" ).dialog({
-	      autoOpen: false,
-	      show: {
-	        effect: "blind",
-	        duration: 1000
-	      },
-	      hide: {
-	        effect: "explode",
-	        duration: 1000
-	      }
-	    });
-	 
-	    $( "#info${item}" ).click(function() {
-	      $( "#dialog" ).dialog( "open" );
-	    });
-	  });
-	
-	
+
 	$( document ).ready(function() {
 		getNewItem("First");
 		getNewItem("Second");
@@ -118,9 +97,7 @@
 			</div>
 
 		</div>
-       <div id="dialog" title="Basic dialog">
-            <p>This is an animated dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
-       </div>
+
 		<div class="row">
 			<h2>Are these movies similar to ${selectedMovieTitle}?</h2>
 
