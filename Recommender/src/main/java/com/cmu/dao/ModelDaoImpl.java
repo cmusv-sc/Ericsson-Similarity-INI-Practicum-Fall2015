@@ -3,6 +3,7 @@ package com.cmu.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -21,23 +22,59 @@ public class ModelDaoImpl implements ModelDao{
 			e1.printStackTrace();
 		}
 		Connection conn = DBConnection.getConection();
-		String sqlString = "insert into similarity values(?,?,?)";
-		StringBuilder s = new StringBuilder();
-		for(int i = 0; i < recommendations.size(); i++){
-			s.append(recommendations.get(i).getId());
-			s.append(",");
-			s.append(recommendations.get(i).getScore());
-			s.append(",");
-		}
+		String sqltest = "Select sims from similarity where movieId = ? and algorithm = ?";
+		boolean bnew = true;;
 		try {
-			PreparedStatement statement = conn.prepareStatement(sqlString);
+			PreparedStatement statement = conn.prepareStatement(sqltest);
 			statement.setLong(1, id);
 			statement.setString(2, alg.toString());
-			statement.setString(3, s.toString());
-			statement.executeUpdate();
+			ResultSet rs = statement.executeQuery();
+			if(rs.next()){  //duplicate entry;
+				bnew = false;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		if(bnew){
+			String sqlString = "insert into similarity values(?,?,?)";
+			StringBuilder s = new StringBuilder();
+			for(int i = 0; i < recommendations.size(); i++){
+				s.append(recommendations.get(i).getId());
+				s.append(",");
+				s.append(recommendations.get(i).getScore());
+				s.append(",");
+			}
+			try {
+				PreparedStatement statement = conn.prepareStatement(sqlString);
+				statement.setLong(1, id);
+				statement.setString(2, alg.toString());
+				statement.setString(3, s.toString());
+				statement.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else{
+			String sqlString = "update similarity set sims = ? where movieId = ? and algorithm = ?";
+			StringBuilder s = new StringBuilder();
+			for(int i = 0; i < recommendations.size(); i++){
+				s.append(recommendations.get(i).getId());
+				s.append(",");
+				s.append(recommendations.get(i).getScore());
+				s.append(",");
+			}
+			try {
+				PreparedStatement statement = conn.prepareStatement(sqlString);
+				statement.setString(1, s.toString());
+				statement.setLong(2, id);
+				statement.setString(3, alg.toString());
+				statement.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}
