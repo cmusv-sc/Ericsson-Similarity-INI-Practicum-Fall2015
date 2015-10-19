@@ -4,38 +4,41 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class RecommendationPoolUnit implements Comparable<RecommendationPoolUnit>{
-	private long movieID;
-	private List<String> algorithms;
-	private double maxScore;
+import com.cmu.enums.Algorithm;
 
-	public RecommendationPoolUnit(long movieId, List<String> algorithm, double maxScore) {
-		this.movieID = movieId;
+public class RecommendationPoolUnit implements Comparable<RecommendationPoolUnit>{
+	private Movie movie;
+	private List<Algorithm> algorithms;
+	private double maxScore;
+	
+
+	public RecommendationPoolUnit(Movie movie, List<Algorithm> algorithm, double maxScore) {
+		this.movie = movie;
 		this.algorithms = algorithm;
 		this.maxScore = maxScore;
 	}
 
-	public RecommendationPoolUnit(long movieId, String algorithm, double score) {
-		this.movieID = movieId;
-		this.algorithms = new ArrayList<String>();
+	public RecommendationPoolUnit(Movie movie, Algorithm algorithm, double score) {
+		this.movie = movie;
+		this.algorithms = new ArrayList<Algorithm>();
 		this.algorithms.add(algorithm);
 		this.maxScore = score;	
 	}
 
-	public long getMovieID() {
-		return movieID;
+	public Movie getMovie() {
+		return movie;
 	}
-	public void setMovieID(long movieID) {
-		this.movieID = movieID;
+	public void setMovieID(Movie movie) {
+		this.movie = movie;
 	}
 
-	public List<String> getAlgorithms() {
+	public List<Algorithm> getAlgorithms() {
 		return algorithms;
 	}
-	public void setAlgorithms(List<String> algorithm) {
+	public void setAlgorithms(List<Algorithm> algorithm) {
 		this.algorithms = algorithm;
 	}
-	public void addAlgorithm(String algorithm){
+	public void addAlgorithm(Algorithm algorithm){
 		this.algorithms.add(algorithm);
 	}
 
@@ -55,8 +58,8 @@ public class RecommendationPoolUnit implements Comparable<RecommendationPoolUnit
 
 		public int compare(RecommendationPoolUnit unit1, RecommendationPoolUnit unit2) {
 
-			Long movieId1 = unit1.getMovieID();
-			Long movieId2 = unit2.getMovieID();
+			Long movieId1 = unit1.getMovie().getId();
+			Long movieId2 = unit2.getMovie().getId();
 
 			//ascending order
 			return movieId1.compareTo(movieId2);
