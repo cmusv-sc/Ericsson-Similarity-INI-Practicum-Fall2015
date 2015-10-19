@@ -79,7 +79,7 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String sqlString2 = "select Title,Genre,Plot from omdbsmall where imdbId = ?";
+		String sqlString2 = "select Title,Genre,Plot, Poster, imdbId from omdbsmall where imdbId = ?";
 		String olddb = "";
 		try {
 			olddb = conn.getCatalog();
@@ -89,7 +89,7 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			rs = statement.executeQuery();
 			if (rs.next()) {
 				System.out.println(rs.getString("Title"));
-				mv = new com.cmu.model.Movie(rs.getString("Title"),id,rs.getString("Genre"), rs.getString("Plot"), "POSTER", "IMDBID");
+				mv = new com.cmu.model.Movie(rs.getString("Title"),id,rs.getString("Genre"), rs.getString("Plot"), rs.getString("Poster"), rs.getString("imdbId"));
 			}
 			conn.setCatalog(olddb);
 		} catch (SQLException e) {
