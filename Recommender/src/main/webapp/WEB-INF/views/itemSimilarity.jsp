@@ -19,8 +19,11 @@
 	var arrayOfIds = JSON.parse("${movieIds}");
 	var arraySize = "${movieIds.size()}";
 	var strLen = "${movieTitles}".length;
+	var posterLen = "${posters}".length;
+
 	var arrayOfTitles = "${movieTitles}".substring(1,strLen-1).split(",");
-	
+	var arrayOfPosters = "${posters}".substring(1,posterLen-1).split(",");
+
 	var itemPosition = 0;
 
 	function nextItem(){
@@ -30,8 +33,9 @@
 		var item = arrayOfIds[itemPosition];
 		var code = '<h4>'+ arrayOfTitles[itemPosition] +'</h4>' +
 		'<img' +
-		'	src="https://image.tmdb.org/t/p/w780/qFYwztFX1gx9PZLnTEokQw5q04G.jpg"' +
-		'	alt="Mountain View" class="img-responsive">' +
+		'	src="'+arrayOfPosters[itemPosition]+'"' +
+		'	alt="Mountain View" class="img-responsive"' +
+		'	style="height: 206px; width: 144px">' +
 		'<div class="btn-toolbar" role="toolbar">' +
 		'	<div class="btn-group">' +
 		'		<button id="remove'+item+'" type="button" class="btn btn-default"' +
@@ -86,13 +90,13 @@
 				<div class="col-xs-6 col-lg-4">
 					<h2>${selectedMovieTitle}</h2>
 					<img
-						src="https://image.tmdb.org/t/p/w780/y7N276seR43H31xvDbWMWxEsDr.jpg"
-						alt="Mountain View" class="img-responsive">
+						src="${selectedPoster}"
+						alt="Mountain View" class="img-responsive"
+						style="height: 320px; width: 200px">
 				</div>
 				<div class="col-xs-6 col-lg-8">
 					<h2>Synopsys</h2>
 					<p>${synopsys} </p>
-					<%-- <p>${synopsys}</p> --%>
 				</div>
 			</div>
 

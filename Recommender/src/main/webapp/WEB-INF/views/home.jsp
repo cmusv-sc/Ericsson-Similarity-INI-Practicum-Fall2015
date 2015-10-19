@@ -15,8 +15,10 @@
 	var arrayOfIds = JSON.parse("${movieIds}");
 	var arraySize = "${movieIds.size()}";
 	var strLen = "${movieTitles}".length;
+	var posterLen = "${posters}".length;
 	var arrayOfTitles = "${movieTitles}".substring(1,strLen-1).split(",");
-	
+	var arrayOfPosters = "${posters}".substring(1,posterLen-1).split(",");
+
 	var itemPosition = 0;
 
 	function nextItem(){
@@ -26,7 +28,8 @@
 		var item = arrayOfIds[itemPosition];
 		var code = '<h4>'+ arrayOfTitles[itemPosition] +'</h4>' +
 		'<a href = "http://localhost:8080/Recommender/itemSimilarity?item='+item+'">'+'<img' +
-		'	src="'+"${poster}"+'"' +
+		'	src="'+arrayOfPosters[itemPosition]+'"' +
+		'	style="height: 206px; width: 144px"' +
 		'	alt="Mountain View" class="img-responsive"></a>';
 		itemPosition++;
 		return code;
