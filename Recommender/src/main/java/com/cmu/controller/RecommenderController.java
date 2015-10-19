@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import org.grouplens.lenskit.GlobalItemRecommender;
@@ -27,23 +30,35 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cmu.dao.DBConnection;
 import com.cmu.dao.ModelDaoImpl;
-import com.cmu.dao.Movie;
 import com.cmu.dao.MovieDao;
 import com.cmu.dao.RecommendationDaoImpl;
 import com.cmu.enums.Algorithm;
 import com.cmu.interfaces.ModelDao;
 import com.cmu.interfaces.RecommendationDao;
 import com.cmu.model.ItemScore;
+import com.cmu.model.Movie;
 import com.cmu.model.Recommendation;
+import com.cmu.recommendationEngine.RecommendationBuilder;
 
 @Controller
 public class RecommenderController {
+	
+	MovieDao movieDao = new MovieDao();
 
 	@RequestMapping("/itemSimilarity")
 	public ModelAndView searchItemSimilarities(@RequestParam(value = "item", required = false, defaultValue = "1") String item,
 			@RequestParam(value = "algorithm", required = false, defaultValue = "") String algorithm) { 
 		MovieDao movieDao = new MovieDao();
-		List<Movie> recommendations = getItems(item, algorithm);
+		RecommendationDaoImpl rec = new RecommendationDaoImpl();
+		Movie movie = rec.getMovieData(Long.valueOf(item));
+		List<Movie> recommendations = new ArrayList<Movie>();
+		
+		//recommendations = getItems(item, algorithm);
+		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item));
+		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
+		for(Movie m : recommendationMap.keySet()) {
+			recommendations.add(m);
+		}
 		ModelAndView mv = new ModelAndView("itemSimilarity");
 		List<Long> movieIds = new ArrayList<Long>();
 		List<String> movieTitles = new ArrayList<String>();
@@ -52,64 +67,98 @@ public class RecommenderController {
 			movieTitles.add(i, recommendations.get(i).getTitle());
 		}
 		
+		System.out.println();
+		mv.addObject("synopsys", movie.getSynopsis());
 		mv.addObject("movieIds", movieIds);
 		mv.addObject("movieTitles", movieTitles);
-		mv.addObject("selectedMovieTitle", movieDao.getMovieById(Long.parseLong(item)).getTitle());
+		mv.addObject("selectedMovieTitle", movie.getTitle());
 		mv.addObject("item", item);
 		return mv;
 	}
 
-	private List<Movie> getItems(String item, String algorithm) {
-
-		System.out.println(item);
-		LenskitConfiguration config = new LenskitConfiguration();
-		config.bind(GlobalItemScorer.class).to(ItemItemGlobalScorer.class);
-		if(algorithm != null && algorithm.contentEquals("Pearson"))
-			config.within(ItemVectorSimilarity.class).bind(VectorSimilarity.class).to(PearsonCorrelation.class);
-
-		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
-
-			Connection conn = DBConnection.getConection();
-			
-			JDBCRatingDAOBuilder jdbcDaoBuilder = JDBCRatingDAO.newBuilder();
-			jdbcDaoBuilder.setTableName("test_ratings");
-			jdbcDaoBuilder.setItemColumn("movieId");
-			jdbcDaoBuilder.setUserColumn("userId");
-			jdbcDaoBuilder.setTimestampColumn("timestamp");
-			jdbcDaoBuilder.setRatingColumn("rating");
-
-			JDBCRatingDAO dao = jdbcDaoBuilder.build(conn);
-
-			config.addComponent(dao);
-			System.out.println(config);
-			LenskitRecommender rec = LenskitRecommender.build(config);
-
-			GlobalItemRecommender globalItemRecommender = rec.getGlobalItemRecommender();
-
-			Set<Long> items = new HashSet<Long>();
-			items.add(Long.parseLong(item));
-			List<ScoredId> recommendations = globalItemRecommender.globalRecommend(items, 20);
-
-			MovieDao movieDao = new MovieDao();
-			movieDao.getMoviesByIds(recommendations);
-			for (Movie movie : movieDao.getMoviesByIds(recommendations)) {
-				System.out.println("Movie Id: " + movie.getId() + " , Title : " + movie.getTitle() + " Genre : " + movie.getGenre());
-			}
-
-			
-			System.out.println("###############################");
-
-			return movieDao.getMoviesByIds(recommendations);
-		} catch (RecommenderBuildException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	@RequestMapping("/home")
+	public ModelAndView home() { 
+		
+		List<Movie> recommendations = getRandomItems();
+		ModelAndView mv = new ModelAndView("home");
+		List<Long> movieIds = new ArrayList<Long>();
+		List<String> movieTitles = new ArrayList<String>();
+		for(int i = 0; i < recommendations.size(); i++){
+			movieIds.add(i, recommendations.get(i).getId());
+			movieTitles.add(i, recommendations.get(i).getTitle());
 		}
-		return null;
+		String poster = "https://image.tmdb.org/t/p/w780/qFYwztFX1gx9PZLnTEokQw5q04G.jpg";
+		mv.addObject("poster",poster);
+		mv.addObject("movieIds", movieIds);
+		mv.addObject("movieTitles", movieTitles);
+		return mv;
 	}
+	
+	private List<Movie> getRandomItems() {
+		//return getItems("1", "");
+		List<Long> movieIds = new ArrayList<Long>();
+		Random rand = new Random();
+		for (int i = 0; i < 12; i++)
+		{
+			movieIds.add(new Long(rand.nextInt(80)));
+		}
+		
+		System.out.println(movieIds);
+		return movieDao.getMoviesByIds(movieIds);
+		
+	}
+	
+//	private List<Movie> getItems(String item, String algorithm) {
+//
+//		System.out.println(item);
+//		LenskitConfiguration config = new LenskitConfiguration();
+//		config.bind(GlobalItemScorer.class).to(ItemItemGlobalScorer.class);
+//		if(algorithm != null && algorithm.contentEquals("Pearson"))
+//			config.within(ItemVectorSimilarity.class).bind(VectorSimilarity.class).to(PearsonCorrelation.class);
+//
+//		try {
+//			DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+//
+//			Connection conn = DBConnection.getConection();
+//			
+//			JDBCRatingDAOBuilder jdbcDaoBuilder = JDBCRatingDAO.newBuilder();
+//			jdbcDaoBuilder.setTableName("test_ratings");
+//			jdbcDaoBuilder.setItemColumn("movieId");
+//			jdbcDaoBuilder.setUserColumn("userId");
+//			jdbcDaoBuilder.setTimestampColumn("timestamp");
+//			jdbcDaoBuilder.setRatingColumn("rating");
+//
+//			JDBCRatingDAO dao = jdbcDaoBuilder.build(conn);
+//
+//			config.addComponent(dao);
+//			System.out.println(config);
+//			LenskitRecommender rec = LenskitRecommender.build(config);
+//
+//			GlobalItemRecommender globalItemRecommender = rec.getGlobalItemRecommender();
+//
+//			Set<Long> items = new HashSet<Long>();
+//			items.add(Long.parseLong(item));
+//			List<ScoredId> recommendations = globalItemRecommender.globalRecommend(items, 20);
+//
+//			MovieDao movieDao = new MovieDao();
+//			movieDao.getMoviesByIds(recommendations);
+//			for (Movie movie : movieDao.getMoviesByIds(recommendations)) {
+//				System.out.println("Movie Id: " + movie.getId() + " , Title : " + movie.getTitle() + " Genre : " + movie.getGenre());
+//			}
+//
+//			
+//			System.out.println("###############################");
+//
+//			return movieDao.getMoviesByIds(recommendations);
+//		} catch (RecommenderBuildException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 	
 	@RequestMapping("/test")
 	public ModelAndView test(){

@@ -11,10 +11,17 @@ public class DBConnection {
 	
 	private DBConnection() {
 		// TODO Auto-generated constructor stub
+		try {
+			DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		Properties connectionProps = new Properties();
 	    connectionProps.put("user", "ini");
 	    connectionProps.put("password", "a12345");
-	    
+
 	                   
 	    
 	   

@@ -25,30 +25,9 @@
 		}
 		var item = arrayOfIds[itemPosition];
 		var code = '<h4>'+ arrayOfTitles[itemPosition] +'</h4>' +
-		'<img' +
-		'	src="https://image.tmdb.org/t/p/w780/qFYwztFX1gx9PZLnTEokQw5q04G.jpg"' +
-		'	alt="Mountain View" class="img-responsive">' +
-		'<div class="btn-toolbar" role="toolbar">' +
-		'	<div class="btn-group">' +
-		'		<button type="button" class="btn btn-default"' +
-		'			aria-label="Left Align" onclick="getNewItem('+ item +')">' +
-		'			<span class="glyphicon  glyphicon-remove" aria-hidden="true"></span>' +
-		'		</button>' +
-		'		<button type="button" class="btn btn-default"' +
-		'			aria-label="Center Align" onclick="getNewItem('+ item +')">' +
-		'			<span class="glyphicon  glyphicon-question-sign"' +
-		'				aria-hidden="true"></span>' +
-		'		</button>' +
-		'		<button type="button" class="btn btn-default"' +
-		'			aria-label="Center Align">' +
-		'			<span class="glyphicon  glyphicon glyphicon-info-sign"' +
-		'				aria-hidden="true"></span>' +
-		'		</button>' +
-		'		<button type="button" class="btn btn-default"' +
-		'			aria-label="Right Align" onclick="getNewItem('+ item +')">' +
-		'			<span class="glyphicon  glyphicon-ok" aria-hidden="true"></span>' +
-		'		</button>' +
-		'	</div>';
+		'<a href = "http://localhost:8080/Recommender/itemSimilarity?item='+item+'">'+'<img' +
+		'	src="'+"${poster}"+'"' +
+		'	alt="Mountain View" class="img-responsive"></a>';
 		itemPosition++;
 		return code;
 	}	
@@ -68,6 +47,14 @@
 		getNewItem("Second");
 		getNewItem("Third");
 		getNewItem("Fourth");
+		getNewItem("Fifth");
+		getNewItem("Sixth");
+		getNewItem("Seventh");
+		getNewItem("Eighth");
+		getNewItem("Ninth");
+		getNewItem("Tenth");
+		getNewItem("Eleventh");
+		getNewItem("Twelth");
 	});
 </script>
 
@@ -76,26 +63,8 @@
 			<h3 class="text-muted">Item-Item Similarity</h3>
 		</div>
 
-		<div class="jumbotron">
-			<div class="row">
-				<div class="col-xs-6 col-lg-4">
-					<h2>${selectedMovieTitle}</h2>
-					<img
-						src="https://image.tmdb.org/t/p/w780/y7N276seR43H31xvDbWMWxEsDr.jpg"
-						alt="Mountain View" class="img-responsive">
-				</div>
-				<div class="col-xs-6 col-lg-8">
-					<h2>Synopsys</h2>
-					<p>${synopsys} </p>
-					<%-- <p>${synopsys}</p> --%>
-				</div>
-			</div>
-
-		</div>
 
 		<div class="row">
-			<h2>Are these movies similar to ${selectedMovieTitle}?</h2>
-
 
 				<div id="movieFirst" class="col-xs-3 col-lg-3">
 				</div>
@@ -104,6 +73,30 @@
 				<div id="movieThird" class="col-xs-3 col-lg-3">
 				</div>
 				<div id="movieFourth" class="col-xs-3 col-lg-3">
+				</div>
+
+		</div>
+		<div class="row">
+
+				<div id="movieFifth" class="col-xs-3 col-lg-3">
+				</div>
+				<div id="movieSixth" class="col-xs-3 col-lg-3">
+				</div>
+				<div id="movieSeventh" class="col-xs-3 col-lg-3">
+				</div>
+				<div id="movieEighth" class="col-xs-3 col-lg-3">
+				</div>
+
+		</div>
+		<div class="row">
+
+				<div id="movieNinth" class="col-xs-3 col-lg-3">
+				</div>
+				<div id="movieTenth" class="col-xs-3 col-lg-3">
+				</div>
+				<div id="movieEleventh" class="col-xs-3 col-lg-3">
+				</div>
+				<div id="movieTwelth" class="col-xs-3 col-lg-3">
 				</div>
 
 		</div>

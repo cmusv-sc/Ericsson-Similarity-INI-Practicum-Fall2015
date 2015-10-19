@@ -16,11 +16,21 @@ import org.grouplens.lenskit.knn.item.ItemItemGlobalScorer;
 import org.grouplens.lenskit.scored.ScoredId;
 
 import com.cmu.dao.DBConnection;
-import com.cmu.dao.Movie;
+import com.cmu.dao.ModelDaoImpl;
 import com.cmu.dao.MovieDao;
+import com.cmu.enums.Algorithm;
+import com.cmu.interfaces.ModelDao;
 import com.cmu.interfaces.OfflineLearner;
+import com.cmu.model.Movie;
 
 public class CosineModelLearner implements OfflineLearner {
+
+	ModelDao modelDao = new ModelDaoImpl();
+
+	public static void main(String[] args) {
+		CosineModelLearner learner = new CosineModelLearner();
+		learner.learn();
+	}
 
 	public void learn() {
 		LenskitConfiguration config = new LenskitConfiguration();
@@ -31,7 +41,7 @@ public class CosineModelLearner implements OfflineLearner {
 			Connection conn = DBConnection.getConection();
 
 			JDBCRatingDAOBuilder jdbcDaoBuilder = JDBCRatingDAO.newBuilder();
-			jdbcDaoBuilder.setTableName("ratings");
+			jdbcDaoBuilder.setTableName("test_ratings");
 			jdbcDaoBuilder.setItemColumn("movieId");
 			jdbcDaoBuilder.setUserColumn("userId");
 			jdbcDaoBuilder.setTimestampColumn("timestamp");
@@ -44,15 +54,18 @@ public class CosineModelLearner implements OfflineLearner {
 
 			GlobalItemRecommender globalItemRecommender = rec.getGlobalItemRecommender();
 
-			Set<Long> items = new HashSet<Long>();
-			items.add(1l);
-			List<ScoredId> recommendations = globalItemRecommender.globalRecommend(items, 20);
-
 			MovieDao movieDao = new MovieDao();
-			movieDao.getMoviesByIds(recommendations);
-			for (Movie movie : movieDao.getMoviesByIds(recommendations)) {
-				System.out.println("Movie Id: " + movie.getId() + " , Title : " + movie.getTitle() + " Genre : "
-						+ movie.getGenre());
+
+			for (Long Id : movieDao.getAllMovieIds()) {
+
+				if (Id != null) {
+					Set<Long> items = new HashSet<Long>();
+					items.add(Id);
+					List<ScoredId> recommendations = globalItemRecommender.globalRecommend(items, 20);
+
+					System.out.println("Movie Id: " + Id );
+					modelDao.addToModel(Id, recommendations, Algorithm.COSINE_SIMILARITY);
+				}
 			}
 
 			System.out.println("###############################");

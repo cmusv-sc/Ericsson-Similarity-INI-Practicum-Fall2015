@@ -10,11 +10,13 @@ import java.util.Set;
 
 import org.grouplens.lenskit.scored.ScoredId;
 
+import com.cmu.model.Movie;
+
 
 public class MovieDao {
 
 
-	public List<Movie> getMoviesByIds(List<ScoredId> ids)
+	public List<Movie> getMoviesByIds(List<Long> ids)
 	{
 
 		List<Movie> movies = new ArrayList<Movie>();
@@ -38,9 +40,9 @@ public class MovieDao {
 			statement = conn.prepareStatement(sqlQuery);
 
 			int index =1;
-			for (ScoredId id : ids)
+			for (Long id : ids)
 			{
-				statement.setLong(index, id.getId());
+				statement.setLong(index, id);
 				index++;
 			}
 
@@ -55,7 +57,7 @@ public class MovieDao {
 				String genre = rs.getString("genres");
 				Long id = rs.getLong("movieID");
 
-				movies.add(new Movie(title, id, genre));
+				movies.add(new Movie(title, id, genre, "", "" ,""));
 
 			}
 		} catch (SQLException e) {
@@ -102,7 +104,7 @@ public class MovieDao {
 
 
 
-				movies.add(new Movie(title, movieid, genre));
+				movies.add(new Movie(title, movieid, genre, "", "", ""));
 
 
 
@@ -120,7 +122,41 @@ public class MovieDao {
 
 		return movies.get(0);
 
+	}
+	
+	
+	public List<Long> getAllMovieIds()
+	{
 
+		List<Long> movies = new ArrayList<Long>();
+
+		Connection conn =DBConnection.getConection();
+
+		PreparedStatement statement;
+
+		String sqlQuery = "Select movieID from movies";
+
+	
+
+		// execute select SQL stetement
+		ResultSet rs;
+		try {
+			statement = conn.prepareStatement(sqlQuery);
+
+			//statement.setArray(1, conn.createArrayOf("id", ids.toArray()));
+			rs = statement.executeQuery();
+			
+			while (rs.next()) {
+
+				movies.add(rs.getLong("movieID"));
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return movies;
 
 	}
 }

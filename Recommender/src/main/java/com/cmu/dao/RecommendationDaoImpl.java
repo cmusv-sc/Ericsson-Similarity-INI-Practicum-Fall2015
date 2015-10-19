@@ -89,8 +89,7 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			rs = statement.executeQuery();
 			if (rs.next()) {
 				System.out.println(rs.getString("Title"));
-				mv = new com.cmu.model.Movie(rs.getString("Title"),id,rs.getString("Genre"));
-				mv.setSynopsis(rs.getString("Plot"));
+				mv = new com.cmu.model.Movie(rs.getString("Title"),id,rs.getString("Genre"), rs.getString("Plot"), "POSTER", "IMDBID");
 			}
 			conn.setCatalog(olddb);
 		} catch (SQLException e) {

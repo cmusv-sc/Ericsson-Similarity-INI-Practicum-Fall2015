@@ -10,12 +10,19 @@ public class Movie {
 	private String genre;
 	
 	private String synopsis;
+	
+	private String poster;
+	
+	private String imdbId;
 
-	public Movie(String title, Long id, String genre) {
+	public Movie(String title, Long id, String genre, String synopsys, String poster, String imdbId) {
 		super();
 		this.title = title;
 		this.id = id;
 		this.genre = genre;
+		this.synopsis = synopsys;
+		this.poster = poster;
+		this.imdbId = imdbId;
 	}
 
 	public String getTitle() {
@@ -49,6 +56,65 @@ public class Movie {
 	public void setSynopsis(String synopsis) {
 		this.synopsis = synopsis;
 	}
+
+	public String getImdbId() {
+		return imdbId;
+	}
+	public void setImdbId(String imdbId) {
+		this.imdbId = imdbId;
+	}
+	public String getPoster() {
+		return poster;
+	}
+	public void setPoster(String poster) {
+		this.poster = poster;
+	}
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((synopsis == null) ? 0 : synopsis.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Movie other = (Movie) obj;
+		if (genre == null) {
+			if (other.genre != null)
+				return false;
+		} else if (!genre.equals(other.genre))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (synopsis == null) {
+			if (other.synopsis != null)
+				return false;
+		} else if (!synopsis.equals(other.synopsis))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
+	}
+	
+	
 	
 	
 	

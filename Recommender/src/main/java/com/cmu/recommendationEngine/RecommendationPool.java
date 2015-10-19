@@ -15,8 +15,8 @@ public class RecommendationPool {
 	
 	public RecommendationPool(Long movieId) {
 		recommendationPool = new ArrayList<RecommendationPoolUnit>();
+		recommendationDaoImpl = new RecommendationDaoImpl();
 		buildRecommendationPool(movieId);
-		sortPoolByRanking(recommendationPool);
 	}
 
 
@@ -30,6 +30,16 @@ public class RecommendationPool {
 		List<Recommendation> recommendations = null;
 		for (Algorithm a : Algorithm.values()){
 			recommendations = recommendationDaoImpl.getRecommendation(movieId, a);
+			
+			System.out.println("#####################" + a.getClass() + "#########");
+			int index =0; 
+			for (Recommendation rec : recommendations)
+			{
+				System.out.println(index + ". " + rec.getMovie().getTitle());
+				index++;
+			}
+			System.out.println("#####################" + "END" + "#########");
+			
 			merge(generatePool(recommendations));
 		}
 	}
@@ -88,6 +98,14 @@ public class RecommendationPool {
 		//iterator for otherPool
 		int j = 0;
 
+		if(otherPool.isEmpty())
+			return recommendationPool;
+		if(recommendationPool.isEmpty()){
+			recommendationPool = otherPool;
+			return recommendationPool;
+		}
+			
+		
 		List<RecommendationPoolUnit> mergedPool = new ArrayList<RecommendationPoolUnit>();
 
 		while (i < recommendationPool.size() && j < otherPool.size()){
@@ -118,7 +136,6 @@ public class RecommendationPool {
 				}
 			}
 		}
-
 		recommendationPool = new ArrayList<RecommendationPoolUnit>(mergedPool);
 		return recommendationPool;
 	}

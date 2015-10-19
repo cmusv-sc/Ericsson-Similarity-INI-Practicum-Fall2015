@@ -6,13 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.grouplens.lenskit.scored.ScoredId;
+
 import com.cmu.enums.Algorithm;
 import com.cmu.interfaces.ModelDao;
-import com.cmu.model.ItemScore;
 
 public class ModelDaoImpl implements ModelDao{
 
-	public void addToModel(Long id, List<ItemScore> recommendations, Algorithm alg) {
+	public void addToModel(Long id, List<ScoredId> recommendations, Algorithm alg) {
 		try {
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
 		} catch (SQLException e1) {
