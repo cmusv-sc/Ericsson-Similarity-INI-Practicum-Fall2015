@@ -53,7 +53,8 @@ public class RecommenderController {
 		Movie movie = rec.getMovieData(Long.valueOf(item));
 		List<Movie> recommendations = new ArrayList<Movie>();
 		List<String> posters = new ArrayList<String>();
-		
+		List<String> moviesPlots = new ArrayList<String>();
+
 		//recommendations = getItems(item, algorithm);
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item));
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
@@ -67,6 +68,7 @@ public class RecommenderController {
 			movieIds.add(i, recommendations.get(i).getId());
 			movieTitles.add(i, recommendations.get(i).getTitle());
 			posters.add(rec.getMovieData(recommendations.get(i).getId()).getPoster());
+			moviesPlots.add(rec.getMovieData(recommendations.get(i).getId()).getSynopsis());
 		}
 		
 		System.out.println();
@@ -75,9 +77,22 @@ public class RecommenderController {
 		mv.addObject("synopsys", movie.getSynopsis());
 		mv.addObject("movieIds", movieIds);
 		mv.addObject("movieTitles", movieTitles);
+		mv.addObject("moviesPlots", createSemicolonSeparatedStringFromArray(moviesPlots));
 		mv.addObject("selectedMovieTitle", movie.getTitle());
 		mv.addObject("item", item);
 		return mv;
+	}
+	
+	private String createSemicolonSeparatedStringFromArray(List<String> array){
+		StringBuilder nameBuilder = new StringBuilder();
+
+	    for (String n : array) {
+	        nameBuilder.append(n.replace("\"", "\'")).append("||");
+	    }
+
+	    nameBuilder.deleteCharAt(nameBuilder.length() - 1);
+
+	    return nameBuilder.toString();
 	}
 
 	@RequestMapping("/home")
