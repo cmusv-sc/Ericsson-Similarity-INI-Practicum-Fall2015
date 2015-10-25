@@ -52,7 +52,9 @@ public class RecommenderController {
 		RecommendationDaoImpl rec = new RecommendationDaoImpl();
 		Movie movie = rec.getMovieData(Long.valueOf(item));
 		List<Movie> recommendations = new ArrayList<Movie>();
-		
+		List<String> posters = new ArrayList<String>();
+		List<String> moviesPlots = new ArrayList<String>();
+
 		//recommendations = getItems(item, algorithm);
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item));
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
@@ -65,31 +67,48 @@ public class RecommenderController {
 		for(int i = 0; i < recommendations.size(); i++){
 			movieIds.add(i, recommendations.get(i).getId());
 			movieTitles.add(i, recommendations.get(i).getTitle());
+			posters.add(rec.getMovieData(recommendations.get(i).getId()).getPoster());
+			moviesPlots.add(rec.getMovieData(recommendations.get(i).getId()).getSynopsis());
 		}
 		
 		System.out.println();
+		mv.addObject("selectedPoster", movie.getPoster());
+		mv.addObject("posters", posters);
 		mv.addObject("synopsys", movie.getSynopsis());
 		mv.addObject("movieIds", movieIds);
 		mv.addObject("movieTitles", movieTitles);
+		mv.addObject("moviesPlots", createSemicolonSeparatedStringFromArray(moviesPlots));
 		mv.addObject("selectedMovieTitle", movie.getTitle());
 		mv.addObject("item", item);
 		return mv;
 	}
+	
+	private String createSemicolonSeparatedStringFromArray(List<String> array){
+		StringBuilder nameBuilder = new StringBuilder();
+
+	    for (String n : array) {
+	        nameBuilder.append(n.replace("\"", "\'")).append("||");
+	    }
+
+	    nameBuilder.deleteCharAt(nameBuilder.length() - 1);
+
+	    return nameBuilder.toString();
+	}
 
 	@RequestMapping("/home")
 	public ModelAndView home() { 
-
+		List<String> posters = new ArrayList<String>();
 		List<Movie> recommendations = getRandomItems();
 		ModelAndView mv = new ModelAndView("home");
 		List<Long> movieIds = new ArrayList<Long>();
 		List<String> movieTitles = new ArrayList<String>();
 		for(int i = 0; i < recommendations.size(); i++){
-			movieIds.add(i, recommendations.get(i).getId());
-			movieTitles.add(i, recommendations.get(i).getTitle());
+			movieIds.add(recommendations.get(i).getId());
+			movieTitles.add(recommendations.get(i).getTitle());
+			posters.add(recommendations.get(i).getPoster());
 		}
 
-		String poster = "https://image.tmdb.org/t/p/w780/qFYwztFX1gx9PZLnTEokQw5q04G.jpg";
-		mv.addObject("poster",poster);
+		mv.addObject("posters", posters);
 		mv.addObject("movieIds", movieIds);
 		mv.addObject("movieTitles", movieTitles);
 		return mv;
@@ -97,15 +116,18 @@ public class RecommenderController {
 	
 	private List<Movie> getRandomItems() {
 		//return getItems("1", "");
-		List<Long> movieIds = new ArrayList<Long>();
+		RecommendationDaoImpl rec = new RecommendationDaoImpl();
+		List<Movie> result = new ArrayList<Movie>();
 		Random rand = new Random();
 		for (int i = 0; i < 12; i++)
 		{
-			movieIds.add(new Long(rand.nextInt(80)));
+			Movie movie = rec.getMovieData(new Long(rand.nextInt(80)));
+			while(movie == null)
+				movie = rec.getMovieData(new Long(rand.nextInt(80)));
+			result.add(movie);
 		}
-		
-		System.out.println(movieIds);
-		return movieDao.getMoviesByIds(movieIds);
+		System.out.println(result);
+		return result;
 		
 	}
 	
