@@ -175,7 +175,10 @@ public class RecommenderController {
 		li.add(c);
 		//m.addToModel(10L, li, Algorithm.COSINE_SIMILARITY);
 		//m.deleteModel(10L, Algorithm.COSINE_SIMILARITY);
-		List<Recommendation> rr = r.getRecommendation(10L, Algorithm.COSINE_SIMILARITY);
+		//List<Recommendation> rr = r.getRecommendation(10L, Algorithm.COSINE_SIMILARITY);
+		RecommendationDaoImpl q = new RecommendationDaoImpl();
+		Movie v = q.getMovieData(1L);
+		int pp = 1;
 		return null;
 	}
 
