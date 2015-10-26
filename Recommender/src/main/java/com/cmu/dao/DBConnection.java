@@ -8,6 +8,7 @@ import java.util.Properties;
 public class DBConnection {
 
 	private static Connection conn = null;
+	private static Connection omdbconn = null;
 	
 	private DBConnection() {
 		// TODO Auto-generated constructor stub
@@ -31,6 +32,12 @@ public class DBConnection {
 				               "52.10.143.249" +
 				               ":" + "3306" + "/Ericssonsmall",
 				               connectionProps);
+				
+				omdbconn = DriverManager.getConnection(
+			               "jdbc:" + "mysql" + "://" +
+			               "52.10.143.249" +
+			               ":" + "3306" + "/OMDB",
+			               connectionProps);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -43,6 +50,14 @@ public class DBConnection {
 			new DBConnection();
 		
 	    return conn;
+	}
+	
+	public static synchronized Connection getOMDBConection()
+	{
+		if(omdbconn==null)
+			new DBConnection();
+		
+	    return omdbconn;
 	}
 	
 	

@@ -14,6 +14,8 @@ public class Movie {
 	private String poster;
 	
 	private String imdbId;
+	
+	private String year;
 
 	public Movie(String title, Long id, String genre, String synopsys, String poster, String imdbId) {
 		super();
@@ -69,16 +71,18 @@ public class Movie {
 	public void setPoster(String poster) {
 		this.poster = poster;
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((imdbId == null) ? 0 : imdbId.hashCode());
+		result = prime * result + ((poster == null) ? 0 : poster.hashCode());
 		result = prime * result + ((synopsis == null) ? 0 : synopsis.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + ((year == null) ? 0 : year.hashCode());
 		return result;
 	}
 
@@ -101,6 +105,16 @@ public class Movie {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (imdbId == null) {
+			if (other.imdbId != null)
+				return false;
+		} else if (!imdbId.equals(other.imdbId))
+			return false;
+		if (poster == null) {
+			if (other.poster != null)
+				return false;
+		} else if (!poster.equals(other.poster))
+			return false;
 		if (synopsis == null) {
 			if (other.synopsis != null)
 				return false;
@@ -111,8 +125,24 @@ public class Movie {
 				return false;
 		} else if (!title.equals(other.title))
 			return false;
+		if (year == null) {
+			if (other.year != null)
+				return false;
+		} else if (!year.equals(other.year))
+			return false;
 		return true;
 	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+	
+	
+	
 	
 	
 	
