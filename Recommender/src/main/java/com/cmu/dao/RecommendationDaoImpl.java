@@ -108,7 +108,7 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		List<com.cmu.model.Movie> movies = new ArrayList<com.cmu.model.Movie>();
 		StringBuilder sqlBuilder = new StringBuilder();
 
-		sqlBuilder.append("select Title,Genre,Plot,Poster,imdbId from smalldata where movieId in(");
+		sqlBuilder.append("select DISTINCT Title,Genre,Plot,Poster,imdbId from smalldata where movieId in(");
 		for (int i = 0; i < ids.size(); i++) {
 			sqlBuilder.append(" ?,"); 
 		} 
@@ -139,6 +139,8 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			ResultSet rs = statement.executeQuery();
 			index = 0;
 			while (rs.next()) {
+				if(index == ids.size())
+					System.out.println("???");
 				com.cmu.model.Movie mv = new com.cmu.model.Movie(rs.getString("Title"),ids.get(index++),rs.getString("Genre"), rs.getString("Plot"), rs.getString("Poster"), rs.getString("imdbId"));
 				mv.setSynopsis(rs.getString("Plot"));
 				movies.add(mv);
