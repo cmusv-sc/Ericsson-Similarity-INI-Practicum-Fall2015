@@ -1,14 +1,17 @@
 package com.cmu.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.cmu.enums.Algorithm;
 
 public class UserFeedback {
 	
-	private Long movieId;
+	private Long[] movieId = new Long[2];
 	
-	/* can take values 1-5*/
+	/* can take values 0-1*/
 	private int rating;
 	
 	/*
@@ -23,12 +26,13 @@ public class UserFeedback {
 	 */
 	private Map<Algorithm,Double> algorithmScores;
 
-	public Long getMovieId() {
-		return movieId;
+	public List<Long> getMovieIds() {
+		return Arrays.asList(movieId);
 	}
 
-	public void setMovieId(Long movieId) {
-		this.movieId = movieId;
+	public void setMovieIds(Long movieId1,Long movieId2) {
+		this.movieId[0] = movieId1;
+		this.movieId[1] = movieId2;
 	}
 
 	public int getRating() {

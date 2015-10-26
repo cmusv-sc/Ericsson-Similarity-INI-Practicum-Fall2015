@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,15 +30,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmu.dao.DBConnection;
+import com.cmu.dao.EvaluationDaoImpl;
 import com.cmu.dao.ModelDaoImpl;
 import com.cmu.dao.MovieDao;
 import com.cmu.dao.RecommendationDaoImpl;
 import com.cmu.enums.Algorithm;
+import com.cmu.interfaces.EvaluationDao;
 import com.cmu.interfaces.ModelDao;
 import com.cmu.interfaces.RecommendationDao;
 import com.cmu.model.ItemScore;
 import com.cmu.model.Movie;
 import com.cmu.model.Recommendation;
+import com.cmu.model.UserFeedback;
 import com.cmu.recommendationEngine.RecommendationBuilder;
 
 @Controller
@@ -195,9 +199,28 @@ public class RecommenderController {
 		li.add(a);
 		li.add(b);
 		li.add(c);
-		//m.addToModel(10L, li, Algorithm.COSINE_SIMILARITY);
+		//m.addToModel(100000L, li, Algorithm.COSINE_SIMILARITY);
 		//m.deleteModel(10L, Algorithm.COSINE_SIMILARITY);
-		List<Recommendation> rr = r.getRecommendation(10L, Algorithm.COSINE_SIMILARITY);
+		//List<Recommendation> rr = r.getRecommendation(100000L, Algorithm.COSINE_SIMILARITY);
+		List<Long> mi = new ArrayList<Long>();
+		mi.add(3L);
+		mi.add(2L);
+		mi.add(1L);
+		RecommendationDaoImpl q = new RecommendationDaoImpl();
+		//List<Movie> ms = q.getMovieDatas(mi);
+		//Movie v = q.getMovieData(1L);
+		EvaluationDao v = new EvaluationDaoImpl();
+		UserFeedback u = new UserFeedback();
+		Map<Algorithm,Double> hmap = new HashMap<Algorithm,Double>();
+		hmap.put(Algorithm.COSINE_SIMILARITY, 0.331);
+		hmap.put(Algorithm.PEARSON_COEFFICIENT, 0.343);
+		u.setMovieIds(1L,2L);
+		u.setRating(1);
+		u.setHaveSeen(0);
+		u.setAlgorithmScores(hmap);
+		v.submitFeedback(u);
+		
+		int pp = 1;
 		return null;
 	}
 
