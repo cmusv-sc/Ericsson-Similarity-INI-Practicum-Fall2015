@@ -28,7 +28,8 @@
 				.split(",");
 
 		var itemPosition = 0;
-
+	
+	
 		function nextItem() {
 			if (itemPosition > arraySize) {
 				return;
@@ -38,39 +39,36 @@
 					+ arrayOfTitles[itemPosition]
 					+ '</h4>'
 					+ '<a href="#" data-toggle="popover" title="'+arrayOfTitles[itemPosition]+'" data-content="'+arrayOfPlots[itemPosition]+'">'
-					+ '<img' +
-		'	src="'+arrayOfPosters[itemPosition]+'"' +
-		'	alt="Mountain View" class="img-responsive"' +
-		'	style="height: 206px; width: 144px">'
+					+ '<img' 
+					+ '	src="'+arrayOfPosters[itemPosition]+'"' 
+					+ '	alt="Mountain View" class="img-responsive"' 
+					+ '	style="height: 206px; width: 144px">'
 					+ '</a>'
-					+ '<div class="btn-toolbar" role="toolbar">'
-					+ '	<div class="btn-group">'
-					+ '		<button style="width: 48px" id="remove'
+					//btnToolBar
+					+'<form id="movie"' + item +'" method="post" action="/profile">'
+	    			+ '<div>'
+					+ 	'<div class="btn-toolbar" role="toolbar">'
+					+ 	'	<div class="btn-group">'
+					//btn Not Similar
+					+ '			<button style="width: 48px" id="remove'
 					+ item
-					+ '" type="button" class="btn btn-default"'
-					+ '			aria-label="Left Align" onclick="getNewItem('
+					+ 			'" type="button" class="btn btn-default"'
+					+ '				aria-label="Left Align" onclick="getNewItem('
 					+ item
 					+ ')">'
 					+ '			<span class="glyphicon  glyphicon-remove" aria-hidden="true"></span>'
 					+ '		</button>'
+					//Btn Don't Know
 					+ '		<button style="width: 48px" id="question'
 					+ item
 					+ '"type="button" class="btn btn-default"'
 					+ '			aria-label="Center Align" onclick="getNewItem('
 					+ item
 					+ ')">'
-					+ '			<span class="glyphicon  glyphicon-question-sign"' +
-		'				aria-hidden="true"></span>'
+					+ '			<span class="glyphicon  glyphicon-question-sign"' 
+					+ ' aria-hidden="true"></span>'
+					//Btn Similar
 					+ '		</button>'
-					//+ '		<button id="info'
-					//+ item
-					//+ '"type="button" class="btn btn-default"'
-					//+ '			aria-label="Center Align"onclick="getItemInfo('
-					//+ item
-					//+ ')">'
-					//+ '			<span class="glyphicon  glyphicon glyphicon-info-sign"' +
-					//	'aria-hidden="true"></span>'
-					//+ '		</button>'
 					+ '		<button style="width: 48px" id="ok'
 					+ item
 					+ '"type="button" class="btn btn-default"'
@@ -78,7 +76,10 @@
 					+ item
 					+ ')">'
 					+ '			<span class="glyphicon  glyphicon-ok" aria-hidden="true"></span>'
-					+ '		</button>' + '	</div>';
+					+ '		</button>' 
+					+ '	</div>'
+					+'</div>'
+					+'</form>';
 			itemPosition++;
 			return code;
 		}

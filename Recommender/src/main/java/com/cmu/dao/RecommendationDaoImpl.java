@@ -62,6 +62,7 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			e1.printStackTrace();
 		}
 		Connection conn = DBConnection.getConection();
+		Connection conn2 = DBConnection.getOMDBConection();
 		String sqlString = "select imdbId from links where movieId = ?";
 		ResultSet rs;
 		String imdbId = "";
@@ -79,17 +80,13 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			e.printStackTrace();
 		}
 		String sqlString2 = "select Title,Genre,Plot, Poster, imdbId from omdbsmall where imdbId = ?";
-		String olddb = "";
 		try {
-			olddb = conn.getCatalog();
-			conn.setCatalog("OMDB");
-			PreparedStatement statement = conn.prepareStatement(sqlString2);
+			PreparedStatement statement = conn2.prepareStatement(sqlString2);
 			statement.setString(1, imdbId);
 			rs = statement.executeQuery();
 			if (rs.next()) {
 				mv = new com.cmu.model.Movie(rs.getString("Title"),id,rs.getString("Genre"), rs.getString("Plot"), rs.getString("Poster"), rs.getString("imdbId"));
 			}
-			conn.setCatalog(olddb);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -107,6 +104,7 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			e1.printStackTrace();
 		}
 		Connection conn = DBConnection.getConection();
+		Connection conn2 = DBConnection.getOMDBConection();
 		List<com.cmu.model.Movie> movies = new ArrayList<com.cmu.model.Movie>();
 		StringBuilder sqlBuilder = new StringBuilder();
 
@@ -125,11 +123,8 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		sqlBuilder.deleteCharAt(sqlBuilder.length()-1);
 		sqlBuilder.append(" )");
 		
-		String olddb = "";
 		try {
-			olddb = conn.getCatalog();
-			conn.setCatalog("OMDB");
-			PreparedStatement statement = conn.prepareStatement(sqlBuilder.toString());
+			PreparedStatement statement = conn2.prepareStatement(sqlBuilder.toString());
 			int index =1;
 			for (int i = 0; i < ids.size(); i++)
 			{
@@ -148,7 +143,6 @@ public class RecommendationDaoImpl implements RecommendationDao{
 				mv.setSynopsis(rs.getString("Plot"));
 				movies.add(mv);
 			}
-			conn.setCatalog(olddb);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

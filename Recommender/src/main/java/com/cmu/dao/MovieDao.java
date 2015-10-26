@@ -12,44 +12,38 @@ import org.grouplens.lenskit.scored.ScoredId;
 
 import com.cmu.model.Movie;
 
-
 public class MovieDao {
 
-
-	public List<Movie> getMoviesByIds(List<Long> ids)
-	{
+	public List<Movie> getMoviesByIds(List<Long> ids) {
 
 		List<Movie> movies = new ArrayList<Movie>();
 
-		Connection conn =DBConnection.getConection();
+		Connection conn = DBConnection.getConection();
 
 		PreparedStatement statement;
 
 		String sqlQuery = "Select title,genres,movieID from movies where movieID IN (";
 
 		for (int i = 0; i < ids.size(); i++) {
-			sqlQuery+=" ?,"; 
-		} 
+			sqlQuery += " ?,";
+		}
 
-		sqlQuery = sqlQuery.substring(0, sqlQuery.length()-1);
-		sqlQuery+=" )";
+		sqlQuery = sqlQuery.substring(0, sqlQuery.length() - 1);
+		sqlQuery += " )";
 
 		// execute select SQL stetement
 		ResultSet rs;
 		try {
 			statement = conn.prepareStatement(sqlQuery);
 
-			int index =1;
-			for (Long id : ids)
-			{
+			int index = 1;
+			for (Long id : ids) {
 				statement.setLong(index, id);
 				index++;
 			}
 
-			//statement.setArray(1, conn.createArrayOf("id", ids.toArray()));
+			// statement.setArray(1, conn.createArrayOf("id", ids.toArray()));
 			rs = statement.executeQuery();
-
-
 
 			while (rs.next()) {
 
@@ -57,7 +51,7 @@ public class MovieDao {
 				String genre = rs.getString("genres");
 				Long id = rs.getLong("movieID");
 
-				movies.add(new Movie(title, id, genre, "", "" ,""));
+				movies.add(new Movie(title, id, genre, "", "", ""));
 
 			}
 		} catch (SQLException e) {
@@ -90,11 +84,7 @@ public class MovieDao {
 
 			rs = statement.executeQuery();
 
-
-
 			while (rs.next()) {
-
-
 
 				String title = rs.getString("title");
 
@@ -102,11 +92,7 @@ public class MovieDao {
 
 				Long movieid = rs.getLong("movieID");
 
-
-
 				movies.add(new Movie(title, movieid, genre, "", "", ""));
-
-
 
 			}
 
@@ -118,34 +104,28 @@ public class MovieDao {
 
 		}
 
-
-
 		return movies.get(0);
 
 	}
-	
-	
-	public List<Long> getAllMovieIds()
-	{
+
+	public List<Long> getAllMovieIds() {
 
 		List<Long> movies = new ArrayList<Long>();
 
-		Connection conn =DBConnection.getConection();
+		Connection conn = DBConnection.getConection();
 
 		PreparedStatement statement;
 
 		String sqlQuery = "Select movieID from movies";
-
-	
 
 		// execute select SQL stetement
 		ResultSet rs;
 		try {
 			statement = conn.prepareStatement(sqlQuery);
 
-			//statement.setArray(1, conn.createArrayOf("id", ids.toArray()));
+			// statement.setArray(1, conn.createArrayOf("id", ids.toArray()));
 			rs = statement.executeQuery();
-			
+
 			while (rs.next()) {
 
 				movies.add(rs.getLong("movieID"));
