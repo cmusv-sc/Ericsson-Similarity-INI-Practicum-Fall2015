@@ -8,6 +8,7 @@ import java.util.Properties;
 public class DBConnection {
 
 	private static Connection conn = null;
+	private static Connection usr = null;
 	
 	private DBConnection() {
 		// TODO Auto-generated constructor stub
@@ -35,6 +36,17 @@ public class DBConnection {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			try {
+				usr = DriverManager.getConnection(
+				               "jdbc:" + "mysql" + "://" +
+				               "52.10.143.249" +
+				               ":" + "3306" + "/Users",
+				               connectionProps);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	
 	public static synchronized Connection getConection()
@@ -43,6 +55,14 @@ public class DBConnection {
 			new DBConnection();
 		
 	    return conn;
+	}
+	
+	public static synchronized Connection getUserconn()
+	{
+		if(usr==null)
+			new DBConnection();
+		
+	    return usr;
 	}
 	
 	
