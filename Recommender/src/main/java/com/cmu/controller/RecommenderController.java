@@ -55,10 +55,9 @@ public class RecommenderController {
 		for(int i = 0; i < recommendations.size(); i++){
 			movieIds.add(i, recommendations.get(i).getId());
 			movieTitles.add(i, recommendations.get(i).getTitle());
-			posters.add(rec.getMovieData(recommendations.get(i).getId()).getPoster());
-			moviesPlots.add(rec.getMovieData(recommendations.get(i).getId()).getSynopsis());
+			posters.add(recommendations.get(i).getPoster());
+			moviesPlots.add(recommendations.get(i).getSynopsis());
 		}
-		
 		System.out.println();
 		mv.addObject("selectedMovieId", movie.getId());
 		mv.addObject("selectedPoster", movie.getPoster());

@@ -37,6 +37,8 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			if(rs.next()) {
 				sim = rs.getString("sims");
 				similarities = sim.split(",");
+				if(similarities.length == 1)  //empty
+					return recs;
 				List<Long> silist = new ArrayList<Long>();
 				for(int i = 0; i < similarities.length; i+=2){
 					silist.add(Long.parseLong(similarities[i]));
@@ -63,26 +65,12 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		}
 		Connection conn = DBConnection.getConection();
 		Connection conn2 = DBConnection.getOMDBConection();
-		String sqlString = "select imdbId from links where movieId = ?";
 		ResultSet rs;
-		String imdbId = "";
 		com.cmu.model.Movie mv = null;
-		try {
-			PreparedStatement statement = conn.prepareStatement(sqlString);
-			statement.setLong(1, id);
-			rs = statement.executeQuery();
-			if (rs.next()) {
-				imdbId = rs.getString("imdbId");
-				imdbId = "tt" + imdbId;
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String sqlString2 = "select Title,Genre,Plot, Poster, imdbId from omdbsmall where imdbId = ?";
+		String sqlString2 = "select Title,Genre,Plot, Poster, imdbId from smalldata where movieId = ?";
 		try {
 			PreparedStatement statement = conn2.prepareStatement(sqlString2);
-			statement.setString(1, imdbId);
+			statement.setLong(1, id);
 			rs = statement.executeQuery();
 			if (rs.next()) {
 				mv = new com.cmu.model.Movie(rs.getString("Title"),id,rs.getString("Genre"), rs.getString("Plot"), rs.getString("Poster"), rs.getString("imdbId"));
@@ -108,7 +96,7 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		List<com.cmu.model.Movie> movies = new ArrayList<com.cmu.model.Movie>();
 		StringBuilder sqlBuilder = new StringBuilder();
 
-		sqlBuilder.append("select Title,Genre,Plot,Poster,imdbId from smalldata where movieId in(");
+		sqlBuilder.append("select DISTINCT Title,Genre,Plot,Poster,imdbId from smalldata where movieId in(");
 		for (int i = 0; i < ids.size(); i++) {
 			sqlBuilder.append(" ?,"); 
 		} 
@@ -139,6 +127,8 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			ResultSet rs = statement.executeQuery();
 			index = 0;
 			while (rs.next()) {
+				if(index == ids.size())
+					System.out.println("???");
 				com.cmu.model.Movie mv = new com.cmu.model.Movie(rs.getString("Title"),ids.get(index++),rs.getString("Genre"), rs.getString("Plot"), rs.getString("Poster"), rs.getString("imdbId"));
 				mv.setSynopsis(rs.getString("Plot"));
 				movies.add(mv);
