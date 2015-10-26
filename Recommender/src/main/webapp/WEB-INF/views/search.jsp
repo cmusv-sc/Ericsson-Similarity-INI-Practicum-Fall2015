@@ -71,7 +71,7 @@
 		
 		
 		function retrieveMovies(){
-			window.location.replace("http://localhost:8080/Recommender/search?searchString=" + $("#searchPhrase").val());
+			$("#searchPhrase").val();
 		}
 		
 	</script>
@@ -89,7 +89,7 @@
 				<div class="input-group">
 					<input id="searchPhrase" type="text" class="form-control" placeholder="Search for...">
 					<span class="input-group-btn">
-						<button class="btn btn-default" type="button" onclick="retrieveMovies()" >Search</button>
+						<button class="btn btn-default" type="button" >Search</button>
 					</span>
 				</div>
 				<!-- /input-group -->

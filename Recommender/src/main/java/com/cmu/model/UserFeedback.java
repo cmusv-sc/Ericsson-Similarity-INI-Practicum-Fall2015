@@ -1,6 +1,5 @@
 package com.cmu.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +8,8 @@ import com.cmu.enums.Algorithm;
 
 public class UserFeedback {
 	
+	
+	//movieId[0] == Fixed, movieId[1] == selected
 	private Long[] movieId = new Long[2];
 	
 	/* can take values 0-1*/

@@ -45,7 +45,6 @@
 					+ '	style="height: 206px; width: 144px">'
 					+ '</a>'
 					//btnToolBar
-					+'<form id="movie"' + item +'" method="post" action="/profile">'
 	    			+ '<div>'
 					+ 	'<div class="btn-toolbar" role="toolbar">'
 					+ 	'	<div class="btn-group">'
@@ -53,9 +52,9 @@
 					+ '			<button style="width: 48px" id="remove'
 					+ item
 					+ 			'" type="button" class="btn btn-default"'
-					+ '				aria-label="Left Align" onclick="getNewItem('
+					+ '				aria-label="Left Align" onclick="sendSimilarity('
 					+ item
-					+ ')">'
+					+ ', 0)">'
 					+ '			<span class="glyphicon  glyphicon-remove" aria-hidden="true"></span>'
 					+ '		</button>'
 					//Btn Don't Know
@@ -72,14 +71,13 @@
 					+ '		<button style="width: 48px" id="ok'
 					+ item
 					+ '"type="button" class="btn btn-default"'
-					+ '			aria-label="Right Align" onclick="getNewItem('
+					+ '			aria-label="Right Align" onclick="sendSimilarity('
 					+ item
-					+ ')">'
+					+ ', 1)">'
 					+ '			<span class="glyphicon  glyphicon-ok" aria-hidden="true"></span>'
 					+ '		</button>' 
 					+ '	</div>'
-					+'</div>'
-					+'</form>';
+					+'</div>';
 			itemPosition++;
 			return code;
 		}
@@ -110,6 +108,17 @@
 
 		    });;
 		});
+		
+		function sendSimilarity(id, similarity) {
+			$.ajax({
+				url : "/Recommender/evaluation?similarity="+similarity+"&movieId1="+ "${selectedMovieId}" + "&movieId2="+ id,
+				type : "GET",
+				error : function(xhr, status, error) {
+					alert(xhr.responseText);
+				}
+			});
+			getNewItem(id);
+		}
 	</script>
 
 	<div class="container">

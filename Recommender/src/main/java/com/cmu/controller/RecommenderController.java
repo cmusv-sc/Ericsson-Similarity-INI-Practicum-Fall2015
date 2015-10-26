@@ -1,46 +1,31 @@
 package com.cmu.controller;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
-import org.grouplens.lenskit.GlobalItemRecommender;
-import org.grouplens.lenskit.GlobalItemScorer;
-import org.grouplens.lenskit.RecommenderBuildException;
-import org.grouplens.lenskit.core.LenskitConfiguration;
-import org.grouplens.lenskit.core.LenskitRecommender;
-import org.grouplens.lenskit.data.sql.JDBCRatingDAO;
-import org.grouplens.lenskit.data.sql.JDBCRatingDAOBuilder;
-import org.grouplens.lenskit.knn.item.ItemItemGlobalScorer;
-import org.grouplens.lenskit.knn.item.ItemVectorSimilarity;
-import org.grouplens.lenskit.scored.ScoredId;
-import org.grouplens.lenskit.vectors.similarity.PearsonCorrelation;
-import org.grouplens.lenskit.vectors.similarity.VectorSimilarity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmu.dao.DBConnection;
 import com.cmu.dao.EvaluationDaoImpl;
 import com.cmu.dao.ModelDaoImpl;
 import com.cmu.dao.MovieDao;
 import com.cmu.dao.RecommendationDaoImpl;
+import com.cmu.dao.SearchDaoImpl;
 import com.cmu.enums.Algorithm;
 import com.cmu.interfaces.EvaluationDao;
 import com.cmu.interfaces.ModelDao;
 import com.cmu.interfaces.RecommendationDao;
+import com.cmu.interfaces.SearchDao;
 import com.cmu.model.ItemScore;
 import com.cmu.model.Movie;
-import com.cmu.model.Recommendation;
 import com.cmu.model.UserFeedback;
 import com.cmu.recommendationEngine.RecommendationBuilder;
 
@@ -52,7 +37,6 @@ public class RecommenderController {
 	@RequestMapping("/itemSimilarity")
 	public ModelAndView searchItemSimilarities(@RequestParam(value = "item", required = false, defaultValue = "1") String item,
 			@RequestParam(value = "algorithm", required = false, defaultValue = "") String algorithm) { 
-		MovieDao movieDao = new MovieDao();
 		RecommendationDaoImpl rec = new RecommendationDaoImpl();
 		Movie movie = rec.getMovieData(Long.valueOf(item));
 		List<Movie> recommendations = new ArrayList<Movie>();
@@ -76,6 +60,7 @@ public class RecommenderController {
 		}
 		
 		System.out.println();
+		mv.addObject("selectedMovieId", movie.getId());
 		mv.addObject("selectedPoster", movie.getPoster());
 		mv.addObject("posters", posters);
 		mv.addObject("synopsys", movie.getSynopsis());
@@ -102,14 +87,14 @@ public class RecommenderController {
 	@RequestMapping("/home")
 	public ModelAndView home() { 
 		List<String> posters = new ArrayList<String>();
-		List<Movie> recommendations = getRandomItems();
+		List<Movie> randomItems = getRandomItems();
 		ModelAndView mv = new ModelAndView("home");
 		List<Long> movieIds = new ArrayList<Long>();
 		List<String> movieTitles = new ArrayList<String>();
-		for(int i = 0; i < recommendations.size(); i++){
-			movieIds.add(recommendations.get(i).getId());
-			movieTitles.add(recommendations.get(i).getTitle());
-			posters.add(recommendations.get(i).getPoster());
+		for(int i = 0; i < randomItems.size(); i++){
+			movieIds.add(randomItems.get(i).getId());
+			movieTitles.add(randomItems.get(i).getTitle());
+			posters.add(randomItems.get(i).getPoster());
 		}
 
 		mv.addObject("posters", posters);
@@ -134,6 +119,65 @@ public class RecommenderController {
 		return result;
 		
 	}
+	
+	@RequestMapping(value = "/evaluation", method = RequestMethod.GET)
+	public @ResponseBody String processAJAXRequest(
+			@RequestParam("similarity") String similarity,
+			@RequestParam("movieId1") String movieId1,
+			@RequestParam("movieId2") String movieId2) {
+
+		UserFeedback  feedback = new UserFeedback();
+		feedback.setMovieIds(Long.valueOf(movieId1), Long.valueOf(movieId2));
+		feedback.setHaveSeen(-1);
+		feedback.setRating(Integer.valueOf(similarity));
+		
+		List<Movie> recommendations;
+		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(movieId1));
+		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
+		
+		Movie selected = new Movie("", 0l,"","","","");
+		for(Movie m : recommendationMap.keySet())
+			if(m.getId() == Long.valueOf(movieId2))
+				selected = m;
+		List<Algorithm> algorithms = recommendationMap.get(selected);
+		
+		Map<Algorithm, Double> algorithmScores = new HashMap<Algorithm, Double>();
+		//TODO get the score of the algorithm.
+		for(Algorithm a : algorithms)
+			algorithmScores.put(a, 0.0);
+		
+		feedback.setAlgorithmScores(algorithmScores);
+		
+		EvaluationDaoImpl evaluationDao = new EvaluationDaoImpl();
+		evaluationDao.submitFeedback(feedback);
+		
+		return similarity;
+	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ModelAndView searchMovies(
+			@RequestParam("searchString") String searchString) {
+		SearchDao searchDao = new SearchDaoImpl();
+		List<Movie> searchedMovies = searchDao.findExactMatchRegex(searchString);
+		ModelAndView mv = new ModelAndView("home");
+		List<String> posters = new ArrayList<String>();
+		List<Long> movieIds = new ArrayList<Long>();
+		List<String> titles = new ArrayList<String>();
+		for(Movie m : searchedMovies){
+			posters.add(m.getPoster());
+			movieIds.add(m.getId());
+			titles.add(m.getTitle());
+			System.out.println(m.getTitle());
+		}
+			
+		mv.addObject("posters", posters);
+		mv.addObject("movieIds", movieIds);
+		mv.addObject("movieTitles", titles);
+		
+		
+		return mv;
+	}
+	
 	
 //	private List<Movie> getItems(String item, String algorithm) {
 //
