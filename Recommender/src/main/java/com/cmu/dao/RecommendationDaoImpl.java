@@ -37,6 +37,8 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			if(rs.next()) {
 				sim = rs.getString("sims");
 				similarities = sim.split(",");
+				if(similarities.length == 1)  //empty
+					return recs;
 				List<Long> silist = new ArrayList<Long>();
 				for(int i = 0; i < similarities.length; i+=2){
 					silist.add(Long.parseLong(similarities[i]));
