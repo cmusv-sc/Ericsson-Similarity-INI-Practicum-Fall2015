@@ -65,26 +65,12 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		}
 		Connection conn = DBConnection.getConection();
 		Connection conn2 = DBConnection.getOMDBConection();
-		String sqlString = "select imdbId from links where movieId = ?";
 		ResultSet rs;
-		String imdbId = "";
 		com.cmu.model.Movie mv = null;
-		try {
-			PreparedStatement statement = conn.prepareStatement(sqlString);
-			statement.setLong(1, id);
-			rs = statement.executeQuery();
-			if (rs.next()) {
-				imdbId = rs.getString("imdbId");
-				imdbId = "tt" + imdbId;
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String sqlString2 = "select Title,Genre,Plot, Poster, imdbId from omdbsmall where imdbId = ?";
+		String sqlString2 = "select Title,Genre,Plot, Poster, imdbId from smalldata where movieId = ?";
 		try {
 			PreparedStatement statement = conn2.prepareStatement(sqlString2);
-			statement.setString(1, imdbId);
+			statement.setLong(1, id);
 			rs = statement.executeQuery();
 			if (rs.next()) {
 				mv = new com.cmu.model.Movie(rs.getString("Title"),id,rs.getString("Genre"), rs.getString("Plot"), rs.getString("Poster"), rs.getString("imdbId"));
