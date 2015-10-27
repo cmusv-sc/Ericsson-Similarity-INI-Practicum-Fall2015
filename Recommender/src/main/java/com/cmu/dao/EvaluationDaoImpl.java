@@ -16,7 +16,8 @@ public class EvaluationDaoImpl implements EvaluationDao{
 
 	public void submitFeedback(UserFeedback feedback) {
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+			//DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+			DriverManager.registerDriver(new org.postgresql.Driver ());
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

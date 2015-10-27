@@ -16,7 +16,8 @@ public class ModelDaoImpl implements ModelDao{
 
 	public void addToModel(Long id, List<ScoredId> recommendations, Algorithm alg) {
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+			//DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+			DriverManager.registerDriver(new org.postgresql.Driver ());
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -81,7 +82,8 @@ public class ModelDaoImpl implements ModelDao{
 
 	public void deleteModel(Long id, Algorithm alg) {
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+			//DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+			DriverManager.registerDriver(new org.postgresql.Driver ());
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

@@ -19,7 +19,8 @@ public class RecommendationDaoImpl implements RecommendationDao{
 	public List<Recommendation> getRecommendation(Long id, Algorithm alg) {
 		List<Recommendation> recs = new ArrayList<Recommendation>();
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+			//DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+			DriverManager.registerDriver(new org.postgresql.Driver ());
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -58,7 +59,8 @@ public class RecommendationDaoImpl implements RecommendationDao{
 	
 	public com.cmu.model.Movie getMovieData(Long id){
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			//DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			DriverManager.registerDriver(new org.postgresql.Driver ());
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -86,7 +88,8 @@ public class RecommendationDaoImpl implements RecommendationDao{
 	//TODO: find out a way to implement this function
 	public List<com.cmu.model.Movie> getMovieDatas(List<Long> ids){
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			//DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			DriverManager.registerDriver(new org.postgresql.Driver ());
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -96,20 +99,22 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		List<com.cmu.model.Movie> movies = new ArrayList<com.cmu.model.Movie>();
 		StringBuilder sqlBuilder = new StringBuilder();
 
-		sqlBuilder.append("select DISTINCT Title,Genre,Plot,Poster,imdbId from smalldata where movieId in(");
+		sqlBuilder.append("select * from (select DISTINCT movieId, Title,Genre,Plot,Poster,imdbId from smalldata where movieId in(");
 		for (int i = 0; i < ids.size(); i++) {
 			sqlBuilder.append(" ?,"); 
 		} 
 
 		sqlBuilder.deleteCharAt(sqlBuilder.length()-1);
 		sqlBuilder.append(" )");
-		sqlBuilder.append(" ORDER BY FIELD(movieId,");
-		for (int i = 0; i < ids.size(); i++) {
-			sqlBuilder.append(" ?,"); 
-		} 
+		//sqlBuilder.append(" ORDER BY FIELD(movieId,");
 
+		//sqlBuilder.deleteCharAt(sqlBuilder.length()-1);
+		sqlBuilder.append(" ) as c join ( values");
+		for (int i = 0; i < ids.size(); i++) {
+			sqlBuilder.append(" (?,?),"); 
+		} 
 		sqlBuilder.deleteCharAt(sqlBuilder.length()-1);
-		sqlBuilder.append(" )");
+		sqlBuilder.append(") as x (id, ordering) on c.movieId = x.id order by x.ordering"); 
 		
 		try {
 			PreparedStatement statement = conn2.prepareStatement(sqlBuilder.toString());
@@ -119,16 +124,23 @@ public class RecommendationDaoImpl implements RecommendationDao{
 				statement.setLong(index, ids.get(i));
 				index++;
 			}
+			/*for (int i = 0; i < ids.size(); i++)
+			{
+				statement.setLong(index, ids.get(i));
+				index++;
+			}*/
+			int index2 =1;
 			for (int i = 0; i < ids.size(); i++)
 			{
 				statement.setLong(index, ids.get(i));
 				index++;
+				statement.setLong(index, index2);
+				index++;
+				index2++;
 			}
 			ResultSet rs = statement.executeQuery();
 			index = 0;
 			while (rs.next()) {
-				if(index == ids.size())
-					System.out.println("???");
 				com.cmu.model.Movie mv = new com.cmu.model.Movie(rs.getString("Title"),ids.get(index++),rs.getString("Genre"), rs.getString("Plot"), rs.getString("Poster"), rs.getString("imdbId"));
 				mv.setSynopsis(rs.getString("Plot"));
 				movies.add(mv);

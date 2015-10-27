@@ -14,7 +14,8 @@ public class DBConnection {
 	private DBConnection() {
 		// TODO Auto-generated constructor stub
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+			//DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+			DriverManager.registerDriver(new org.postgresql.Driver ());
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -28,7 +29,7 @@ public class DBConnection {
 	    
 	   
 			try {
-				conn = DriverManager.getConnection(
+				/*conn = DriverManager.getConnection(
 				               "jdbc:" + "mysql" + "://" +
 				               "52.10.143.249" +
 				               ":" + "3306" + "/Ericssonsmall",
@@ -43,6 +44,22 @@ public class DBConnection {
 			               "jdbc:" + "mysql" + "://" +
 			               "52.10.143.249" +
 			               ":" + "3306" + "/Users",
+			               connectionProps);*/
+				conn = DriverManager.getConnection(
+			               "jdbc:" + "postgresql" + "://" +
+			               "54.218.101.198" +
+			               ":" + "5432" + "/Ericssonsmall",
+			               connectionProps);
+			
+				omdbconn = DriverManager.getConnection(
+			               "jdbc:" + "postgresql" + "://" +
+			               "54.218.101.198" +
+			               ":" + "5432" + "/OMDB",
+			               connectionProps);
+				usrconn = DriverManager.getConnection(
+			               "jdbc:" + "postgresql" + "://" +
+			               "54.218.101.198" +
+			               ":" + "5432" + "/Users",
 			               connectionProps);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
