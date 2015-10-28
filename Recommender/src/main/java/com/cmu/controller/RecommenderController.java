@@ -83,6 +83,44 @@ public class RecommenderController {
 	    return nameBuilder.toString();
 	}
 
+	@RequestMapping("/itemSimilarityType2")
+	public ModelAndView searchItemSimilaritiesType2(@RequestParam(value = "item", required = false, defaultValue = "1") String item,
+			@RequestParam(value = "algorithm", required = false, defaultValue = "") String algorithm) { 
+		RecommendationDaoImpl rec = new RecommendationDaoImpl();
+		Movie movie = rec.getMovieData(Long.valueOf(item));
+		List<Movie> recommendations = new ArrayList<Movie>();
+		List<String> posters = new ArrayList<String>();
+		List<String> moviesPlots = new ArrayList<String>();
+
+		//recommendations = getItems(item, algorithm);
+		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item));
+		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
+		for(Movie m : recommendationMap.keySet()) {
+			recommendations.add(m);
+		}
+		ModelAndView mv = new ModelAndView("itemSimilarityType2");
+		List<Long> movieIds = new ArrayList<Long>();
+		List<String> movieTitles = new ArrayList<String>();
+		for(int i = 0; i < recommendations.size(); i++){
+			movieIds.add(i, recommendations.get(i).getId());
+			movieTitles.add(i, recommendations.get(i).getTitle());
+			posters.add(recommendations.get(i).getPoster());
+			moviesPlots.add(recommendations.get(i).getSynopsis());
+		}
+		System.out.println();
+		mv.addObject("selectedMovieId", movie.getId());
+		mv.addObject("selectedPoster", movie.getPoster());
+		mv.addObject("posters", posters);
+		mv.addObject("synopsys", movie.getSynopsis());
+		mv.addObject("movieIds", movieIds);
+		mv.addObject("movieTitles", movieTitles);
+		mv.addObject("moviesPlots", createSemicolonSeparatedStringFromArray(moviesPlots));
+		mv.addObject("selectedMovieTitle", movie.getTitle());
+		mv.addObject("item", item);
+		return mv;
+	}
+	
+	
 	@RequestMapping("/home")
 	public ModelAndView home() { 
 		List<String> posters = new ArrayList<String>();
