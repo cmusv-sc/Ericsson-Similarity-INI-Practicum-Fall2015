@@ -92,6 +92,8 @@
 				document.getElementById("movie".concat(id)).id = "movie"
 						+ arrayOfIds[itemPosition - 1];
 			}
+			popoverRefresh();
+
 		}
 
 		$(document).ready(function() {
@@ -102,12 +104,16 @@
 		});
 
 		$(document).ready(function() {
+			popoverRefresh();
+		});
+		
+		function popoverRefresh(){
 			$('[data-toggle="popover"]').popover({
 		        container: 'body', // Popover scrolls with body
 		        placement: 'top'
 
 		    });;
-		});
+		}
 		
 		function sendSimilarity(id, similarity) {
 			$.ajax({

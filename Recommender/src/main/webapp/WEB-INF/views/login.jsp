@@ -32,23 +32,36 @@
 	<div class="header clearfix ">
 		<h3 class="text-muted col-md-offset-2">Item-Item Similarity</h3>
 	</div>
+
 	<div class="col-xs-6 col-lg-4  col-md-offset-4"
 		style="position: relative; top: 50%; -webkit-transform: translateY(-50%); -ms-transform: translateY(50%); transform: translateY(50%);">
-		<form class="form-signin" action="http://localhost:8080/Recommender/home">
-			<h2 class="form-signin-heading">Please sign in</h2>
-			<label for="inputEmail" class="sr-only">Email address</label> <input
-				type="email" id="inputEmail" class="form-control"
-				placeholder="Email address" required autofocus> <label
-				for="inputPassword" class="sr-only">Password</label> <input
-				type="password" id="inputPassword" class="form-control"
-				placeholder="Password" required>
-			<div class="checkbox">
-				<label> <input type="checkbox" value="remember-me">
-					Remember me
-				</label>
+		<c:if test="${not empty error}">
+			<div class="alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign"
+					aria-hidden="true"></span> <span class="sr-only">Error:</span>
+				${error}
 			</div>
+		</c:if>
+		<c:if test="${not empty msg}">
+			<div class="alert alert-warning" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign"
+					aria-hidden="true"></span> <span class="sr-only">Error:</span>
+				${msg}
+			</div>
+		</c:if>
+		<form class="form-signin"
+			action="<c:url value='/j_spring_security_check' />" method="POST">
+			<h2 class="form-signin-heading">Please sign in</h2>
+			<label for="inputEmail" class="sr-only">Email address</label> 
+			<input name='username' type="text" class="form-control" placeholder="Email address" required autofocus> 
 			
-			<button id="button" class="btn btn-lg btn-primary btn-block">Sign in</button>
+			<label for="inputPassword" class="sr-only">Password</label> 
+			<input name='password' type="password" class="form-control" placeholder="Password" required>
+			<div class="checkbox">
+			</div>
+
+			<button id="submit" type="submit"
+				class="btn btn-lg btn-primary btn-block">Sign in</button>
 		</form>
 	</div>
 

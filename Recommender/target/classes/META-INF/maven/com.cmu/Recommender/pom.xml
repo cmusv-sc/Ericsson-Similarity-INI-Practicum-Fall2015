@@ -42,6 +42,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.36</version>
 		</dependency>
+		
+		<dependency>
+    		<groupId>org.postgresql</groupId>
+    		<artifactId>postgresql</artifactId>
+    		<version>9.3-1104-jdbc4</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
