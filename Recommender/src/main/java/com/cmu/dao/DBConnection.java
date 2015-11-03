@@ -1,15 +1,21 @@
 package com.cmu.dao;
 
+import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 public class DBConnection {
 
-	private static Connection conn = null;
+	/*private static Connection conn = null;
 	private static Connection usrconn = null;
-	private static Connection omdbconn = null;
+	private static Connection omdbconn = null;*/
+	private static ComboPooledDataSource conn = null;
+	private static ComboPooledDataSource usrconn = null;
+	private static ComboPooledDataSource omdbconn = null;
 	
 	private DBConnection() {
 		// TODO Auto-generated constructor stub
@@ -45,7 +51,7 @@ public class DBConnection {
 			               "52.10.143.249" +
 			               ":" + "3306" + "/Users",
 			               connectionProps);*/
-				conn = DriverManager.getConnection(
+				/*conn = DriverManager.getConnection(
 			               "jdbc:" + "postgresql" + "://" +
 			               "54.218.101.198" +
 			               ":" + "5432" + "/Ericssonsmall",
@@ -60,8 +66,46 @@ public class DBConnection {
 			               "jdbc:" + "postgresql" + "://" +
 			               "54.218.101.198" +
 			               ":" + "5432" + "/Users",
-			               connectionProps);
-			} catch (SQLException e) {
+			               connectionProps);*/
+				conn = new ComboPooledDataSource();
+				omdbconn = new ComboPooledDataSource();
+				usrconn = new ComboPooledDataSource();
+				try {
+					conn.setDriverClass("org.postgresql.Driver");
+					omdbconn.setDriverClass("org.postgresql.Driver");
+					usrconn.setDriverClass("org.postgresql.Driver");
+				} catch (PropertyVetoException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} //loads the jdbc driver
+				conn.setJdbcUrl("jdbc:postgresql://54.218.101.198:5432/Ericssonsmall");
+				conn.setUser("ini");
+				conn.setPassword("a12345");
+				
+				omdbconn.setJdbcUrl("jdbc:postgresql://54.218.101.198:5432/OMDB");
+				omdbconn.setUser("ini");
+				omdbconn.setPassword("a12345");
+				
+				usrconn.setJdbcUrl("jdbc:postgresql://54.218.101.198:5432/Users");
+				usrconn.setUser("ini");
+				usrconn.setPassword("a12345");
+				
+				conn.setMinPoolSize(5);
+				conn.setAcquireIncrement(5);
+				conn.setMaxPoolSize(20);
+				conn.setMaxStatements(180);
+		        
+				omdbconn.setMinPoolSize(5);
+				omdbconn.setAcquireIncrement(5);
+				omdbconn.setMaxPoolSize(20);
+				omdbconn.setMaxStatements(180);
+		        
+				usrconn.setMinPoolSize(5);
+				usrconn.setAcquireIncrement(5);
+				usrconn.setMaxPoolSize(20);
+				usrconn.setMaxStatements(180);
+				
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -73,7 +117,14 @@ public class DBConnection {
 		if(conn==null)
 			new DBConnection();
 		
-	    return conn;
+	    //return conn;
+		try {
+			return conn.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public static synchronized Connection getUserconn()
@@ -81,7 +132,14 @@ public class DBConnection {
 		if(usrconn==null)
 			new DBConnection();
 		
-	    return usrconn;
+	    //return usrconn;
+		try {
+			return usrconn.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public static synchronized Connection getOMDBConection()
@@ -89,7 +147,14 @@ public class DBConnection {
 		if(omdbconn==null)
 			new DBConnection();
 		
-	    return omdbconn;
+	    //return omdbconn;
+		try {
+			return omdbconn.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	

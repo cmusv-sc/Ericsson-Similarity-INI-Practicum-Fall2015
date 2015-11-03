@@ -77,6 +77,12 @@ public class ModelDaoImpl implements ModelDao{
 				e.printStackTrace();
 			}
 		}
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -95,6 +101,12 @@ public class ModelDaoImpl implements ModelDao{
 			statement.setLong(1, id);
 			statement.setString(2, alg.toString());
 			statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -48,6 +48,12 @@
     		<artifactId>postgresql</artifactId>
     		<version>9.3-1104-jdbc4</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.5.1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
