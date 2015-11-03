@@ -11,6 +11,7 @@
 		<intercept-url pattern="/login**" access="hasAnyRole('ROLE_ANONYMOUS', 'ROLE_USER')" />
 		<intercept-url pattern="/home" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/itemSimilarity**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/settings**" access="hasRole('ROLE_USER')" />
 
 
 		<form-login login-page="/login" default-target-url="/home"
