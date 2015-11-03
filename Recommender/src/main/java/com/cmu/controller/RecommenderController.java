@@ -196,7 +196,7 @@ public class RecommenderController {
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(movieId1));
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
 		
-		Movie selected = new Movie("", 0l,"","","","");
+		Movie selected = new Movie("", 0l,"","","","","");
 		for(Movie m : recommendationMap.keySet())
 			if(m.getId() == Long.valueOf(movieId2))
 				selected = m;
@@ -315,7 +315,7 @@ public class RecommenderController {
 		mi.add(1L);
 		RecommendationDaoImpl q = new RecommendationDaoImpl();
 		//List<Movie> ms = q.getMovieDatas(mi);
-		//Movie v = q.getMovieData(1L);
+		//Movie vv = q.getMovieData(1L);
 		EvaluationDao v = new EvaluationDaoImpl();
 		UserFeedback u = new UserFeedback();
 		Map<Algorithm,Double> hmap = new HashMap<Algorithm,Double>();
@@ -325,7 +325,7 @@ public class RecommenderController {
 		u.setRating(1);
 		u.setHaveSeen(0);
 		u.setAlgorithmScores(hmap);
-		v.submitFeedback(u);
+		//v.submitFeedback(u);
 		
 		int pp = 1;
 		return null;

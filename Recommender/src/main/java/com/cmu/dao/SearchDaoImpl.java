@@ -20,7 +20,7 @@ public class SearchDaoImpl implements SearchDao{
 
 		PreparedStatement statement;
 
-		String sqlQuery = "Select Title,Year,movieID,Poster from smalldata where Title REGEXP '"+token+"'";
+		String sqlQuery = "Select Title,Year,movieID,Poster from smalldata where LOWER(Title) ~ LOWER('"+token+"')";
 
 
 
@@ -39,7 +39,7 @@ public class SearchDaoImpl implements SearchDao{
 				String year = rs.getString("Year");
 				Long id = rs.getLong("movieID");
 
-				Movie movie = new Movie(title, id, "", "", poster, "");
+				Movie movie = new Movie(title, id, "", "", poster, "", "");
 				movie.setYear(year);
 				
 				movies.add(movie);

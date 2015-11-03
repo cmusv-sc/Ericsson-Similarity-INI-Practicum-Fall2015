@@ -17,7 +17,7 @@ public class Movie {
 	
 	private String year;
 
-	public Movie(String title, Long id, String genre, String synopsys, String poster, String imdbId) {
+	public Movie(String title, Long id, String genre, String synopsys, String poster, String imdbId, String year) {
 		super();
 		this.title = title;
 		this.id = id;
@@ -25,6 +25,7 @@ public class Movie {
 		this.synopsis = synopsys;
 		this.poster = poster;
 		this.imdbId = imdbId;
+		this.year = year;
 	}
 
 	public String getTitle() {
