@@ -22,11 +22,6 @@
 	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script>
-		$('#button').click(function() {
-			window.location = "www.example.com/index.php?id=";
-		});
-	</script>
 
 	<div class="container"></div>
 	<div class="header clearfix ">

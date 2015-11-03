@@ -17,8 +17,7 @@
 		var arraySize = "${movieIds.size()}";
 		var strLen = "${movieTitles}".length;
 		var posterLen = "${posters}".length;
-		var arrayOfTitles = "${movieTitles}".substring(1, strLen - 1)
-				.split(",");
+		var arrayOfTitles = "${movieTitles}".split("||");
 		var arrayOfPosters = "${posters}".substring(1, posterLen - 1)
 				.split(",");
 
@@ -71,21 +70,27 @@
 		
 		
 		function retrieveMovies(){
-			window.location.replace("http://localhost:8080/Recommender/search?searchString=" + $("#searchPhrase").val());
+			if ($("#searchPhrase").val().length < 3)
+				alert("Please, enter a minimum of 3 characters to search for a movie.")
+			else
+				window.location.replace("http://localhost:8080/Recommender/search?searchString=" + $("#searchPhrase").val());
 		}
 		
+		function logout() 
+		{
+		    window.location.href = "<c:url value="j_spring_security_logout" />";
+		}
 	</script>
 
 	<div class="container">
 		<div class="row">
 
 			<div class="col-xs-3 col-lg-3">
-				<h3 class="text-muted">Item-Item Similarity</h3>
+				<a href="/Recommender/home" style="text-decoration:none"><h3 class="text-muted">Item-Item Similarity</h3></a>
 			</div>
 
 
-			<div class="col-lg-6 col-md-offset-2"  style="
-    margin-top: 20px;">
+			<div class="col-lg-6 "  style="margin-top: 20px;">
 				<div class="input-group">
 					<input id="searchPhrase" type="text" class="form-control" placeholder="Search for...">
 					<span class="input-group-btn">
@@ -94,6 +99,11 @@
 				</div>
 				<!-- /input-group -->
 			</div>
+			
+			<div class="col-xs-1 col-lg-1 col-md-offset-1" style="margin-top: 20px;">
+				<button class="btn btn-default" onclick="return logout()"> Logout </button> 
+			</div>
+			
 			<!-- /.col-lg-6 -->
 
 		</div>
