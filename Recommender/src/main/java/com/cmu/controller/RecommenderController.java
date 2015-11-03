@@ -196,7 +196,7 @@ public class RecommenderController {
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(movieId1));
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
 		
-		Movie selected = new Movie("", 0l,"","","","","");
+		Movie selected = new Movie("", 0l,"","","","", "");
 		for(Movie m : recommendationMap.keySet())
 			if(m.getId() == Long.valueOf(movieId2))
 				selected = m;
@@ -220,14 +220,14 @@ public class RecommenderController {
 			@RequestParam("searchString") String searchString) {
 		SearchDao searchDao = new SearchDaoImpl();
 		List<Movie> searchedMovies = searchDao.findExactMatchRegex(searchString);
-		ModelAndView mv = new ModelAndView("home");
+		ModelAndView mv = new ModelAndView("search");
 		List<String> posters = new ArrayList<String>();
 		List<Long> movieIds = new ArrayList<Long>();
 		List<String> titles = new ArrayList<String>();
 		for(Movie m : searchedMovies){
 			posters.add(m.getPoster());
 			movieIds.add(m.getId());
-			titles.add(m.getTitle());
+			titles.add(m.getTitle() + " (" + m.getYear() + ")");
 			System.out.println(m.getTitle());
 		}
 			

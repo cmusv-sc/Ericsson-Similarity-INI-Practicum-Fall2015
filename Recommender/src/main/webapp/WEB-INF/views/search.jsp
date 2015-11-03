@@ -69,8 +69,13 @@
 		});
 		
 		
-		function retrieveMovies(){
-			$("#searchPhrase").val();
+		function retrieveMovies() {
+			if ($("#searchPhrase").val().length < 3)
+				alert("Please, enter a minimum of 3 characters to search for a movie.")
+			else
+				window.location
+						.replace("http://localhost:8080/Recommender/search?searchString="
+								+ $("#searchPhrase").val());
 		}
 		
 		function logout(){
