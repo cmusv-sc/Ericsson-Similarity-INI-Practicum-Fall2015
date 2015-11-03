@@ -12,6 +12,8 @@
 <body>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script
+		src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
 	<script>
 		var arrayOfIds = JSON.parse("${movieIds}");
 		var arraySize = "${movieIds.size()}";
@@ -67,68 +69,130 @@
 			getNewItem("Eleventh");
 			getNewItem("Twelth");
 		});
-		
-		
-		function retrieveMovies(){
+
+		function retrieveMovies() {
 			if ($("#searchPhrase").val().length < 3)
 				alert("Please, enter a minimum of 3 characters to search for a movie.")
 			else
-				window.location.replace("http://localhost:8080/Recommender/search?searchString=" + $("#searchPhrase").val());
+				window.location
+						.replace("http://localhost:8080/Recommender/search?searchString="
+								+ $("#searchPhrase").val());
 		}
+
+		function logout() {
+			window.location.href = "<c:url value="j_spring_security_logout" />";
+		}
+
+		$(document).ready(function(){
+		    $(".nav-tabs a").click(function(){
+		        $(this).tab('show');
+		    });
+		});
 		
-		function logout() 
-		{
-		    window.location.href = "<c:url value="j_spring_security_logout" />";
+		function goToSettings(){
+			window.location
+			.replace("http://localhost:8080/Recommender/settings");
 		}
 	</script>
 
 	<div class="container">
+
 		<div class="row">
 
 			<div class="col-xs-3 col-lg-3">
-				<a href="/Recommender/home" style="text-decoration:none"><h3 class="text-muted">Item-Item Similarity</h3></a>
+				<a href="/Recommender/home" style="text-decoration: none"><h3
+						class="text-muted">Item-Item Similarity</h3></a>
 			</div>
 
 
-			<div class="col-lg-6 "  style="margin-top: 20px;">
+			<div class="col-lg-6 " style="margin-top: 20px;">
 				<div class="input-group">
-					<input id="searchPhrase" type="text" class="form-control" placeholder="Search for...">
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="button" onclick="retrieveMovies()" >Search</button>
+					<input id="searchPhrase" type="text" class="form-control"
+						placeholder="Search for..."> <span class="input-group-btn">
+						<button class="btn btn-default" type="button"
+							onclick="retrieveMovies()">Search</button>
 					</span>
 				</div>
 				<!-- /input-group -->
 			</div>
-			
-			<div class="col-xs-1 col-lg-1 col-md-offset-1" style="margin-top: 20px;">
-				<button class="btn btn-default" onclick="return logout()"> Logout </button> 
+
+			<div class="col-xs-1 col-lg-1 col-md-offset-1"
+				style="margin-top: 20px;">
+				<button class="btn btn-default" onclick="return logout()">
+					Logout</button>
 			</div>
-			
+			<div class="col-xs-1 col-lg-1" style="margin-top: 20px;">
+				<button type="button" class="btn btn-default"
+					aria-label="Left Align" onclick="return goToSettings()">
+					<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+				</button>
+			</div>
 			<!-- /.col-lg-6 -->
 
 		</div>
-		<div class="row">
 
-			<div id="movieFirst" class="col-xs-3 col-lg-3"></div>
-			<div id="movieSecond" class="col-xs-3 col-lg-3"></div>
-			<div id="movieThird" class="col-xs-3 col-lg-3"></div>
-			<div id="movieFourth" class="col-xs-3 col-lg-3"></div>
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#random">Random</a></li>
+			<li><a href="#popular">Popular</a></li>
+		</ul>
 
-		</div>
-		<div class="row">
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade in active" id="random">
 
-			<div id="movieFifth" class="col-xs-3 col-lg-3"></div>
-			<div id="movieSixth" class="col-xs-3 col-lg-3"></div>
-			<div id="movieSeventh" class="col-xs-3 col-lg-3"></div>
-			<div id="movieEighth" class="col-xs-3 col-lg-3"></div>
+				<div class="row">
 
-		</div>
-		<div class="row">
+					<div id="movieFirst" class="col-xs-3 col-lg-3"></div>
+					<div id="movieSecond" class="col-xs-3 col-lg-3"></div>
+					<div id="movieThird" class="col-xs-3 col-lg-3"></div>
+					<div id="movieFourth" class="col-xs-3 col-lg-3"></div>
 
-			<div id="movieNinth" class="col-xs-3 col-lg-3"></div>
-			<div id="movieTenth" class="col-xs-3 col-lg-3"></div>
-			<div id="movieEleventh" class="col-xs-3 col-lg-3"></div>
-			<div id="movieTwelth" class="col-xs-3 col-lg-3"></div>
+				</div>
+				<div class="row">
+
+					<div id="movieFifth" class="col-xs-3 col-lg-3"></div>
+					<div id="movieSixth" class="col-xs-3 col-lg-3"></div>
+					<div id="movieSeventh" class="col-xs-3 col-lg-3"></div>
+					<div id="movieEighth" class="col-xs-3 col-lg-3"></div>
+
+				</div>
+				<div class="row">
+
+					<div id="movieNinth" class="col-xs-3 col-lg-3"></div>
+					<div id="movieTenth" class="col-xs-3 col-lg-3"></div>
+					<div id="movieEleventh" class="col-xs-3 col-lg-3"></div>
+					<div id="movieTwelth" class="col-xs-3 col-lg-3"></div>
+
+				</div>
+
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="popular">
+
+				<div class="row">
+
+					<div id="movieFirst" class="col-xs-3 col-lg-3"></div>
+					<div id="movieSecond" class="col-xs-3 col-lg-3"></div>
+					<div id="movieThird" class="col-xs-3 col-lg-3"></div>
+					<div id="movieFourth" class="col-xs-3 col-lg-3"></div>
+
+				</div>
+				<div class="row">
+
+					<div id="movieFifth" class="col-xs-3 col-lg-3"></div>
+					<div id="movieSixth" class="col-xs-3 col-lg-3"></div>
+					<div id="movieSeventh" class="col-xs-3 col-lg-3"></div>
+					<div id="movieEighth" class="col-xs-3 col-lg-3"></div>
+
+				</div>
+				<div class="row">
+
+					<div id="movieNinth" class="col-xs-3 col-lg-3"></div>
+					<div id="movieTenth" class="col-xs-3 col-lg-3"></div>
+					<div id="movieEleventh" class="col-xs-3 col-lg-3"></div>
+					<div id="movieTwelth" class="col-xs-3 col-lg-3"></div>
+
+				</div>
+
+			</div>
 
 		</div>
 

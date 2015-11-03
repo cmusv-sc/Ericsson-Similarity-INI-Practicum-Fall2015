@@ -7,12 +7,16 @@ import com.cmu.model.Movie;
 
 public class UserDetailsDaoImpl implements UserDetailsDao{
 
-	public List<Movie> getUserRatedMovies(int userId) {
+	public UserDetailsDaoImpl(String username) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public List<Movie> getUserRatedMovies(String username) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public int getNumberOfRatedMovies(int userId) {
+	public int getNumberOfRatedMovies(String username) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
