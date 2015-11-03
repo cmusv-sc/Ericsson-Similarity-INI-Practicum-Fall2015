@@ -51,7 +51,7 @@ public class MovieDao {
 				String genre = rs.getString("genres");
 				Long id = rs.getLong("movieID");
 
-				movies.add(new Movie(title, id, genre, "", "", ""));
+				movies.add(new Movie(title, id, genre, "", "", "", ""));
 
 			}
 		} catch (SQLException e) {
@@ -92,7 +92,7 @@ public class MovieDao {
 
 				Long movieid = rs.getLong("movieID");
 
-				movies.add(new Movie(title, movieid, genre, "", "", ""));
+				movies.add(new Movie(title, movieid, genre, "", "", "", ""));
 
 			}
 

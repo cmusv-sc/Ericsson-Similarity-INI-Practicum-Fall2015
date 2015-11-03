@@ -69,13 +69,13 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		Connection conn2 = DBConnection.getOMDBConection();
 		ResultSet rs;
 		com.cmu.model.Movie mv = null;
-		String sqlString2 = "select Title,Genre,Plot, Poster, imdbId from smalldata where movieId = ?";
+		String sqlString2 = "select Title,Genre,Plot, Poster, imdbId, year from smalldata where movieId = ?";
 		try {
 			PreparedStatement statement = conn2.prepareStatement(sqlString2);
 			statement.setLong(1, id);
 			rs = statement.executeQuery();
 			if (rs.next()) {
-				mv = new com.cmu.model.Movie(rs.getString("Title"),id,rs.getString("Genre"), rs.getString("Plot"), rs.getString("Poster"), rs.getString("imdbId"));
+				mv = new com.cmu.model.Movie(rs.getString("Title"),id,rs.getString("Genre"), rs.getString("Plot"), rs.getString("Poster"), rs.getString("imdbId"), rs.getString("year"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -99,7 +99,7 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		List<com.cmu.model.Movie> movies = new ArrayList<com.cmu.model.Movie>();
 		StringBuilder sqlBuilder = new StringBuilder();
 
-		sqlBuilder.append("select * from (select DISTINCT movieId, Title,Genre,Plot,Poster,imdbId from smalldata where movieId in(");
+		sqlBuilder.append("select * from (select DISTINCT movieId, Title,Genre,Plot,Poster,imdbId,year from smalldata where movieId in(");
 		for (int i = 0; i < ids.size(); i++) {
 			sqlBuilder.append(" ?,"); 
 		} 
@@ -141,7 +141,7 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			ResultSet rs = statement.executeQuery();
 			index = 0;
 			while (rs.next()) {
-				com.cmu.model.Movie mv = new com.cmu.model.Movie(rs.getString("Title"),ids.get(index++),rs.getString("Genre"), rs.getString("Plot"), rs.getString("Poster"), rs.getString("imdbId"));
+				com.cmu.model.Movie mv = new com.cmu.model.Movie(rs.getString("Title"),ids.get(index++),rs.getString("Genre"), rs.getString("Plot"), rs.getString("Poster"), rs.getString("imdbId"), rs.getString("year"));
 				mv.setSynopsis(rs.getString("Plot"));
 				movies.add(mv);
 			}
