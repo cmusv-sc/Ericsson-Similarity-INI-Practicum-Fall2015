@@ -58,6 +58,12 @@ public class MovieDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return movies;
 
@@ -103,6 +109,12 @@ public class MovieDao {
 			e.printStackTrace();
 
 		}
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return movies.get(0);
 
@@ -131,6 +143,12 @@ public class MovieDao {
 				movies.add(rs.getLong("movieID"));
 
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

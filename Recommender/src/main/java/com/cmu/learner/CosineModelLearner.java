@@ -1,6 +1,7 @@
 package com.cmu.learner;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,11 +70,17 @@ public class CosineModelLearner implements OfflineLearner {
 			}
 
 			System.out.println("###############################");
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		} catch (RecommenderBuildException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 
 	}
 

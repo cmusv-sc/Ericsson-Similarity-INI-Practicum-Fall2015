@@ -54,6 +54,12 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return recs;
 	}
 	
@@ -77,6 +83,13 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			if (rs.next()) {
 				mv = new com.cmu.model.Movie(rs.getString("Title"),id,rs.getString("Genre"), rs.getString("Plot"), rs.getString("Poster"), rs.getString("imdbId"), rs.getString("year"));
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			conn.close();
+			conn2.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -145,6 +158,13 @@ public class RecommendationDaoImpl implements RecommendationDao{
 				mv.setSynopsis(rs.getString("Plot"));
 				movies.add(mv);
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			conn.close();
+			conn2.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
