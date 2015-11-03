@@ -20,7 +20,7 @@ public class SearchDaoImpl implements SearchDao{
 
 		PreparedStatement statement;
 
-		String sqlQuery = "Select Title,Year,movieID,Poster from smalldata where Title REGEXP '"+token+"'";
+		String sqlQuery = "Select Title,Year,movieID,Poster from smalldata where LOWER(Title) ~ LOWER('"+token+"')";
 
 
 
