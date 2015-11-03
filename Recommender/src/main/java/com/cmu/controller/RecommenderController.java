@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +21,7 @@ import com.cmu.dao.ModelDaoImpl;
 import com.cmu.dao.MovieDao;
 import com.cmu.dao.RecommendationDaoImpl;
 import com.cmu.dao.SearchDaoImpl;
+import com.cmu.dao.UserDetailsDaoImpl;
 import com.cmu.enums.Algorithm;
 import com.cmu.interfaces.EvaluationDao;
 import com.cmu.interfaces.ModelDao;
@@ -42,23 +45,31 @@ public class RecommenderController {
 		List<Movie> recommendations = new ArrayList<Movie>();
 		List<String> posters = new ArrayList<String>();
 		List<String> moviesPlots = new ArrayList<String>();
-
-		//recommendations = getItems(item, algorithm);
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item));
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
+		
 		for(Movie m : recommendationMap.keySet()) {
 			recommendations.add(m);
 		}
+		
 		ModelAndView mv = new ModelAndView("itemSimilarity");
 		List<Long> movieIds = new ArrayList<Long>();
 		List<String> movieTitles = new ArrayList<String>();
-		for(int i = 0; i < recommendations.size(); i++){
-			movieIds.add(i, recommendations.get(i).getId());
-			movieTitles.add(i, recommendations.get(i).getTitle() + " (" + recommendations.get(i).getYear() + ")");
-			posters.add(recommendations.get(i).getPoster());
-			moviesPlots.add(recommendations.get(i).getSynopsis());
+		
+	     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	     String username = auth.getName(); //get logged in username
+	     UserDetailsDaoImpl u = new UserDetailsDaoImpl(username);
+	     List<Movie> alreadyRatedMovies = u.getUserRatedMovies(username);
+	     
+		for(Movie m : recommendations){
+			//if(alreadyRatedMovies.contains(m))
+			//	continue;
+			movieIds.add(m.getId());
+			movieTitles.add(m.getTitle() + " (" + m.getYear() + ")");
+			posters.add(m.getPoster());
+			moviesPlots.add(m.getSynopsis());
 		}
-		System.out.println();
+		
 		mv.addObject("selectedMovieId", movie.getId());
 		mv.addObject("selectedPoster", movie.getPoster());
 		mv.addObject("posters", posters);
@@ -185,7 +196,7 @@ public class RecommenderController {
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(movieId1));
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
 		
-		Movie selected = new Movie("", 0l,"","","","","");
+		Movie selected = new Movie("", 0l,"","","","", "");
 		for(Movie m : recommendationMap.keySet())
 			if(m.getId() == Long.valueOf(movieId2))
 				selected = m;
@@ -209,14 +220,14 @@ public class RecommenderController {
 			@RequestParam("searchString") String searchString) {
 		SearchDao searchDao = new SearchDaoImpl();
 		List<Movie> searchedMovies = searchDao.findExactMatchRegex(searchString);
-		ModelAndView mv = new ModelAndView("home");
+		ModelAndView mv = new ModelAndView("search");
 		List<String> posters = new ArrayList<String>();
 		List<Long> movieIds = new ArrayList<Long>();
 		List<String> titles = new ArrayList<String>();
 		for(Movie m : searchedMovies){
 			posters.add(m.getPoster());
 			movieIds.add(m.getId());
-			titles.add(m.getTitle());
+			titles.add(m.getTitle() + " (" + m.getYear() + ")");
 			System.out.println(m.getTitle());
 		}
 			

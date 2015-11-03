@@ -6,7 +6,7 @@ import com.cmu.model.Movie;
 
 public interface UserDetailsDao {
 
-	public List<Movie> getUserRatedMovies(int userId);
+	public List<Movie> getUserRatedMovies(String username);
 	
-	public int getNumberOfRatedMovies(int userId);
+	public int getNumberOfRatedMovies(String username);
 }
