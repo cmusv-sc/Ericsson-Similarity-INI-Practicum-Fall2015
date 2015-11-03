@@ -12,7 +12,7 @@ public class UserDetailsDaoImpl implements UserDetailsDao{
 	}
 
 	public List<Movie> getUserRatedMovies(String username) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 
 		return null;
 	}
 

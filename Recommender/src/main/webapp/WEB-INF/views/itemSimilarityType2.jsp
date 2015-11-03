@@ -22,8 +22,8 @@
 		var strLen = "${movieTitles}".length;
 		var posterLen = "${posters}".length;
 		var arrayOfPlots = "${moviesPlots}".split("||");
-		var arrayOfTitles = "${movieTitles}".substring(1, strLen - 1)
-				.split(",");
+		var arrayOfTitles = "${movieTitles}".split("||");;
+
 		var arrayOfPosters = "${posters}".substring(1, posterLen - 1)
 				.split(",");
 
