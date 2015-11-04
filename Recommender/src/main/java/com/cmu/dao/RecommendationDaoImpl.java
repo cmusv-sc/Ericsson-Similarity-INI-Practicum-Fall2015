@@ -111,6 +111,9 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		Connection conn2 = DBConnection.getOMDBConection();
 		List<com.cmu.model.Movie> movies = new ArrayList<com.cmu.model.Movie>();
 		StringBuilder sqlBuilder = new StringBuilder();
+		
+		if(ids.size() == 0)
+			return movies;
 
 		sqlBuilder.append("select * from (select DISTINCT movieId, Title,Genre,Plot,Poster,imdbId,year from smalldata where movieId in(");
 		for (int i = 0; i < ids.size(); i++) {

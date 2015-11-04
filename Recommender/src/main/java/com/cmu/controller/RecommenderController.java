@@ -27,6 +27,7 @@ import com.cmu.interfaces.EvaluationDao;
 import com.cmu.interfaces.ModelDao;
 import com.cmu.interfaces.RecommendationDao;
 import com.cmu.interfaces.SearchDao;
+import com.cmu.interfaces.UserDetailsDao;
 import com.cmu.model.ItemScore;
 import com.cmu.model.Movie;
 import com.cmu.model.UserFeedback;
@@ -330,6 +331,9 @@ public class RecommenderController {
 		u.setHaveSeen(0);
 		u.setAlgorithmScores(hmap);
 		//v.submitFeedback(u);
+		
+		UserDetailsDao ud = new UserDetailsDaoImpl("");
+		List<Movie> mu = ud.getUserRatedMovies("user1@user.com", 52L);
 
 		int pp = 1;
 		return null;

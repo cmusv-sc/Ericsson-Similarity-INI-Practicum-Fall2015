@@ -24,7 +24,7 @@ public class EvaluationDaoImpl implements EvaluationDao{
 		}
 		Connection conn = DBConnection.getConection();
 		
-		String sqlString = "insert into evaluation (movieId1,movieId2,rating,haveseen,algorithm,score) values(?,?,?,?,?,?)";
+		String sqlString = "insert into evaluation (movieId1,movieId2,rating,haveseen,algorithm,score,username) values(?,?,?,?,?,?,?)";
 		try {
 			for (Map.Entry<Algorithm, Double> entry : feedback.getAlgorithmScores().entrySet())
 			{
@@ -36,6 +36,7 @@ public class EvaluationDaoImpl implements EvaluationDao{
 				statement.setInt(4, feedback.getHaveSeen());
 				statement.setString(5, entry.getKey().toString());
 				statement.setDouble(6, entry.getValue());
+				statement.setString(7, feedback.getUsername());
 				statement.executeUpdate();
 			}
 		} catch (SQLException e) {
