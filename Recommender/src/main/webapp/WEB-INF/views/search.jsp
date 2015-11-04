@@ -17,9 +17,8 @@
 		var arraySize = "${movieIds.size()}";
 		var strLen = "${movieTitles}".length;
 		var posterLen = "${posters}".length;
-		var arrayOfTitles = "${movieTitles}".split("||");;
-		var arrayOfPosters = "${posters}".substring(1, posterLen - 1)
-				.split(",");
+		var arrayOfTitles = "${movieTitles}".split("||");
+		var arrayOfPosters = "${posters}".split("||");
 
 		var itemPosition = 0;
 

@@ -23,8 +23,7 @@
 		var posterLen = "${posters}".length;
 		var arrayOfPlots = "${moviesPlots}".split("||");
 		var arrayOfTitles = "${movieTitles}".split("||");;
-		var arrayOfPosters = "${posters}".substring(1, posterLen - 1)
-				.split(",");
+		var arrayOfPosters = "${posters}".split("||");
 
 		var itemPosition = 0;
 	

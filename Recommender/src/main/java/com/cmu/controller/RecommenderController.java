@@ -73,7 +73,7 @@ public class RecommenderController {
 
 		mv.addObject("selectedMovieId", movie.getId());
 		mv.addObject("selectedPoster", movie.getPoster());
-		mv.addObject("posters", posters);
+		mv.addObject("posters", createSemicolonSeparatedStringFromArray(posters));
 		mv.addObject("synopsys", movie.getSynopsis());
 		mv.addObject("movieIds", movieIds);
 		mv.addObject("movieTitles", createSemicolonSeparatedStringFromArray(movieTitles));
@@ -149,7 +149,7 @@ public class RecommenderController {
 			posters.add(movie.getPoster());
 		}
 
-		mv.addObject("posters", posters);
+		mv.addObject("posters", createSemicolonSeparatedStringFromArray(posters));
 		mv.addObject("movieIds", movieIds);
 		mv.addObject("movieTitles", createSemicolonSeparatedStringFromArray(movieTitles));
 		return mv;
@@ -236,7 +236,7 @@ public class RecommenderController {
 			System.out.println(m.getTitle());
 		}
 
-		mv.addObject("posters", posters);
+		mv.addObject("posters", createSemicolonSeparatedStringFromArray(posters));
 		mv.addObject("movieIds", movieIds);
 		if(titles.isEmpty())
 			mv.addObject("movieTitles", titles);
