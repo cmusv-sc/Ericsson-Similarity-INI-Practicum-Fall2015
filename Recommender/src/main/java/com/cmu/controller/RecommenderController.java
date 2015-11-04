@@ -59,7 +59,7 @@ public class RecommenderController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName(); //get logged in username
 		UserDetailsDaoImpl u = new UserDetailsDaoImpl(username);
-		List<Movie> alreadyRatedMovies = u.getUserRatedMovies(username);
+		List<Movie> alreadyRatedMovies = u.getUserRatedMovies(username, movie.getId());
 
 		for(Movie m : recommendations){
 			//if(alreadyRatedMovies.contains(m))

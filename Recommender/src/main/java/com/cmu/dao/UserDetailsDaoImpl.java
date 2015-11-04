@@ -11,7 +11,7 @@ public class UserDetailsDaoImpl implements UserDetailsDao{
 		// TODO Auto-generated constructor stub
 	}
 
-	public List<Movie> getUserRatedMovies(String username) {
+	public List<Movie> getUserRatedMovies(String username, Long movieId) {
 		// TODO Auto-generated method stub 
 		return null;
 	}
