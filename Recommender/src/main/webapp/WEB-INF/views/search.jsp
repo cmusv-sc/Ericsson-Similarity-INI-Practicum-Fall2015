@@ -30,7 +30,7 @@
 			var code = '<h4>'
 					+ arrayOfTitles[itemPosition]
 					+ '</h4>'
-					+ '<a href = "http://localhost:8080/Recommender/itemSimilarity?item='
+					+ '<a href = "/Recommender/itemSimilarity?item='
 					+ item
 					+ '">'
 					+ '<img' +
@@ -73,7 +73,7 @@
 				alert("Please, enter a minimum of 3 characters to search for a movie.")
 			else
 				window.location
-						.replace("http://localhost:8080/Recommender/search?searchString="
+						.replace("/Recommender/search?searchString="
 								+ $("#searchPhrase").val());
 		}
 		
