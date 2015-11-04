@@ -63,8 +63,8 @@ public class RecommenderController {
 		List<Movie> alreadyRatedMovies = u.getUserRatedMovies(username, movie.getId());
 
 		for(Movie m : recommendations){
-			//if(alreadyRatedMovies.contains(m))
-			//	continue;
+			if(alreadyRatedMovies.contains(m))
+				continue;
 			movieIds.add(m.getId());
 			movieTitles.add(m.getTitle() + " (" + m.getYear() + ")");
 			posters.add(m.getPoster());
