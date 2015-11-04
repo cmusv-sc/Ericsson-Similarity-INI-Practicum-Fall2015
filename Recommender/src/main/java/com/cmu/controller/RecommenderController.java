@@ -34,7 +34,7 @@ import com.cmu.recommendationEngine.RecommendationBuilder;
 
 @Controller
 public class RecommenderController {
-	
+
 	MovieDao movieDao = new MovieDao();
 
 	@RequestMapping("/itemSimilarity")
@@ -47,20 +47,20 @@ public class RecommenderController {
 		List<String> moviesPlots = new ArrayList<String>();
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item));
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
-		
+
 		for(Movie m : recommendationMap.keySet()) {
 			recommendations.add(m);
 		}
-		
+
 		ModelAndView mv = new ModelAndView("itemSimilarity");
 		List<Long> movieIds = new ArrayList<Long>();
 		List<String> movieTitles = new ArrayList<String>();
-		
-	     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	     String username = auth.getName(); //get logged in username
-	     UserDetailsDaoImpl u = new UserDetailsDaoImpl(username);
-	     List<Movie> alreadyRatedMovies = u.getUserRatedMovies(username);
-	     
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName(); //get logged in username
+		UserDetailsDaoImpl u = new UserDetailsDaoImpl(username);
+		List<Movie> alreadyRatedMovies = u.getUserRatedMovies(username);
+
 		for(Movie m : recommendations){
 			//if(alreadyRatedMovies.contains(m))
 			//	continue;
@@ -69,7 +69,7 @@ public class RecommenderController {
 			posters.add(m.getPoster());
 			moviesPlots.add(m.getSynopsis());
 		}
-		
+
 		mv.addObject("selectedMovieId", movie.getId());
 		mv.addObject("selectedPoster", movie.getPoster());
 		mv.addObject("posters", posters);
@@ -81,18 +81,18 @@ public class RecommenderController {
 		mv.addObject("item", item);
 		return mv;
 	}
-	
+
 	private String createSemicolonSeparatedStringFromArray(List<String> array){
 		StringBuilder nameBuilder = new StringBuilder();
 
-	    for (String n : array) {
-	        nameBuilder.append(n.replace("\"", "\'")).append("||");
-	    }
+		for (String n : array) {
+			nameBuilder.append(n.replace("\"", "\'")).append("||");
+		}
 
-	    nameBuilder.deleteCharAt(nameBuilder.length() - 1);
-	    nameBuilder.deleteCharAt(nameBuilder.length() - 1);
+		nameBuilder.deleteCharAt(nameBuilder.length() - 1);
+		nameBuilder.deleteCharAt(nameBuilder.length() - 1);
 
-	    return nameBuilder.toString();
+		return nameBuilder.toString();
 	}
 
 	@RequestMapping("/itemSimilarityType2")
@@ -119,8 +119,8 @@ public class RecommenderController {
 			posters.add(recommendations.get(i).getPoster());
 			moviesPlots.add(recommendations.get(i).getSynopsis());
 		}
-		
-		
+
+
 		System.out.println();
 		mv.addObject("selectedMovieId", movie.getId());
 		mv.addObject("selectedPoster", movie.getPoster());
@@ -133,8 +133,8 @@ public class RecommenderController {
 		mv.addObject("item", item);
 		return mv;
 	}
-	
-	
+
+
 	@RequestMapping("/home")
 	public ModelAndView home() { 
 		List<String> posters = new ArrayList<String>();
@@ -153,7 +153,7 @@ public class RecommenderController {
 		mv.addObject("movieTitles", createSemicolonSeparatedStringFromArray(movieTitles));
 		return mv;
 	}
-	
+
 	private List<Movie> getRandomItems() {
 		RecommendationDaoImpl rec = new RecommendationDaoImpl();
 		List<Movie> result = new ArrayList<Movie>();
@@ -161,26 +161,26 @@ public class RecommenderController {
 		Random rand = new Random();
 		for (int i = 0; i < 12; i++){
 			Long id = new Long(rand.nextInt(80));
-			
+
 			while(containLong(movieIds, id) || (rec.getMovieData(id) == null))
 				id = new Long(rand.nextInt(80));
-			
+
 			movieIds.add(id);
 			result.add(rec.getMovieData(id));
 		}
-		
+
 		return result;	
 	}
-	
+
 	private boolean containLong(List<Long> movieIds, Long id){
 		for(Long i : movieIds){
 			if(i.compareTo(id) == 0)
 				return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	@RequestMapping(value = "/evaluation", method = RequestMethod.GET)
 	public @ResponseBody String processAJAXRequest(
 			@RequestParam("similarity") String similarity,
@@ -191,30 +191,34 @@ public class RecommenderController {
 		feedback.setMovieIds(Long.valueOf(movieId1), Long.valueOf(movieId2));
 		feedback.setHaveSeen(-1);
 		feedback.setRating(Integer.valueOf(similarity));
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName(); //get logged in username
 		
-		List<Movie> recommendations;
+		feedback.setUsername(username);
+
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(movieId1));
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
-		
+
 		Movie selected = new Movie("", 0l,"","","","", "");
 		for(Movie m : recommendationMap.keySet())
 			if(m.getId() == Long.valueOf(movieId2))
 				selected = m;
 		List<Algorithm> algorithms = recommendationMap.get(selected);
-		
+
 		Map<Algorithm, Double> algorithmScores = new HashMap<Algorithm, Double>();
 		//TODO get the score of the algorithm.
 		for(Algorithm a : algorithms)
 			algorithmScores.put(a, 0.0);
-		
+
 		feedback.setAlgorithmScores(algorithmScores);
-		
+
 		EvaluationDaoImpl evaluationDao = new EvaluationDaoImpl();
 		evaluationDao.submitFeedback(feedback);
-		
+
 		return similarity;
 	}
-	
+
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public ModelAndView searchMovies(
 			@RequestParam("searchString") String searchString) {
@@ -230,7 +234,7 @@ public class RecommenderController {
 			titles.add(m.getTitle() + " (" + m.getYear() + ")");
 			System.out.println(m.getTitle());
 		}
-			
+
 		mv.addObject("posters", posters);
 		mv.addObject("movieIds", movieIds);
 		if(titles.isEmpty())
@@ -240,60 +244,60 @@ public class RecommenderController {
 
 		return mv;
 	}
-	
-	
-//	private List<Movie> getItems(String item, String algorithm) {
-//
-//		System.out.println(item);
-//		LenskitConfiguration config = new LenskitConfiguration();
-//		config.bind(GlobalItemScorer.class).to(ItemItemGlobalScorer.class);
-//		if(algorithm != null && algorithm.contentEquals("Pearson"))
-//			config.within(ItemVectorSimilarity.class).bind(VectorSimilarity.class).to(PearsonCorrelation.class);
-//
-//		try {
-//			DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
-//
-//			Connection conn = DBConnection.getConection();
-//			
-//			JDBCRatingDAOBuilder jdbcDaoBuilder = JDBCRatingDAO.newBuilder();
-//			jdbcDaoBuilder.setTableName("test_ratings");
-//			jdbcDaoBuilder.setItemColumn("movieId");
-//			jdbcDaoBuilder.setUserColumn("userId");
-//			jdbcDaoBuilder.setTimestampColumn("timestamp");
-//			jdbcDaoBuilder.setRatingColumn("rating");
-//
-//			JDBCRatingDAO dao = jdbcDaoBuilder.build(conn);
-//
-//			config.addComponent(dao);
-//			System.out.println(config);
-//			LenskitRecommender rec = LenskitRecommender.build(config);
-//
-//			GlobalItemRecommender globalItemRecommender = rec.getGlobalItemRecommender();
-//
-//			Set<Long> items = new HashSet<Long>();
-//			items.add(Long.parseLong(item));
-//			List<ScoredId> recommendations = globalItemRecommender.globalRecommend(items, 20);
-//
-//			MovieDao movieDao = new MovieDao();
-//			movieDao.getMoviesByIds(recommendations);
-//			for (Movie movie : movieDao.getMoviesByIds(recommendations)) {
-//				System.out.println("Movie Id: " + movie.getId() + " , Title : " + movie.getTitle() + " Genre : " + movie.getGenre());
-//			}
-//
-//			
-//			System.out.println("###############################");
-//
-//			return movieDao.getMoviesByIds(recommendations);
-//		} catch (RecommenderBuildException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
-	
+
+
+	//	private List<Movie> getItems(String item, String algorithm) {
+	//
+	//		System.out.println(item);
+	//		LenskitConfiguration config = new LenskitConfiguration();
+	//		config.bind(GlobalItemScorer.class).to(ItemItemGlobalScorer.class);
+	//		if(algorithm != null && algorithm.contentEquals("Pearson"))
+	//			config.within(ItemVectorSimilarity.class).bind(VectorSimilarity.class).to(PearsonCorrelation.class);
+	//
+	//		try {
+	//			DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+	//
+	//			Connection conn = DBConnection.getConection();
+	//			
+	//			JDBCRatingDAOBuilder jdbcDaoBuilder = JDBCRatingDAO.newBuilder();
+	//			jdbcDaoBuilder.setTableName("test_ratings");
+	//			jdbcDaoBuilder.setItemColumn("movieId");
+	//			jdbcDaoBuilder.setUserColumn("userId");
+	//			jdbcDaoBuilder.setTimestampColumn("timestamp");
+	//			jdbcDaoBuilder.setRatingColumn("rating");
+	//
+	//			JDBCRatingDAO dao = jdbcDaoBuilder.build(conn);
+	//
+	//			config.addComponent(dao);
+	//			System.out.println(config);
+	//			LenskitRecommender rec = LenskitRecommender.build(config);
+	//
+	//			GlobalItemRecommender globalItemRecommender = rec.getGlobalItemRecommender();
+	//
+	//			Set<Long> items = new HashSet<Long>();
+	//			items.add(Long.parseLong(item));
+	//			List<ScoredId> recommendations = globalItemRecommender.globalRecommend(items, 20);
+	//
+	//			MovieDao movieDao = new MovieDao();
+	//			movieDao.getMoviesByIds(recommendations);
+	//			for (Movie movie : movieDao.getMoviesByIds(recommendations)) {
+	//				System.out.println("Movie Id: " + movie.getId() + " , Title : " + movie.getTitle() + " Genre : " + movie.getGenre());
+	//			}
+	//
+	//			
+	//			System.out.println("###############################");
+	//
+	//			return movieDao.getMoviesByIds(recommendations);
+	//		} catch (RecommenderBuildException e) {
+	//			// TODO Auto-generated catch block
+	//			e.printStackTrace();
+	//		} catch (SQLException e) {
+	//			// TODO Auto-generated catch block
+	//			e.printStackTrace();
+	//		}
+	//		return null;
+	//	}
+
 	@RequestMapping("/test")
 	public ModelAndView test(){
 		ModelDao m = new ModelDaoImpl();
@@ -326,7 +330,7 @@ public class RecommenderController {
 		u.setHaveSeen(0);
 		u.setAlgorithmScores(hmap);
 		//v.submitFeedback(u);
-		
+
 		int pp = 1;
 		return null;
 	}

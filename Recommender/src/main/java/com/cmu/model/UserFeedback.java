@@ -22,11 +22,21 @@ public class UserFeedback {
 	 */
 	private int haveSeen;
 	
+	private String username;
+	
 	/* 
 	 * All algorithms which predicted this movie and their scores
 	 */
 	private Map<Algorithm,Double> algorithmScores;
 
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
 	public List<Long> getMovieIds() {
 		return Arrays.asList(movieId);
 	}
