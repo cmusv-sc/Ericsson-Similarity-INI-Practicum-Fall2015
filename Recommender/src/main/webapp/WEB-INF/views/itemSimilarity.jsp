@@ -36,7 +36,7 @@
 			var code = '<h4>'
 					+ arrayOfTitles[itemPosition]
 					+ '</h4>'
-					+ '<a href="#" data-toggle="popover" title="'+arrayOfTitles[itemPosition]+'" data-content="'+arrayOfPlots[itemPosition]+'">'
+					+ '<a data-toggle="popover" title="'+arrayOfTitles[itemPosition]+'" data-content="'+arrayOfPlots[itemPosition]+'">'
 					+ '<img' 
 					+ '	src="'+arrayOfPosters[itemPosition]+'"' 
 					+ '	alt="Mountain View" class="img-responsive"' 
@@ -108,8 +108,8 @@
 		function popoverRefresh(){
 			$('[data-toggle="popover"]').popover({
 		        container: 'body', // Popover scrolls with body
-		        placement: 'top'
-
+		        placement: 'top',
+				trigger: 'hover'
 		    });;
 		}
 		
@@ -135,6 +135,7 @@
 		function logout(){
 		    window.location.href = "<c:url value="j_spring_security_logout" />";
 		}
+	
 	</script>
 
 	<div class="container">
