@@ -42,11 +42,7 @@
 		}
 
 		function getNewItem(id) {
-			$("#movie" + id).fadeOut();
-
 			if (itemPosition < arraySize) {
-				$("#movie" + id).fadeIn();
-
 				document.getElementById("movie".concat(id)).innerHTML = nextItem();
 				document.getElementById("movie".concat(id)).id = "movie"
 						+ arrayOfIds[itemPosition - 1];
@@ -66,47 +62,72 @@
 			getNewItem("Eleventh");
 			getNewItem("Twelth");
 		});
-		
-		
+
 		function retrieveMovies() {
 			if ($("#searchPhrase").val().length < 3)
 				alert("Please, enter a minimum of 3 characters to search for a movie.")
 			else
-				window.location
-						.replace("/Recommender/search?searchString="
-								+ $("#searchPhrase").val());
+				window.location.replace("/Recommender/search?searchString="
+						+ $("#searchPhrase").val());
+		}
+
+		function logout() {
+			window.location.href = "<c:url value="j_spring_security_logout" />";
 		}
 		
-		function logout(){
-		    window.location.href = "<c:url value="j_spring_security_logout" />";
+		function yHandler(){
+			var wrap = document.getElementById('wrap');
+			var contentHeight = wrap.offsetHeight;
+			var yOffset = window.pageYOffset; 
+			var y = yOffset + window.innerHeight;
+			if(y >= contentHeight){
+				wrap.innerHTML += '<div class="row"> '+
+					'<div id="movieNew1" class="col-xs-3 col-lg-3"></div>' + 
+					'<div id="movieNew2" class="col-xs-3 col-lg-3"></div>' + 
+					'<div id="movieNew3" class="col-xs-3 col-lg-3"></div>' + 
+					'<div id="movieNew4" class="col-xs-3 col-lg-3"></div>' + 
+				'</div>';
+			}
+			getNewItem("New1");
+			getNewItem("New2");
+			getNewItem("New3");
+			getNewItem("New4");
+
 		}
+		window.onscroll = yHandler;
 	</script>
 
 	<div class="container">
 		<div class="row">
 
 			<div class="col-xs-3 col-lg-3">
-				<a href="/Recommender/home" style="text-decoration:none"><h3 class="text-muted">Item-Item Similarity</h3></a>
+				<a href="/Recommender/home" style="text-decoration: none"><h3
+						class="text-muted">Item-Item Similarity</h3></a>
 			</div>
 
 
-			<div class="col-lg-6 "  style="margin-top: 20px;">
+			<div class="col-lg-6 " style="margin-top: 20px;">
 				<div class="input-group">
-					<input id="searchPhrase" type="text" class="form-control" placeholder="Search for...">
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="button" onclick="retrieveMovies()" >Search</button>
+					<input id="searchPhrase" type="text" class="form-control"
+						placeholder="Search for..."> <span class="input-group-btn">
+						<button class="btn btn-default" type="button"
+							onclick="retrieveMovies()">Search</button>
 					</span>
 				</div>
 				<!-- /input-group -->
 			</div>
-			
-			<div class="col-xs-1 col-lg-1 col-md-offset-1" style="margin-top: 20px;">
-				<button class="btn btn-default" onclick="return logout()"> Logout </button> 
+
+			<div class="col-xs-1 col-lg-1 col-md-offset-1"
+				style="margin-top: 20px;">
+				<button class="btn btn-default" onclick="return logout()">
+					Logout</button>
 			</div>
-			
+
 			<!-- /.col-lg-6 -->
 
 		</div>
+
+
 		<div class="row">
 
 			<div id="movieFirst" class="col-xs-3 col-lg-3"></div>
@@ -131,6 +152,8 @@
 			<div id="movieTwelth" class="col-xs-3 col-lg-3"></div>
 
 		</div>
+
+		<div id="wrap"></div>
 
 	</div>
 </body>
