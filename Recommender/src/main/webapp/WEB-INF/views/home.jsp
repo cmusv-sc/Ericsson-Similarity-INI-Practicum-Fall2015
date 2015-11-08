@@ -92,6 +92,10 @@ h4 {text-align:center;}
 		function logout() {
 			window.location.href = "<c:url value="j_spring_security_logout" />";
 		}
+		
+		function ranking() {
+			window.location
+			.replace("/Recommender/ranking");		}
 
 		$(document).ready(function(){
 		    $(".nav-tabs a").click(function(){
@@ -126,7 +130,13 @@ h4 {text-align:center;}
 				<!-- /input-group -->
 			</div>
 
-			<div class="col-xs-1 col-lg-1 col-md-offset-1"
+			<div class="col-xs-1 col-lg-1 "
+				style="margin-top: 20px;">
+				<button class="btn btn-default" onclick="return ranking()">
+					Ranking</button>
+			</div>
+
+			<div class="col-xs-1 col-lg-1 "
 				style="margin-top: 20px;">
 				<button class="btn btn-default" onclick="return logout()">
 					Logout</button>

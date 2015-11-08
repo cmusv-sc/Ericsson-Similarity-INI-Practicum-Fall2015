@@ -9,7 +9,9 @@
 <link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>"
 	rel="stylesheet">
 <style>
-
+h4 {
+	text-align: center;
+}
 </style>
 </head>
 
@@ -113,7 +115,8 @@
 
 
 		<div id="Ranking" class="col-xs-4 col-lg-4 col-md-offset-4" style="margin-top: 50px;">
-		<table id="table" class="table">
+		<h4>Item-Item Similarity Ranking</h4>
+		<table id="table" class="table" style="margin-top: 20px;">
 		</table>
 		</div>
 
