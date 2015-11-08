@@ -2,7 +2,6 @@ package com.cmu.controller;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmu.dao.UserDetailsDaoImpl;
-import com.cmu.model.User;
+import com.cmu.model.UserDetails;
 
 
 @Controller
@@ -29,7 +28,7 @@ public class RankingController {
 	  UserDetailsDaoImpl userDetailsDaoImpl = new UserDetailsDaoImpl(username);
 	  List<String> users = new ArrayList<String>();
 	  List<String> ratings = new ArrayList<String>();
-	  HashMap<User, Integer> ratingsPerUser = userDetailsDaoImpl.getNumberOfRatedMoviesPerUser();
+	  List<UserDetails> ratingsPerUser = userDetailsDaoImpl.getNumberOfRatedMoviesPerUser();
 	  
 	  /*
 	  for (User user : ratingsPerUser.keySet()){
