@@ -71,7 +71,36 @@ public class UserDetailsDaoImpl implements UserDetailsDao{
 	public List<UserDetails> getNumberOfRatedMoviesPerUser(){
 		List<UserDetails> ratingsPerUser = new ArrayList<UserDetails>();
 		
-		//TODO
+		try {
+			//DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			DriverManager.registerDriver(new org.postgresql.Driver ());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Connection conn = DBConnection.getConection();
+		ResultSet rs;
+		String sqlString = "select username, count(*) as c from evaluation group by username order by c desc";
+		RecommendationDaoImpl rd = new RecommendationDaoImpl();
+		try {
+			PreparedStatement statement = conn.prepareStatement(sqlString);
+			rs = statement.executeQuery();
+			while (rs.next()) {
+				UserDetails ud = new UserDetails();
+				User us = new User();
+				us.setLogin(rs.getString("username"));
+				ud.setUser(us);
+				ud.setNumberOfRatedMovies(rs.getInt("c"));
+				ratingsPerUser.add(ud);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		return ratingsPerUser;
 	}
