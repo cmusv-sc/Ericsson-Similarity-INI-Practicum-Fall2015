@@ -30,19 +30,13 @@ public class RankingController {
 	  List<String> ratings = new ArrayList<String>();
 	  List<UserDetails> ratingsPerUser = userDetailsDaoImpl.getNumberOfRatedMoviesPerUser();
 	  
-	  /*
-	  for (User user : ratingsPerUser.keySet()){
-		  users.add(user.getLogin());
-		  ratings.add(ratingsPerUser.get(user).toString());
-	  }
-      */
 	  
-	  for(int i=0; i<10; i++){
-		  users.add("User" + i);
-		  ratings.add(""+i*71);
+	  for (UserDetails userdetail : ratingsPerUser){
+		  users.add(userdetail.getUser().getLogin());
+		  ratings.add(String.valueOf(userdetail.getNumberOfRatedMovies()));
 	  }
-	  users.add(username);
-	  ratings.add("12312");
+      
+	  
 	  model.addObject("users", ControllerHelper.createSemicolonSeparatedStringFromArray(users));
 	  model.addObject("ratings", ControllerHelper.createSemicolonSeparatedStringFromArray(ratings));
 	  model.addObject("username", username);

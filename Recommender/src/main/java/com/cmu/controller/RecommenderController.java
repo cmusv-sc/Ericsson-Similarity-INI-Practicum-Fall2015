@@ -30,6 +30,7 @@ import com.cmu.interfaces.SearchDao;
 import com.cmu.interfaces.UserDetailsDao;
 import com.cmu.model.ItemScore;
 import com.cmu.model.Movie;
+import com.cmu.model.UserDetails;
 import com.cmu.model.UserFeedback;
 import com.cmu.recommendationEngine.RecommendationBuilder;
 
@@ -320,7 +321,10 @@ public class RecommenderController {
 		//v.submitFeedback(u);
 		
 		UserDetailsDao ud = new UserDetailsDaoImpl("");
-		List<Movie> mu = ud.getUserRatedMovies("user1@user.com", 52L);
+		//List<Movie> mu = ud.getUserRatedMovies("user1@user.com", 52L);
+		
+		UserDetailsDaoImpl userDetailsDaoImpl = new UserDetailsDaoImpl("");
+		List<UserDetails> ratingsPerUser = userDetailsDaoImpl.getNumberOfRatedMoviesPerUser();
 
 		int pp = 1;
 		return null;
