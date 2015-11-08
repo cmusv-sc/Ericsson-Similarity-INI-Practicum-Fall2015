@@ -21,4 +21,27 @@ public class AdminController {
 
 	}
 	
+	@RequestMapping(value = "/admin/statistics", method = RequestMethod.GET)
+	public ModelAndView statistics() {
+
+	  ModelAndView model = new ModelAndView();
+	  
+	  model.setViewName("admin");
+
+	  return model;
+
+	}
+	
+	@RequestMapping(value = "/admin/algorithm", method = RequestMethod.GET)
+	public ModelAndView algorithm() {
+
+	  ModelAndView model = new ModelAndView();
+	  
+	  model.setViewName("admin");
+
+	  return model;
+
+	}
+	
+	
 }
