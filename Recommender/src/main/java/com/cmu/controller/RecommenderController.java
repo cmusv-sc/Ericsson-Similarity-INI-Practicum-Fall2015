@@ -73,27 +73,14 @@ public class RecommenderController {
 
 		mv.addObject("selectedMovieId", movie.getId());
 		mv.addObject("selectedPoster", movie.getPoster());
-		mv.addObject("posters", createSemicolonSeparatedStringFromArray(posters));
+		mv.addObject("posters", ControllerHelper.createSemicolonSeparatedStringFromArray(posters));
 		mv.addObject("synopsys", movie.getSynopsis());
 		mv.addObject("movieIds", movieIds);
-		mv.addObject("movieTitles", createSemicolonSeparatedStringFromArray(movieTitles));
-		mv.addObject("moviesPlots", createSemicolonSeparatedStringFromArray(moviesPlots));
+		mv.addObject("movieTitles", ControllerHelper.createSemicolonSeparatedStringFromArray(movieTitles));
+		mv.addObject("moviesPlots", ControllerHelper.createSemicolonSeparatedStringFromArray(moviesPlots));
 		mv.addObject("selectedMovieTitle", movie.getTitle() + " (" + movie.getYear()+ ")");
 		mv.addObject("item", item);
 		return mv;
-	}
-
-	private String createSemicolonSeparatedStringFromArray(List<String> array){
-		StringBuilder nameBuilder = new StringBuilder();
-
-		for (String n : array) {
-			nameBuilder.append(n.replace("\"", "\'")).append("||");
-		}
-
-		nameBuilder.deleteCharAt(nameBuilder.length() - 1);
-		nameBuilder.deleteCharAt(nameBuilder.length() - 1);
-
-		return nameBuilder.toString();
 	}
 
 	@RequestMapping("/itemSimilarityType2")
@@ -128,8 +115,8 @@ public class RecommenderController {
 		mv.addObject("posters", posters);
 		mv.addObject("synopsys", movie.getSynopsis());
 		mv.addObject("movieIds", movieIds);
-		mv.addObject("movieTitles", createSemicolonSeparatedStringFromArray(movieTitles));
-		mv.addObject("moviesPlots", createSemicolonSeparatedStringFromArray(moviesPlots));
+		mv.addObject("movieTitles", ControllerHelper.createSemicolonSeparatedStringFromArray(movieTitles));
+		mv.addObject("moviesPlots", ControllerHelper.createSemicolonSeparatedStringFromArray(moviesPlots));
 		mv.addObject("selectedMovieTitle", movie.getTitle());
 		mv.addObject("item", item);
 		return mv;
@@ -149,9 +136,9 @@ public class RecommenderController {
 			posters.add(movie.getPoster());
 		}
 
-		mv.addObject("posters", createSemicolonSeparatedStringFromArray(posters));
+		mv.addObject("posters", ControllerHelper.createSemicolonSeparatedStringFromArray(posters));
 		mv.addObject("movieIds", movieIds);
-		mv.addObject("movieTitles", createSemicolonSeparatedStringFromArray(movieTitles));
+		mv.addObject("movieTitles", ControllerHelper.createSemicolonSeparatedStringFromArray(movieTitles));
 		return mv;
 	}
 
@@ -236,12 +223,12 @@ public class RecommenderController {
 			System.out.println(m.getTitle());
 		}
 
-		mv.addObject("posters", createSemicolonSeparatedStringFromArray(posters));
+		mv.addObject("posters", ControllerHelper.createSemicolonSeparatedStringFromArray(posters));
 		mv.addObject("movieIds", movieIds);
 		if(titles.isEmpty())
 			mv.addObject("movieTitles", titles);
 		else
-			mv.addObject("movieTitles", createSemicolonSeparatedStringFromArray(titles));
+			mv.addObject("movieTitles", ControllerHelper.createSemicolonSeparatedStringFromArray(titles));
 
 		return mv;
 	}

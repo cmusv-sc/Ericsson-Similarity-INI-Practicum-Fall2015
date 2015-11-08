@@ -12,7 +12,8 @@
 		<intercept-url pattern="/home" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/itemSimilarity**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/settings**" access="hasRole('ROLE_USER')" />
-
+		<intercept-url pattern="/ranking**" access="hasRole('ROLE_USER')" />
+		
 
 		<form-login login-page="/login" default-target-url="/home"
 			authentication-failure-url="/login?error" username-parameter="username"

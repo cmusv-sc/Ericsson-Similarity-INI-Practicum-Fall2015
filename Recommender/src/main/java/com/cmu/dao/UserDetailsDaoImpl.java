@@ -6,11 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.cmu.interfaces.RecommendationDao;
 import com.cmu.interfaces.UserDetailsDao;
 import com.cmu.model.Movie;
+import com.cmu.model.User;
 
 public class UserDetailsDaoImpl implements UserDetailsDao{
 
@@ -63,6 +65,14 @@ public class UserDetailsDaoImpl implements UserDetailsDao{
 	public int getNumberOfRatedMovies(String username) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public HashMap<User, Integer> getNumberOfRatedMoviesPerUser(){
+		HashMap<User, Integer> ratingsPerUser = new HashMap<User, Integer>();
+		
+		//TODO
+		
+		return ratingsPerUser;
 	}
 
 }

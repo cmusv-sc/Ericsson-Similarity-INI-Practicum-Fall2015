@@ -8,7 +8,18 @@
 <title>Similarity Project</title>
 <link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>"
 	rel="stylesheet">
+<style>
+.centerBlock {
+	display: table;
+	margin: 0 auto;
+}
+
+h4 {
+	text-align: center;
+}
+</style>
 </head>
+
 <body>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -27,16 +38,16 @@
 				return;
 			}
 			var item = arrayOfIds[itemPosition];
-			var code = '<h4>'
-					+ arrayOfTitles[itemPosition]
-					+ '</h4>'
-					+ '<a href = "/Recommender/itemSimilarity?item='
-					+ item
-					+ '">'
-					+ '<img' +
-		'	src="'+arrayOfPosters[itemPosition]+'"' +
-		'	style="height: 206px; width: 144px"' +
-		'	alt="Mountain View" class="img-responsive"></a>';
+			var code = '<a class="centerBlock" href = "/Recommender/itemSimilarity?item='
+				+ item
+				+ '">'
+				+ '<img' +
+	'	src="'+arrayOfPosters[itemPosition]+'"' +
+	'	style="height: 206px; width: 144px"' +
+	'	alt="Mountain View" class="img-responsive centerBlock"></a>' +
+	'<h4 class="centerBlock" id="title' + arrayOfIds[itemPosition] + '">'
+	+ arrayOfTitles[itemPosition]
+	+ '</h4>';
 			itemPosition++;
 			return code;
 		}
@@ -82,10 +93,10 @@
 			var y = yOffset + window.innerHeight;
 			if(y >= contentHeight){
 				wrap.innerHTML += '<div class="row"> '+
-					'<div id="movieNew1" class="col-xs-3 col-lg-3"></div>' + 
-					'<div id="movieNew2" class="col-xs-3 col-lg-3"></div>' + 
-					'<div id="movieNew3" class="col-xs-3 col-lg-3"></div>' + 
-					'<div id="movieNew4" class="col-xs-3 col-lg-3"></div>' + 
+					'<div id="movieNew1" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
+					'<div id="movieNew2" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
+					'<div id="movieNew3" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
+					'<div id="movieNew4" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
 				'</div>';
 			}
 			getNewItem("New1");
@@ -128,15 +139,15 @@
 		</div>
 
 
-		<div class="row">
+		<div class="row" style="margin-top:25px;">
 
-			<div id="movieFirst" class="col-xs-3 col-lg-3"></div>
+			<div id="movieFirst" class="col-xs-3 col-lg-3" ></div>
 			<div id="movieSecond" class="col-xs-3 col-lg-3"></div>
 			<div id="movieThird" class="col-xs-3 col-lg-3"></div>
 			<div id="movieFourth" class="col-xs-3 col-lg-3"></div>
 
 		</div>
-		<div class="row">
+		<div class="row" style="margin-top:25px;">
 
 			<div id="movieFifth" class="col-xs-3 col-lg-3"></div>
 			<div id="movieSixth" class="col-xs-3 col-lg-3"></div>
@@ -144,7 +155,7 @@
 			<div id="movieEighth" class="col-xs-3 col-lg-3"></div>
 
 		</div>
-		<div class="row">
+		<div class="row" style="margin-top:25px;">
 
 			<div id="movieNinth" class="col-xs-3 col-lg-3"></div>
 			<div id="movieTenth" class="col-xs-3 col-lg-3"></div>
