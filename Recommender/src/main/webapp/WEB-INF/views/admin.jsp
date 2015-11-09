@@ -12,6 +12,11 @@
 h4 {
 	text-align: center;
 }
+.centerBlock {
+	display: table;
+	margin: 0 auto;
+}
+
 </style>
 </head>
 
@@ -25,7 +30,12 @@ h4 {
 			window.location.href = "<c:url value="j_spring_security_logout" />";
 		}
 		
-		
+		function algorithms() {
+			window.location.href = "/Recommender/admin/algorithm";
+		}
+		function statistics() {
+			window.location.href = "/Recommender/admin/statistics";
+		}
 		$(document).ready(function() {
 
 		});
@@ -48,7 +58,16 @@ h4 {
 			<!-- /.col-lg-6 -->
 
 		</div>
-
+		<div class="row">
+			<div class="col-xs-2 col-lg-2 col-md-offset-5 "
+				style="margin-top:60px;">
+				<button class="btn btn-default centerBlock" onclick="return algorithms()">Algorithms Management</button>
+			</div>
+			<div class="col-xs-2 col-lg-2 col-md-offset-5 "
+				style="margin-top: 20px;">
+				<button class="btn btn-default centerBlock" onclick="return statistics()">Statistics</button>
+			</div>
+		</div>
 
 	</div>
 </body>

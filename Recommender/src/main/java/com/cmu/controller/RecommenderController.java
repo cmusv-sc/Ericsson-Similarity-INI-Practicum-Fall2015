@@ -30,7 +30,6 @@ import com.cmu.interfaces.SearchDao;
 import com.cmu.interfaces.UserDetailsDao;
 import com.cmu.model.ItemScore;
 import com.cmu.model.Movie;
-import com.cmu.model.UserDetails;
 import com.cmu.model.UserFeedback;
 import com.cmu.recommendationEngine.RecommendationBuilder;
 
@@ -144,7 +143,7 @@ public class RecommenderController {
 		for(Movie movie : r.getPopularMovies(50)){
 			popularPosters.add(movie.getPoster());
 			popularMovieIds.add(movie.getId());
-			popularMovieTitles.add(movie.getTitle());
+			popularMovieTitles.add(movie.getTitle()  + " (" + movie.getYear() + ")");
 		}
 		
 		mv.addObject("posters", ControllerHelper.createSemicolonSeparatedStringFromArray(posters));
