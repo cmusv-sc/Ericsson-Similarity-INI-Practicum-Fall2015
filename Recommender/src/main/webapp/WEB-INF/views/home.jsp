@@ -10,10 +10,13 @@
 	rel="stylesheet">
 <style>
 .centerBlock {
-                display: table;
-                margin: 0 auto;
-            }
-h4 {text-align:center;}
+	display: table;
+	margin: 0 auto;
+}
+
+h4 {
+	text-align: center;
+}
 </style>
 </head>
 <body>
@@ -28,8 +31,16 @@ h4 {text-align:center;}
 		var posterLen = "${posters}".length;
 		var arrayOfTitles = "${movieTitles}".split("||");
 		var arrayOfPosters = "${posters}".split("||");
-
 		var itemPosition = 0;
+
+		var popularArrayOfIds = JSON.parse("${popularMovieIds}");
+		var popularArraySize = "${popularMovieIds.size()}";
+		var popularStrLen = "${popularMovieTitles}".length;
+		var popularPosterLen = "${popularPosters}".length;
+		var popularArrayOfTitles = "${popularMovieTitles}".split("||");
+		var popularArrayOfPosters = "${popularPosters}".split("||");
+		var popularItemPosition = 0;
+
 
 		function nextItem() {
 			if (itemPosition > arraySize) {
@@ -49,7 +60,25 @@ h4 {text-align:center;}
 			itemPosition++;
 			return code;
 		}
-
+		function nextPopularItem() {
+			if (popularItemPosition > popularArraySize) {
+				return;
+			}
+			var item = popularArrayOfIds[popularItemPosition];
+			var code = '<a class="centerBlock" href = "/Recommender/itemSimilarity?item='
+					+ item
+					+ '">'
+					+ '<img' +
+		'	src="'+popularArrayOfPosters[popularItemPosition]+'"' +
+		'	style="height: 206px; width: 144px"' +
+		'	alt="Mountain View" class="img-responsive centerBlock"></a>' +
+		'<h4 class="centerBlock" id="title' + popularArrayOfIds[popularItemPosition] + '">'
+		+ popularArrayOfTitles[popularItemPosition]
+		+ '</h4>';
+		popularItemPosition++;
+			return code;
+		}
+		
 		function getNewItem(id) {
 			$("#movie" + id).fadeOut();
 
@@ -63,21 +92,26 @@ h4 {text-align:center;}
 			}
 			
 		}
+		function getNewPopularItem(id) {
+			$("#movie" + id).fadeOut();
+
+			if (popularItemPosition < popularArraySize) {
+				$("#movie" + id).fadeIn();
+
+				document.getElementById("movie".concat(id)).innerHTML = nextPopularItem();
+				document.getElementById("movie".concat(id)).id = "movie"
+						+ popularArrayOfIds[popularItemPosition - 1];
+				
+			}
+			
+		}
 		
 		
 		$(document).ready(function() {
-			getNewItem("First");
-			getNewItem("Second");
-			getNewItem("Third");
-			getNewItem("Fourth");
-			getNewItem("Fifth");
-			getNewItem("Sixth");
-			getNewItem("Seventh");
-			getNewItem("Eighth");
-			getNewItem("Ninth");
-			getNewItem("Tenth");
-			getNewItem("Eleventh");
-			getNewItem("Twelth");
+			for(i=1; i<=12; i++){
+				getNewItem("R".concat(i));
+				getNewPopularItem("P".concat(i));
+			}
 		});
 
 		function retrieveMovies() {
@@ -107,6 +141,50 @@ h4 {text-align:center;}
 			window.location
 			.replace("/Recommender/settings");
 		}
+		
+		function yHandler(){
+			if(itemPosition < arraySize){
+				var wrap = document.getElementById('wrap');
+				var contentHeight = wrap.offsetHeight;
+				var yOffset = window.pageYOffset; 
+				var y = yOffset + window.innerHeight;
+				if(y >= contentHeight){
+					wrap.innerHTML += '<div class="row"> '+
+						'<div id="movieNew1" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
+						'<div id="movieNew2" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
+						'<div id="movieNew3" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
+						'<div id="movieNew4" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
+					'</div>';
+				}
+				getNewItem("New1");
+				getNewItem("New2");
+				getNewItem("New3");
+				getNewItem("New4");
+			}
+		}
+		window.onscroll = yHandler;
+		
+		function yPHandler(){
+			if(popularItemPosition < popularArraySize){
+				var wrap = document.getElementById('popularwrap');
+				var contentHeight = wrap.offsetHeight;
+				var yOffset = window.pageYOffset; 
+				var y = yOffset + window.innerHeight;
+				if(y >= contentHeight){
+					wrap.innerHTML += '<div class="row"> '+
+						'<div id="moviePNew1" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
+						'<div id="moviePNew2" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
+						'<div id="moviePNew3" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
+						'<div id="moviePNew4" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
+					'</div>';
+				}
+				getNewPopularItem("PNew1");
+				getNewPopularItem("PNew2");
+				getNewPopularItem("PNew3");
+				getNewPopularItem("PNew4");
+			}
+		}
+		window.onscroll = yPHandler;
 	</script>
 
 	<div class="container">
@@ -130,14 +208,12 @@ h4 {text-align:center;}
 				<!-- /input-group -->
 			</div>
 
-			<div class="col-xs-1 col-lg-1 "
-				style="margin-top: 20px;">
+			<div class="col-xs-1 col-lg-1 " style="margin-top: 20px;">
 				<button class="btn btn-default" onclick="return ranking()">
 					Ranking</button>
 			</div>
 
-			<div class="col-xs-1 col-lg-1 "
-				style="margin-top: 20px;">
+			<div class="col-xs-1 col-lg-1 " style="margin-top: 20px;">
 				<button class="btn btn-default" onclick="return logout()">
 					Logout</button>
 			</div>
@@ -159,58 +235,61 @@ h4 {text-align:center;}
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane fade in active" id="random">
 
-				<div class="row" style="margin-top:20px;">
+				<div class="row" style="margin-top: 20px;">
 
-					<div id="movieFirst" class="col-xs-3 col-lg-3"></div>
-					<div id="movieSecond" class="col-xs-3 col-lg-3"></div>
-					<div id="movieThird" class="col-xs-3 col-lg-3"></div>
-					<div id="movieFourth" class="col-xs-3 col-lg-3"></div>
-
-				</div>
-				<div class="row" style="margin-top:25px;">
-
-					<div id="movieFifth" class="col-xs-3 col-lg-3"></div>
-					<div id="movieSixth" class="col-xs-3 col-lg-3"></div>
-					<div id="movieSeventh" class="col-xs-3 col-lg-3"></div>
-					<div id="movieEighth" class="col-xs-3 col-lg-3"></div>
+					<div id="movieR1" class="col-xs-3 col-lg-3"></div>
+					<div id="movieR2" class="col-xs-3 col-lg-3"></div>
+					<div id="movieR3" class="col-xs-3 col-lg-3"></div>
+					<div id="movieR4" class="col-xs-3 col-lg-3"></div>
 
 				</div>
-				<div class="row" style="margin-top:25px;">
+				<div class="row" style="margin-top: 25px;">
 
-					<div id="movieNinth" class="col-xs-3 col-lg-3"></div>
-					<div id="movieTenth" class="col-xs-3 col-lg-3"></div>
-					<div id="movieEleventh" class="col-xs-3 col-lg-3"></div>
-					<div id="movieTwelth" class="col-xs-3 col-lg-3"></div>
+					<div id="movieR5" class="col-xs-3 col-lg-3"></div>
+					<div id="movieR6" class="col-xs-3 col-lg-3"></div>
+					<div id="movieR7" class="col-xs-3 col-lg-3"></div>
+					<div id="movieR8" class="col-xs-3 col-lg-3"></div>
 
 				</div>
+				<div class="row" style="margin-top: 25px;">
+
+					<div id="movieR9" class="col-xs-3 col-lg-3"></div>
+					<div id="movieR10" class="col-xs-3 col-lg-3"></div>
+					<div id="movieR11" class="col-xs-3 col-lg-3"></div>
+					<div id="movieR12" class="col-xs-3 col-lg-3"></div>
+
+				</div>
+				<div id="wrap"></div>
 
 			</div>
 			<div role="tabpanel" class="tab-pane fade" id="popular">
 
-				<div class="row">
+				<div class="row" style="margin-top: 20px;">
 
-					<div id="movieFirst" class="col-xs-3 col-lg-3"></div>
-					<div id="movieSecond" class="col-xs-3 col-lg-3"></div>
-					<div id="movieThird" class="col-xs-3 col-lg-3"></div>
-					<div id="movieFourth" class="col-xs-3 col-lg-3"></div>
-
-				</div>
-				<div class="row" style="margin-top:20px;">
-
-					<div id="movieFifth" class="col-xs-3 col-lg-3"></div>
-					<div id="movieSixth" class="col-xs-3 col-lg-3"></div>
-					<div id="movieSeventh" class="col-xs-3 col-lg-3"></div>
-					<div id="movieEighth" class="col-xs-3 col-lg-3"></div>
+					<div id="movieP1" class="col-xs-3 col-lg-3"></div>
+					<div id="movieP2" class="col-xs-3 col-lg-3"></div>
+					<div id="movieP3" class="col-xs-3 col-lg-3"></div>
+					<div id="movieP4" class="col-xs-3 col-lg-3"></div>
 
 				</div>
-				<div class="row" style="margin-top:20px;">
+				<div class="row" style="margin-top: 20px;">
 
-					<div id="movieNinth" class="col-xs-3 col-lg-3"></div>
-					<div id="movieTenth" class="col-xs-3 col-lg-3"></div>
-					<div id="movieEleventh" class="col-xs-3 col-lg-3"></div>
-					<div id="movieTwelth" class="col-xs-3 col-lg-3"></div>
+					<div id="movieP5" class="col-xs-3 col-lg-3"></div>
+					<div id="movieP6" class="col-xs-3 col-lg-3"></div>
+					<div id="movieP7" class="col-xs-3 col-lg-3"></div>
+					<div id="movieP8" class="col-xs-3 col-lg-3"></div>
 
 				</div>
+				<div class="row" style="margin-top: 20px;">
+
+					<div id="movieP9" class="col-xs-3 col-lg-3"></div>
+					<div id="movieP10" class="col-xs-3 col-lg-3"></div>
+					<div id="movieP11" class="col-xs-3 col-lg-3"></div>
+					<div id="movieP12" class="col-xs-3 col-lg-3"></div>
+
+				</div>
+
+				<div id="popularwrap"></div>
 
 			</div>
 

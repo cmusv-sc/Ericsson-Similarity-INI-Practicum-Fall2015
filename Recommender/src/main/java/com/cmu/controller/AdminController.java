@@ -26,7 +26,7 @@ public class AdminController {
 
 	  ModelAndView model = new ModelAndView();
 	  
-	  model.setViewName("admin");
+	  model.setViewName("statistics");
 
 	  return model;
 
@@ -37,7 +37,7 @@ public class AdminController {
 
 	  ModelAndView model = new ModelAndView();
 	  
-	  model.setViewName("admin");
+	  model.setViewName("algorithm");
 
 	  return model;
 

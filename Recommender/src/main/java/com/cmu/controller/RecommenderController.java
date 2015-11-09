@@ -136,10 +136,24 @@ public class RecommenderController {
 			movieTitles.add(movie.getTitle() + " (" + movie.getYear() + ")");
 			posters.add(movie.getPoster());
 		}
-
+		
+		List<String> popularPosters = new ArrayList<String>();
+		List<Long> popularMovieIds = new ArrayList<Long>();
+		List<String> popularMovieTitles = new ArrayList<String>();
+		RecommendationDaoImpl r = new RecommendationDaoImpl();
+		for(Movie movie : r.getPopularMovies(50)){
+			popularPosters.add(movie.getPoster());
+			popularMovieIds.add(movie.getId());
+			popularMovieTitles.add(movie.getTitle());
+		}
+		
 		mv.addObject("posters", ControllerHelper.createSemicolonSeparatedStringFromArray(posters));
 		mv.addObject("movieIds", movieIds);
 		mv.addObject("movieTitles", ControllerHelper.createSemicolonSeparatedStringFromArray(movieTitles));
+		mv.addObject("popularPosters", ControllerHelper.createSemicolonSeparatedStringFromArray(popularPosters));
+		mv.addObject("popularMovieIds", popularMovieIds);
+		mv.addObject("popularMovieTitles", ControllerHelper.createSemicolonSeparatedStringFromArray(popularMovieTitles));
+
 		return mv;
 	}
 
