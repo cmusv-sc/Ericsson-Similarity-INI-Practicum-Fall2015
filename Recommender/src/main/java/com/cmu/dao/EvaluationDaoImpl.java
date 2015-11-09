@@ -3,17 +3,23 @@ package com.cmu.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 import com.cmu.enums.Algorithm;
 import com.cmu.interfaces.EvaluationDao;
+import com.cmu.model.EvaluationStatistics;
 import com.cmu.model.UserFeedback;
 
 public class EvaluationDaoImpl implements EvaluationDao{
 
+	public List<EvaluationStatistics> retrieveStatistics(){
+		
+		return null;
+	}
+	
+	
 	public void submitFeedback(UserFeedback feedback) {
 		try {
 			//DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
