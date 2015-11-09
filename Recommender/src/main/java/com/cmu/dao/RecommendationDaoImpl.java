@@ -13,6 +13,8 @@ import org.grouplens.lenskit.scored.ScoredId;
 import com.cmu.enums.Algorithm;
 import com.cmu.interfaces.RecommendationDao;
 import com.cmu.model.Recommendation;
+import com.cmu.model.User;
+import com.cmu.model.UserDetails;
 
 public class RecommendationDaoImpl implements RecommendationDao{
 
@@ -98,7 +100,6 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		return mv;
 	}
 	
-	//TODO: find out a way to implement this function
 	public List<com.cmu.model.Movie> getMovieDatas(List<Long> ids){
 		try {
 			//DriverManager.registerDriver(new com.mysql.jdbc.Driver());
@@ -175,5 +176,114 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		
 		return movies;
 	}
+	
+	public List<Long> imdbIdtoMovielensId(List<String> ids){
+		try {
+			//DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			DriverManager.registerDriver(new org.postgresql.Driver ());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Connection conn = DBConnection.getConection();
+		List<Long> newid = new ArrayList<Long>();
+		StringBuilder sqlBuilder = new StringBuilder();
+		
+		if(ids.size() == 0)
+			return newid;
+
+		sqlBuilder.append("select * from (select DISTINCT movieid, imdbid from links where imdbid in(");
+		for (int i = 0; i < ids.size(); i++) {
+			sqlBuilder.append(" ?,"); 
+		} 
+
+		sqlBuilder.deleteCharAt(sqlBuilder.length()-1);
+		sqlBuilder.append(" )");
+		//sqlBuilder.append(" ORDER BY FIELD(movieId,");
+
+		//sqlBuilder.deleteCharAt(sqlBuilder.length()-1);
+		sqlBuilder.append(" ) as c join ( values");
+		for (int i = 0; i < ids.size(); i++) {
+			sqlBuilder.append(" (?,?),"); 
+		} 
+		sqlBuilder.deleteCharAt(sqlBuilder.length()-1);
+		sqlBuilder.append(") as x (id, ordering) on c.imdbid = x.id order by x.ordering"); 
+		
+		try {
+			PreparedStatement statement = conn.prepareStatement(sqlBuilder.toString());
+			int index =1;
+			for (int i = 0; i < ids.size(); i++)
+			{
+				statement.setString(index, ids.get(i).substring(2));
+				index++;
+			}
+			/*for (int i = 0; i < ids.size(); i++)
+			{
+				statement.setLong(index, ids.get(i));
+				index++;
+			}*/
+			int index2 =1;
+			for (int i = 0; i < ids.size(); i++)
+			{
+				statement.setString(index, ids.get(i).substring(2));
+				index++;
+				statement.setLong(index, index2);
+				index++;
+				index2++;
+			}
+			ResultSet rs = statement.executeQuery();
+			index = 0;
+			while (rs.next()) {
+				newid.add(rs.getLong("movieid"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return newid;
+	}
+	
+	public List<com.cmu.model.Movie> getPopularMovies(int count){
+		List<com.cmu.model.Movie> result = new ArrayList<com.cmu.model.Movie>();
+		List<String> ids = new ArrayList<String>();
+		
+		try {
+			//DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			DriverManager.registerDriver(new org.postgresql.Driver ());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Connection conn = DBConnection.getTMDBConection();
+		ResultSet rs;
+		String sqlString = "select distinct data->>'imdb_id' as imdb_id, (data->>'revenue')::bigint from tmdb20m order by (data->>'revenue')::bigint desc limit ?";
+		RecommendationDaoImpl rd = new RecommendationDaoImpl();
+		try {
+			PreparedStatement statement = conn.prepareStatement(sqlString);
+			statement.setInt(1, count);
+			rs = statement.executeQuery();
+			while (rs.next()) {
+				ids.add(rs.getString("imdb_id"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		List<Long> movieids = imdbIdtoMovielensId(ids);
+		return getMovieDatas(movieids);
+	}
+
 
 }

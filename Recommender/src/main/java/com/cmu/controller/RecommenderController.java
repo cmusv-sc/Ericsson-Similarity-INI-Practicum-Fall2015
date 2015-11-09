@@ -324,8 +324,9 @@ public class RecommenderController {
 		//List<Movie> mu = ud.getUserRatedMovies("user1@user.com", 52L);
 		
 		UserDetailsDaoImpl userDetailsDaoImpl = new UserDetailsDaoImpl("");
-		List<UserDetails> ratingsPerUser = userDetailsDaoImpl.getNumberOfRatedMoviesPerUser();
-
+		//List<UserDetails> ratingsPerUser = userDetailsDaoImpl.getNumberOfRatedMoviesPerUser();
+		List<Movie> pm = q.getPopularMovies(20);
+		
 		int pp = 1;
 		return null;
 	}

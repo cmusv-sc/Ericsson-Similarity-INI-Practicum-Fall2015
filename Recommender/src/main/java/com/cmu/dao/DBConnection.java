@@ -16,6 +16,7 @@ public class DBConnection {
 	private static ComboPooledDataSource conn = null;
 	private static ComboPooledDataSource usrconn = null;
 	private static ComboPooledDataSource omdbconn = null;
+	private static ComboPooledDataSource tmdbconn = null;
 	
 	private DBConnection() {
 		// TODO Auto-generated constructor stub
@@ -69,10 +70,12 @@ public class DBConnection {
 			               connectionProps);*/
 				conn = new ComboPooledDataSource();
 				omdbconn = new ComboPooledDataSource();
+				tmdbconn = new ComboPooledDataSource();
 				usrconn = new ComboPooledDataSource();
 				try {
 					conn.setDriverClass("org.postgresql.Driver");
 					omdbconn.setDriverClass("org.postgresql.Driver");
+					tmdbconn.setDriverClass("org.postgresql.Driver");
 					usrconn.setDriverClass("org.postgresql.Driver");
 				} catch (PropertyVetoException e) {
 					// TODO Auto-generated catch block
@@ -85,6 +88,10 @@ public class DBConnection {
 				omdbconn.setJdbcUrl("jdbc:postgresql://54.218.101.198:5432/OMDB");
 				omdbconn.setUser("ini");
 				omdbconn.setPassword("a12345");
+				
+				tmdbconn.setJdbcUrl("jdbc:postgresql://54.218.101.198:5432/TMDB");
+				tmdbconn.setUser("ini");
+				tmdbconn.setPassword("a12345");
 				
 				usrconn.setJdbcUrl("jdbc:postgresql://54.218.101.198:5432/Users");
 				usrconn.setUser("ini");
@@ -99,6 +106,11 @@ public class DBConnection {
 				omdbconn.setAcquireIncrement(5);
 				omdbconn.setMaxPoolSize(20);
 				omdbconn.setMaxStatements(180);
+				
+				tmdbconn.setMinPoolSize(5);
+				tmdbconn.setAcquireIncrement(5);
+				tmdbconn.setMaxPoolSize(20);
+				tmdbconn.setMaxStatements(180);
 		        
 				usrconn.setMinPoolSize(5);
 				usrconn.setAcquireIncrement(5);
@@ -150,6 +162,21 @@ public class DBConnection {
 	    //return omdbconn;
 		try {
 			return omdbconn.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static synchronized Connection getTMDBConection()
+	{
+		if(tmdbconn==null)
+			new DBConnection();
+		
+	    //return tmdbconn;
+		try {
+			return tmdbconn.getConnection();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
