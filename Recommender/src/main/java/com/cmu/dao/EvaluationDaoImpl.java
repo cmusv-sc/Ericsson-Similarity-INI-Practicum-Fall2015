@@ -3,20 +3,56 @@ package com.cmu.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.cmu.enums.Algorithm;
 import com.cmu.interfaces.EvaluationDao;
 import com.cmu.model.EvaluationStatistics;
+import com.cmu.model.User;
+import com.cmu.model.UserDetails;
 import com.cmu.model.UserFeedback;
 
 public class EvaluationDaoImpl implements EvaluationDao{
 
 	public List<EvaluationStatistics> retrieveStatistics(){
 		
-		return null;
+List<EvaluationStatistics> result = new ArrayList<EvaluationStatistics>();
+		
+		try {
+			//DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			DriverManager.registerDriver(new org.postgresql.Driver ());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Connection conn = DBConnection.getConection();
+		ResultSet rs;
+		String sqlString = "select algorithm, count(*) as all, SUM(CASE WHEN rating = 0 THEN 1 ELSE 0 END) bad from evaluation group by algorithm;";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sqlString);
+			rs = statement.executeQuery();
+			while (rs.next()) {
+				EvaluationStatistics es = new EvaluationStatistics();
+				es.setAlgorithm(Algorithm.valueOf(rs.getString("algorithm")));
+				es.setFalsePositives(rs.getInt("bad"));
+				es.setTotalEvaluations(rs.getInt("all"));
+				result.add(es);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
 	}
 	
 	

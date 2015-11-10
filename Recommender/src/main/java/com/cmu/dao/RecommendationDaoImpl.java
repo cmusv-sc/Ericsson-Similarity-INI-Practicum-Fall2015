@@ -277,7 +277,6 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		Connection conn = DBConnection.getTMDBConection();
 		ResultSet rs;
 		String sqlString = "select distinct data->>'imdb_id' as imdb_id, (data->>'revenue')::bigint from tmdb20m order by (data->>'revenue')::bigint desc limit ?";
-		RecommendationDaoImpl rd = new RecommendationDaoImpl();
 		try {
 			PreparedStatement statement = conn.prepareStatement(sqlString);
 			statement.setInt(1, count);

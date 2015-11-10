@@ -82,7 +82,6 @@ public class UserDetailsDaoImpl implements UserDetailsDao{
 		Connection conn = DBConnection.getConection();
 		ResultSet rs;
 		String sqlString = "select username, count(*) as c from evaluation group by username order by c desc";
-		RecommendationDaoImpl rd = new RecommendationDaoImpl();
 		try {
 			PreparedStatement statement = conn.prepareStatement(sqlString);
 			rs = statement.executeQuery();

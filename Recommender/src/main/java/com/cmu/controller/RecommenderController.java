@@ -28,6 +28,7 @@ import com.cmu.interfaces.ModelDao;
 import com.cmu.interfaces.RecommendationDao;
 import com.cmu.interfaces.SearchDao;
 import com.cmu.interfaces.UserDetailsDao;
+import com.cmu.model.EvaluationStatistics;
 import com.cmu.model.ItemScore;
 import com.cmu.model.Movie;
 import com.cmu.model.UserFeedback;
@@ -292,7 +293,8 @@ public class RecommenderController {
 		
 		UserDetailsDaoImpl userDetailsDaoImpl = new UserDetailsDaoImpl("");
 		//List<UserDetails> ratingsPerUser = userDetailsDaoImpl.getNumberOfRatedMoviesPerUser();
-		List<Movie> pm = q.getPopularMovies(20);
+		//List<Movie> pm = q.getPopularMovies(20);
+		List<EvaluationStatistics> es = v.retrieveStatistics();
 		
 		int pp = 1;
 		return null;
