@@ -55,12 +55,13 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return recs;
 	}
@@ -77,26 +78,31 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		Connection conn2 = DBConnection.getOMDBConection();
 		ResultSet rs;
 		com.cmu.model.Movie mv = null;
+		String poster;
 		String sqlString2 = "select Title,Genre,Plot, Poster, imdbId, year from smalldata where movieId = ?";
 		try {
 			PreparedStatement statement = conn2.prepareStatement(sqlString2);
 			statement.setLong(1, id);
 			rs = statement.executeQuery();
 			if (rs.next()) {
-				mv = new com.cmu.model.Movie(rs.getString("Title"),id,rs.getString("Genre"), rs.getString("Plot"), rs.getString("Poster"), rs.getString("imdbId"), rs.getString("year"));
+				if (DBConnection.getPosterpath().length()>0)
+					poster = DBConnection.getPosterpath() + "/" + id + ".jpg";
+				else
+					poster = rs.getString("Poster");
+				mv = new com.cmu.model.Movie(rs.getString("Title"),id,rs.getString("Genre"), rs.getString("Plot"), poster , rs.getString("imdbId"), rs.getString("year"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				conn2.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		try {
-			conn.close();
-			conn2.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		return mv;
 	}
 	
@@ -111,6 +117,7 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		Connection conn = DBConnection.getConection();
 		Connection conn2 = DBConnection.getOMDBConection();
 		List<com.cmu.model.Movie> movies = new ArrayList<com.cmu.model.Movie>();
+		String poster;
 		StringBuilder sqlBuilder = new StringBuilder();
 		
 		if(ids.size() == 0)
@@ -158,20 +165,25 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			ResultSet rs = statement.executeQuery();
 			index = 0;
 			while (rs.next()) {
-				com.cmu.model.Movie mv = new com.cmu.model.Movie(rs.getString("Title"),ids.get(index++),rs.getString("Genre"), rs.getString("Plot"), rs.getString("Poster"), rs.getString("imdbId"), rs.getString("year"));
+				if (DBConnection.getPosterpath().length()>0)
+					poster = DBConnection.getPosterpath() + "/" + ids.get(index) + ".jpg";
+				else
+					poster = rs.getString("Poster");
+				com.cmu.model.Movie mv = new com.cmu.model.Movie(rs.getString("Title"),ids.get(index++),rs.getString("Genre"), rs.getString("Plot"), poster, rs.getString("imdbId"), rs.getString("year"));
 				mv.setSynopsis(rs.getString("Plot"));
 				movies.add(mv);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		try {
-			conn.close();
-			conn2.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				conn2.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return movies;
@@ -239,12 +251,13 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return newid;
@@ -274,11 +287,12 @@ public class RecommendationDaoImpl implements RecommendationDao{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		List<Long> movieids = imdbIdtoMovielensId(ids);

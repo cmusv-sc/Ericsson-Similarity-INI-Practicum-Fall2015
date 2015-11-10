@@ -17,6 +17,7 @@ public class DBConnection {
 	private static ComboPooledDataSource usrconn = null;
 	private static ComboPooledDataSource omdbconn = null;
 	private static ComboPooledDataSource tmdbconn = null;
+	private static String posterpath = null;
 	
 	private DBConnection() {
 		// TODO Auto-generated constructor stub
@@ -97,25 +98,27 @@ public class DBConnection {
 				usrconn.setUser("ini");
 				usrconn.setPassword("a12345");
 				
-				conn.setMinPoolSize(5);
+				conn.setMinPoolSize(3);
 				conn.setAcquireIncrement(5);
 				conn.setMaxPoolSize(20);
 				conn.setMaxStatements(180);
 		        
-				omdbconn.setMinPoolSize(5);
+				omdbconn.setMinPoolSize(3);
 				omdbconn.setAcquireIncrement(5);
 				omdbconn.setMaxPoolSize(20);
 				omdbconn.setMaxStatements(180);
 				
-				tmdbconn.setMinPoolSize(5);
+				tmdbconn.setMinPoolSize(3);
 				tmdbconn.setAcquireIncrement(5);
 				tmdbconn.setMaxPoolSize(20);
 				tmdbconn.setMaxStatements(180);
 		        
-				usrconn.setMinPoolSize(5);
+				usrconn.setMinPoolSize(3);
 				usrconn.setAcquireIncrement(5);
 				usrconn.setMaxPoolSize(20);
 				usrconn.setMaxStatements(180);
+				
+				posterpath = "http://54.218.101.198:8080/recimg/JPG_REPO/";
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -184,6 +187,10 @@ public class DBConnection {
 		}
 	}
 	
+	public static synchronized String getPosterpath()
+	{
+		return posterpath;
+	}
 	
 	
 }

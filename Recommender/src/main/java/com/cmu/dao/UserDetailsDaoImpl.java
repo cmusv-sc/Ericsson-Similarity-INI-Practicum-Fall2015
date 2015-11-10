@@ -53,12 +53,13 @@ public class UserDetailsDaoImpl implements UserDetailsDao{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return rd.getMovieDatas(mlist);
 	}
@@ -95,11 +96,12 @@ public class UserDetailsDaoImpl implements UserDetailsDao{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return ratingsPerUser;
