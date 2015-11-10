@@ -20,7 +20,7 @@ public class EvaluationDaoImpl implements EvaluationDao{
 
 	public List<EvaluationStatistics> retrieveStatistics(){
 		
-List<EvaluationStatistics> result = new ArrayList<EvaluationStatistics>();
+		List<EvaluationStatistics> result = new ArrayList<EvaluationStatistics>();
 		
 		try {
 			//DriverManager.registerDriver(new com.mysql.jdbc.Driver());

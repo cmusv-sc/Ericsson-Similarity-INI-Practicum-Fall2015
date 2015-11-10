@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmu.dao.AlgorithmsDaoImpl;
 import com.cmu.dao.EvaluationDaoImpl;
 import com.cmu.dao.ModelDaoImpl;
 import com.cmu.dao.MovieDao;
@@ -294,7 +295,13 @@ public class RecommenderController {
 		UserDetailsDaoImpl userDetailsDaoImpl = new UserDetailsDaoImpl("");
 		//List<UserDetails> ratingsPerUser = userDetailsDaoImpl.getNumberOfRatedMoviesPerUser();
 		//List<Movie> pm = q.getPopularMovies(20);
-		List<EvaluationStatistics> es = v.retrieveStatistics();
+		//List<EvaluationStatistics> es = v.retrieveStatistics();
+		
+		AlgorithmsDaoImpl al = new AlgorithmsDaoImpl();
+		//al.disableAlgorithm("COSINE_SIMILARITY");
+		//List<String> aa = al.getEnabledAlgorithms();
+		//al.enableAlgorithm("COSINE_SIMILARITY");
+		//aa = al.getEnabledAlgorithms();
 		
 		int pp = 1;
 		return null;
