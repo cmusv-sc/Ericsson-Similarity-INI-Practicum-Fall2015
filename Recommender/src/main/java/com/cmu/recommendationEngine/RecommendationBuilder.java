@@ -1,6 +1,5 @@
 package com.cmu.recommendationEngine;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +13,9 @@ public class RecommendationBuilder {
 	private RecommendationsSelector selector;
 	private RecommendationPool recommendationPool;
 	
-	public RecommendationBuilder(Long movieId) {
+	public RecommendationBuilder(Long movieId, List<Algorithm> algorithms) {
 		recommendations = new LinkedHashMap<Movie, List<Algorithm>>();
-		selector = new RecommendationsSelector();
+		selector = new RecommendationsSelector(algorithms);
 		recommendationPool = new RecommendationPool(movieId);
 		buildRecommendations();
 	}

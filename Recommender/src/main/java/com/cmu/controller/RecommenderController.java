@@ -46,7 +46,10 @@ public class RecommenderController {
 		List<Movie> recommendations = new ArrayList<Movie>();
 		List<String> posters = new ArrayList<String>();
 		List<String> moviesPlots = new ArrayList<String>();
-		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item));
+		List<Algorithm> algorithms = new ArrayList<Algorithm>();
+		algorithms.add(Algorithm.COSINE_SIMILARITY);
+		algorithms.add(Algorithm.PEARSON_COEFFICIENT);
+		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item), algorithms);
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
 
 		for(Movie m : recommendationMap.keySet()) {
@@ -91,9 +94,11 @@ public class RecommenderController {
 		List<Movie> recommendations = new ArrayList<Movie>();
 		List<String> posters = new ArrayList<String>();
 		List<String> moviesPlots = new ArrayList<String>();
-
-		//recommendations = getItems(item, algorithm);
-		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item));
+		List<Algorithm> algorithms = new ArrayList<Algorithm>();
+		algorithms.add(Algorithm.COSINE_SIMILARITY);
+		algorithms.add(Algorithm.PEARSON_COEFFICIENT);
+		
+		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item), algorithms);
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
 		for(Movie m : recommendationMap.keySet()) {
 			recommendations.add(m);
@@ -109,7 +114,6 @@ public class RecommenderController {
 		}
 
 
-		System.out.println();
 		mv.addObject("selectedMovieId", movie.getId());
 		mv.addObject("selectedPoster", movie.getPoster());
 		mv.addObject("posters", posters);
@@ -198,8 +202,11 @@ public class RecommenderController {
 		String username = auth.getName(); //get logged in username
 		
 		feedback.setUsername(username);
-
-		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(movieId1));
+		
+		List<Algorithm> usedAlgorithms = new ArrayList<Algorithm>();
+		usedAlgorithms.add(Algorithm.COSINE_SIMILARITY);
+		usedAlgorithms.add(Algorithm.PEARSON_COEFFICIENT);
+		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(movieId1), usedAlgorithms);
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
 
 		Movie selected = new Movie("", 0l,"","","","", "");
@@ -246,59 +253,6 @@ public class RecommenderController {
 
 		return mv;
 	}
-
-
-	//	private List<Movie> getItems(String item, String algorithm) {
-	//
-	//		System.out.println(item);
-	//		LenskitConfiguration config = new LenskitConfiguration();
-	//		config.bind(GlobalItemScorer.class).to(ItemItemGlobalScorer.class);
-	//		if(algorithm != null && algorithm.contentEquals("Pearson"))
-	//			config.within(ItemVectorSimilarity.class).bind(VectorSimilarity.class).to(PearsonCorrelation.class);
-	//
-	//		try {
-	//			DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
-	//
-	//			Connection conn = DBConnection.getConection();
-	//			
-	//			JDBCRatingDAOBuilder jdbcDaoBuilder = JDBCRatingDAO.newBuilder();
-	//			jdbcDaoBuilder.setTableName("test_ratings");
-	//			jdbcDaoBuilder.setItemColumn("movieId");
-	//			jdbcDaoBuilder.setUserColumn("userId");
-	//			jdbcDaoBuilder.setTimestampColumn("timestamp");
-	//			jdbcDaoBuilder.setRatingColumn("rating");
-	//
-	//			JDBCRatingDAO dao = jdbcDaoBuilder.build(conn);
-	//
-	//			config.addComponent(dao);
-	//			System.out.println(config);
-	//			LenskitRecommender rec = LenskitRecommender.build(config);
-	//
-	//			GlobalItemRecommender globalItemRecommender = rec.getGlobalItemRecommender();
-	//
-	//			Set<Long> items = new HashSet<Long>();
-	//			items.add(Long.parseLong(item));
-	//			List<ScoredId> recommendations = globalItemRecommender.globalRecommend(items, 20);
-	//
-	//			MovieDao movieDao = new MovieDao();
-	//			movieDao.getMoviesByIds(recommendations);
-	//			for (Movie movie : movieDao.getMoviesByIds(recommendations)) {
-	//				System.out.println("Movie Id: " + movie.getId() + " , Title : " + movie.getTitle() + " Genre : " + movie.getGenre());
-	//			}
-	//
-	//			
-	//			System.out.println("###############################");
-	//
-	//			return movieDao.getMoviesByIds(recommendations);
-	//		} catch (RecommenderBuildException e) {
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		} catch (SQLException e) {
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		}
-	//		return null;
-	//	}
 
 	@RequestMapping("/test")
 	public ModelAndView test(){

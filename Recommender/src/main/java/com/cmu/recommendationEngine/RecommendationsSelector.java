@@ -56,7 +56,7 @@ public class RecommendationsSelector {
 	public Algorithm selectNextAlgorithm(){
 		Algorithm next = null;
 		int biggerValue = 0;
-		for(Algorithm temp : Algorithm.values()){
+		for(Algorithm temp : recommendationsPerAlgorithm.keySet()){
 			if(recommendationsPerAlgorithm.get(temp) > biggerValue){
 				biggerValue = recommendationsPerAlgorithm.get(temp);
 				next = temp;
