@@ -48,9 +48,16 @@ public class RecommenderController {
 		List<Movie> recommendations = new ArrayList<Movie>();
 		List<String> posters = new ArrayList<String>();
 		List<String> moviesPlots = new ArrayList<String>();
+		AlgorithmsDaoImpl algorithmsDaoImpl = new AlgorithmsDaoImpl();
 		List<Algorithm> algorithms = new ArrayList<Algorithm>();
-		algorithms.add(Algorithm.COSINE_SIMILARITY);
-		algorithms.add(Algorithm.PEARSON_COEFFICIENT);
+		
+		for(String algName : algorithmsDaoImpl.getEnabledAlgorithms()){
+			for(Algorithm a : Algorithm.values()){
+				if(a.name().equalsIgnoreCase(algName))
+					algorithms.add(a);
+			}
+		}
+		
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item), algorithms);
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
 
@@ -96,10 +103,15 @@ public class RecommenderController {
 		List<Movie> recommendations = new ArrayList<Movie>();
 		List<String> posters = new ArrayList<String>();
 		List<String> moviesPlots = new ArrayList<String>();
+		AlgorithmsDaoImpl algorithmsDaoImpl = new AlgorithmsDaoImpl();
 		List<Algorithm> algorithms = new ArrayList<Algorithm>();
-		algorithms.add(Algorithm.COSINE_SIMILARITY);
-		algorithms.add(Algorithm.PEARSON_COEFFICIENT);
 		
+		for(String algName : algorithmsDaoImpl.getEnabledAlgorithms()){
+			for(Algorithm a : Algorithm.values()){
+				if(a.name().equalsIgnoreCase(algName))
+					algorithms.add(a);
+			}
+		}
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item), algorithms);
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
 		for(Movie m : recommendationMap.keySet()) {
@@ -205,9 +217,15 @@ public class RecommenderController {
 		
 		feedback.setUsername(username);
 		
+		AlgorithmsDaoImpl algorithmsDaoImpl = new AlgorithmsDaoImpl();
 		List<Algorithm> usedAlgorithms = new ArrayList<Algorithm>();
-		usedAlgorithms.add(Algorithm.COSINE_SIMILARITY);
-		usedAlgorithms.add(Algorithm.PEARSON_COEFFICIENT);
+		
+		for(String algName : algorithmsDaoImpl.getEnabledAlgorithms()){
+			for(Algorithm a : Algorithm.values()){
+				if(a.name().equalsIgnoreCase(algName))
+					usedAlgorithms.add(a);
+			}
+		}
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(movieId1), usedAlgorithms);
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
 
@@ -216,9 +234,8 @@ public class RecommenderController {
 			if(m.getId() == Long.valueOf(movieId2))
 				selected = m;
 		List<Algorithm> algorithms = recommendationMap.get(selected);
-
+		System.out.println(algorithms);
 		Map<Algorithm, Double> algorithmScores = new HashMap<Algorithm, Double>();
-		//TODO get the score of the algorithm.
 		for(Algorithm a : algorithms)
 			algorithmScores.put(a, 0.0);
 

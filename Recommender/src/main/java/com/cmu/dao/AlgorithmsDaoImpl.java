@@ -14,6 +14,10 @@ import com.cmu.model.EvaluationStatistics;
 
 public class AlgorithmsDaoImpl implements AlgorithmsDao {
 
+	public List<String> getAlgorithms() {
+		return null;
+	}
+	
 	public List<String> getEnabledAlgorithms() {
 		List<String> result = new ArrayList<String>();
 		
@@ -101,5 +105,6 @@ public class AlgorithmsDaoImpl implements AlgorithmsDao {
 		}
 
 	}
+	
 
 }

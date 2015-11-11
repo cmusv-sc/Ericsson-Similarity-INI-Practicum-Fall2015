@@ -93,10 +93,8 @@ h4 {
 			
 		}
 		function getNewPopularItem(id) {
-			$("#movie" + id).fadeOut();
 
 			if (popularItemPosition < popularArraySize) {
-				$("#movie" + id).fadeIn();
 
 				document.getElementById("movie".concat(id)).innerHTML = nextPopularItem();
 				document.getElementById("movie".concat(id)).id = "movie"

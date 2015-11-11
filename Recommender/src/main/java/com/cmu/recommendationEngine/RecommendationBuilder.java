@@ -1,5 +1,6 @@
 package com.cmu.recommendationEngine;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ public class RecommendationBuilder {
 		selector = new RecommendationsSelector(algorithms);
 		recommendationPool = new RecommendationPool(movieId);
 		buildRecommendations();
+
 	}
 	
 	public void setRecommendations(LinkedHashMap<Movie, List<Algorithm>> recommendations) {
@@ -41,6 +43,7 @@ public class RecommendationBuilder {
 	
 	private void buildRecommendations(){
 		List<RecommendationPoolUnit> recommendationPoolList = recommendationPool.getRecommendationPool();
+		List<RecommendationPoolUnit> toBeRemoved = new ArrayList<RecommendationPoolUnit>();
 		for(int cont = 0; cont < 20; cont++){
 			Algorithm nextAlgorithm = selector.selectNextAlgorithm();
 			if(nextAlgorithm == null)
@@ -48,7 +51,13 @@ public class RecommendationBuilder {
 			for(int i = 0; i < recommendationPoolList.size(); i++){
 				if(recommendationPoolList.get(i).getAlgorithms().contains(nextAlgorithm)){
 					Movie movie = recommendationPoolList.get(i).getMovie();
-					List<Algorithm> algorithms = recommendationPoolList.get(i).getAlgorithms();
+					List<Algorithm> algorithms = new ArrayList<Algorithm>();
+					for(RecommendationPoolUnit r : recommendationPoolList){
+						if(r.getMovie().getTitle().contains( movie.getTitle())){
+							algorithms.addAll(r.getAlgorithms());
+							toBeRemoved.add(r);
+						}
+					}
 					recommendations.put(movie, algorithms);
 					for(Algorithm a : recommendations.get(movie)){
 						if (a.equals(nextAlgorithm))
@@ -56,7 +65,7 @@ public class RecommendationBuilder {
 						else
 							selector.removeOneRecommendationFromAlgorithm(a);
 					}
-					recommendationPoolList.remove(i);
+					recommendationPoolList.removeAll(toBeRemoved);
 					if(recommendationPoolList.isEmpty())
 						return;
 					break;

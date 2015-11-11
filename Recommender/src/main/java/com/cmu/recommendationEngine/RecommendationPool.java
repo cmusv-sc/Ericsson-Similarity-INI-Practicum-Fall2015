@@ -31,11 +31,11 @@ public class RecommendationPool {
 		for (Algorithm a : Algorithm.values()){
 			recommendations = recommendationDaoImpl.getRecommendation(movieId, a);
 			
-			System.out.println("#####################" + a.getClass() + "#########");
+			System.out.println("#####################" + a.name() + "#########");
 			int index =0; 
 			for (Recommendation rec : recommendations)
 			{
-				System.out.println(index + ". " + rec.getMovie().getTitle());
+				System.out.println(index + ". " + rec.getMovie().getTitle() + "->" + rec.getScore());
 				index++;
 			}
 			System.out.println("#####################" + "END" + "#########");
@@ -56,6 +56,7 @@ public class RecommendationPool {
 		List<RecommendationPoolUnit> pool = new ArrayList<RecommendationPoolUnit>();
 		for(Recommendation r : recommendations)
 			pool.add(exportRecommendationToUnit(r));
+		pool.sort(RecommendationPoolUnit.scoreComparator);
 		return pool;
 	}
 
@@ -98,17 +99,17 @@ public class RecommendationPool {
 		//iterator for otherPool
 		int j = 0;
 
-		if(otherPool.isEmpty())
+		if(otherPool.isEmpty()){
 			return recommendationPool;
+			
+		}
 		if(recommendationPool.isEmpty()){
 			recommendationPool = otherPool;
 			return recommendationPool;
 		}
 			
-		
 		List<RecommendationPoolUnit> mergedPool = new ArrayList<RecommendationPoolUnit>();
-
-		while (i < recommendationPool.size() && j < otherPool.size()){
+		while (i < recommendationPool.size() || j < otherPool.size()){
 			if(i >= recommendationPool.size()){
 				mergedPool.add(otherPool.get(j));
 				j++;
@@ -118,15 +119,7 @@ public class RecommendationPool {
 				i++;
 			}
 			else {
-				if(recommendationPool.get(i).getMovie().getId() == otherPool.get(j).getMovie().getId()){
-					if (recommendationPool.get(i).getMaxScore() > otherPool.get(j).getMaxScore())
-						mergedPool.add(recommendationPool.get(i));
-					else
-						mergedPool.add(otherPool.get(j));
-					i++;
-					j++;
-				}
-				else if (recommendationPool.get(i).getMovie().getId() < otherPool.get(j).getMovie().getId()){
+				if (recommendationPool.get(i).getMaxScore() > otherPool.get(j).getMaxScore()){
 					mergedPool.add(recommendationPool.get(i));
 					i++;
 				}
@@ -136,6 +129,9 @@ public class RecommendationPool {
 				}
 			}
 		}
+		
+		
+		
 		recommendationPool = new ArrayList<RecommendationPoolUnit>(mergedPool);
 		return recommendationPool;
 	}

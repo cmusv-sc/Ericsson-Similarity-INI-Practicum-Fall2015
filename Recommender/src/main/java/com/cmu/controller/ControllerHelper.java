@@ -9,7 +9,6 @@ public class ControllerHelper {
 		for (String n : array) {
 			nameBuilder.append(n.replace("\"", "\'")).append("||");
 		}
-
 		nameBuilder.deleteCharAt(nameBuilder.length() - 1);
 		nameBuilder.deleteCharAt(nameBuilder.length() - 1);
 

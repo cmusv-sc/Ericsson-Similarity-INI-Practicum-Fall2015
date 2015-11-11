@@ -80,10 +80,10 @@ public class RecommendationPoolUnit implements Comparable<RecommendationPoolUnit
 			Double score2 = unit2.getMaxScore();
 
 			//ascending order
-			return score1.compareTo(score2);
+			//return score1.compareTo(score2);
 
 			//descending order
-			//return ranking1.compareTo(ranking2);
+			return score2.compareTo(score1);
 
 		}
 

@@ -37,27 +37,12 @@ public class AdminController {
 	  List<String> falsePositives = new ArrayList<String>(); 	  
 	  List<String> totalEvaluations = new ArrayList<String>(); 
 	  
-	  /*for (EvaluationStatistics e : statistics){
+	  for (EvaluationStatistics e : statistics){
 		  algorithms.add(e.getAlgorithm().toString());
 		  falsePositives.add(String.valueOf(e.getFalsePositives()));
 		  totalEvaluations.add(String.valueOf(e.getTotalEvaluations()));
-	  }*/
+	  }
 	  
-	  algorithms.add("A");
-	  algorithms.add("B");
-	  algorithms.add("C");
-	  algorithms.add("D");
-
-	  falsePositives.add("808");
-	  falsePositives.add("1000");
-	  falsePositives.add("1300");
-	  falsePositives.add("2000");
-
-	  totalEvaluations.add("1000");
-	  totalEvaluations.add("3000");
-	  totalEvaluations.add("5000");
-	  totalEvaluations.add("7000");
-
 	  
 	  model.addObject("algorithms", ControllerHelper.createSemicolonSeparatedStringFromArray(algorithms));
 	  model.addObject("falsePositives", ControllerHelper.createSemicolonSeparatedStringFromArray(falsePositives));
