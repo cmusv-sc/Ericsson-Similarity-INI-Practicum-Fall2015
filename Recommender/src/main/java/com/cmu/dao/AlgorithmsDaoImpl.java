@@ -15,7 +15,35 @@ import com.cmu.model.EvaluationStatistics;
 public class AlgorithmsDaoImpl implements AlgorithmsDao {
 
 	public List<String> getAlgorithms() {
-		return null;
+	List<String> result = new ArrayList<String>();
+		
+		try {
+			//DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			DriverManager.registerDriver(new org.postgresql.Driver ());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Connection conn = DBConnection.getConection();
+		ResultSet rs;
+		String sqlString = "select algorithm_name from algorithm;";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sqlString);
+			rs = statement.executeQuery();
+			while (rs.next()) {
+				result.add(rs.getString("algorithm_name"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
 	}
 	
 	public List<String> getEnabledAlgorithms() {
