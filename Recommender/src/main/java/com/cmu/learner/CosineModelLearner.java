@@ -57,7 +57,7 @@ public class CosineModelLearner implements OfflineLearner {
 
 			LinkedBlockingQueue<Runnable> priorityBlockingQueue = new LinkedBlockingQueue<Runnable>();
 
-			ExecutorService threadService = new ThreadPoolExecutor(10, 10, 10, TimeUnit.MINUTES, priorityBlockingQueue,
+			ExecutorService threadService = new ThreadPoolExecutor(20, 20, 10, TimeUnit.MINUTES, priorityBlockingQueue,
 					new ThreadPoolExecutor.CallerRunsPolicy());
 
 			MovieDao movieDao = new MovieDao();
