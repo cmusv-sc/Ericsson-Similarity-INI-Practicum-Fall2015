@@ -17,9 +17,8 @@ public class RecommendationBuilder {
 	public RecommendationBuilder(Long movieId, List<Algorithm> algorithms) {
 		recommendations = new LinkedHashMap<Movie, List<Algorithm>>();
 		selector = new RecommendationsSelector(algorithms);
-		recommendationPool = new RecommendationPool(movieId);
-		buildRecommendations();
-
+		recommendationPool = new RecommendationPool(movieId, algorithms);
+		buildRecommendations(); 
 	}
 	
 	public void setRecommendations(LinkedHashMap<Movie, List<Algorithm>> recommendations) {

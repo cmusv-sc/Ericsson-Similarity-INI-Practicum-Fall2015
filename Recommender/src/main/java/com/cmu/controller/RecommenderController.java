@@ -50,19 +50,20 @@ public class RecommenderController {
 		List<String> moviesPlots = new ArrayList<String>();
 		AlgorithmsDaoImpl algorithmsDaoImpl = new AlgorithmsDaoImpl();
 		List<Algorithm> algorithms = new ArrayList<Algorithm>();
-		
+
 		for(String algName : algorithmsDaoImpl.getEnabledAlgorithms()){
 			for(Algorithm a : Algorithm.values()){
 				if(a.name().equalsIgnoreCase(algName))
 					algorithms.add(a);
 			}
 		}
-		
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item), algorithms);
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
-
+		
+		System.out.println("%%%%%%%%%%%%Recommendations%%%%%%%%%%");
 		for(Movie m : recommendationMap.keySet()) {
 			recommendations.add(m);
+			System.out.println(m.getTitle() + "->" + recommendationMap.get(m));
 		}
 
 		ModelAndView mv = new ModelAndView("itemSimilarity");

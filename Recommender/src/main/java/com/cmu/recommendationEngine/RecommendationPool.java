@@ -22,8 +22,8 @@ public class RecommendationPool {
 
 	public RecommendationPool(Long movieId, List<Algorithm> algorithms) {
 		recommendationPool = new ArrayList<RecommendationPoolUnit>();
+		recommendationDaoImpl = new RecommendationDaoImpl();
 		buildRecommendationPool(movieId, algorithms);
-		sortPoolByRanking(recommendationPool);
 	}
 
 	private void buildRecommendationPool(Long movieId) {
