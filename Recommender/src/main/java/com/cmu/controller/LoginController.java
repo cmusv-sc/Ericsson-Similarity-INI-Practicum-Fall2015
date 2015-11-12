@@ -1,6 +1,8 @@
 package com.cmu.controller;
 
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +25,7 @@ public class LoginController {
 	  if (logout != null) {
 		model.addObject("msg", "You've been logged out successfully.");
 	  }
+		
 	  model.setViewName("login");
 
 	  return model;

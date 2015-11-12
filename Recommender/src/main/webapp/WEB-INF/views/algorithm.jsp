@@ -113,7 +113,6 @@
 				action = 1;
 
 			algorithm = arrayOfAlgorithms[id.charAt(1)];
-			alert(id.charAt(1));
 			$.ajax({
 				url : "/Recommender/admin/algorithmManagement?algorithm="
 						+ algorithm + "&action=" + action,
