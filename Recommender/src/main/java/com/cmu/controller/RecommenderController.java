@@ -106,7 +106,7 @@ public class RecommenderController {
 		List<String> moviesPlots = new ArrayList<String>();
 		AlgorithmsDaoImpl algorithmsDaoImpl = new AlgorithmsDaoImpl();
 		List<Algorithm> algorithms = new ArrayList<Algorithm>();
-		
+
 		for(String algName : algorithmsDaoImpl.getEnabledAlgorithms()){
 			for(Algorithm a : Algorithm.values()){
 				if(a.name().equalsIgnoreCase(algName))
@@ -115,28 +115,39 @@ public class RecommenderController {
 		}
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item), algorithms);
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
+		
+		System.out.println("%%%%%%%%%%%%Recommendations%%%%%%%%%%");
 		for(Movie m : recommendationMap.keySet()) {
 			recommendations.add(m);
+			System.out.println(m.getTitle() + "->" + recommendationMap.get(m));
 		}
+
 		ModelAndView mv = new ModelAndView("itemSimilarityType2");
 		List<Long> movieIds = new ArrayList<Long>();
 		List<String> movieTitles = new ArrayList<String>();
-		for(int i = 0; i < recommendations.size(); i++){
-			movieIds.add(i, recommendations.get(i).getId());
-			movieTitles.add(i, recommendations.get(i).getTitle() + " (" + recommendations.get(i).getYear() + ")");
-			posters.add(recommendations.get(i).getPoster());
-			moviesPlots.add(recommendations.get(i).getSynopsis());
-		}
 
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName(); //get logged in username
+		UserDetailsDaoImpl u = new UserDetailsDaoImpl(username);
+		List<Movie> alreadyRatedMovies = u.getUserRatedMovies(username, movie.getId());
+
+		for(Movie m : recommendations){
+			if(alreadyRatedMovies.contains(m))
+				continue;
+			movieIds.add(m.getId());
+			movieTitles.add(m.getTitle() + " (" + m.getYear() + ")");
+			posters.add(m.getPoster());
+			moviesPlots.add(m.getSynopsis());
+		}
 
 		mv.addObject("selectedMovieId", movie.getId());
 		mv.addObject("selectedPoster", movie.getPoster());
-		mv.addObject("posters", posters);
+		mv.addObject("posters", ControllerHelper.createSemicolonSeparatedStringFromArray(posters));
 		mv.addObject("synopsys", movie.getSynopsis());
 		mv.addObject("movieIds", movieIds);
 		mv.addObject("movieTitles", ControllerHelper.createSemicolonSeparatedStringFromArray(movieTitles));
 		mv.addObject("moviesPlots", ControllerHelper.createSemicolonSeparatedStringFromArray(moviesPlots));
-		mv.addObject("selectedMovieTitle", movie.getTitle());
+		mv.addObject("selectedMovieTitle", movie.getTitle() + " (" + movie.getYear()+ ")");
 		mv.addObject("item", item);
 		return mv;
 	}

@@ -103,7 +103,7 @@
 		}
 
 		function logout() {
-			window.location.href = "<c:url value="j_spring_security_logout" />";
+			window.location.href = "/Recommender/<c:url value="j_spring_security_logout" />";
 		}
 
 		function manageAlgorithm(id) {
