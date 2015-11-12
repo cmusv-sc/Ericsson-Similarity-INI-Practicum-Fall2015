@@ -2,9 +2,10 @@ package com.cmu.learner;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.grouplens.lenskit.GlobalItemRecommender;
 import org.grouplens.lenskit.GlobalItemScorer;
@@ -14,15 +15,12 @@ import org.grouplens.lenskit.core.LenskitRecommender;
 import org.grouplens.lenskit.data.sql.JDBCRatingDAO;
 import org.grouplens.lenskit.data.sql.JDBCRatingDAOBuilder;
 import org.grouplens.lenskit.knn.item.ItemItemGlobalScorer;
-import org.grouplens.lenskit.scored.ScoredId;
 
 import com.cmu.dao.DBConnection;
 import com.cmu.dao.ModelDaoImpl;
 import com.cmu.dao.MovieDao;
-import com.cmu.enums.Algorithm;
 import com.cmu.interfaces.ModelDao;
 import com.cmu.interfaces.OfflineLearner;
-import com.cmu.model.Movie;
 
 public class CosineModelLearner implements OfflineLearner {
 
@@ -42,7 +40,7 @@ public class CosineModelLearner implements OfflineLearner {
 			Connection conn = DBConnection.getConection();
 
 			JDBCRatingDAOBuilder jdbcDaoBuilder = JDBCRatingDAO.newBuilder();
-			jdbcDaoBuilder.setTableName("test_ratings");
+			jdbcDaoBuilder.setTableName("ratings");
 			jdbcDaoBuilder.setItemColumn("movieId");
 			jdbcDaoBuilder.setUserColumn("userId");
 			jdbcDaoBuilder.setTimestampColumn("timestamp");
@@ -50,22 +48,41 @@ public class CosineModelLearner implements OfflineLearner {
 
 			JDBCRatingDAO dao = jdbcDaoBuilder.build(conn);
 
+			System.out.println("Cosine Similarity learner started");
+			long startTime = System.currentTimeMillis();
 			config.addComponent(dao);
 			LenskitRecommender rec = LenskitRecommender.build(config);
 
 			GlobalItemRecommender globalItemRecommender = rec.getGlobalItemRecommender();
 
+			LinkedBlockingQueue<Runnable> priorityBlockingQueue = new LinkedBlockingQueue<Runnable>();
+
+			ExecutorService threadService = new ThreadPoolExecutor(10, 10, 10, TimeUnit.MINUTES, priorityBlockingQueue,
+					new ThreadPoolExecutor.CallerRunsPolicy());
+
 			MovieDao movieDao = new MovieDao();
 
+			int i = 0;
 			for (Long Id : movieDao.getAllMovieIds()) {
 
 				if (Id != null) {
-					Set<Long> items = new HashSet<Long>();
-					items.add(Id);
-					List<ScoredId> recommendations = globalItemRecommender.globalRecommend(items, 20);
+					CosineTask task = new CosineTask(globalItemRecommender, Id, modelDao);
 
-					System.out.println("Movie Id: " + Id );
-					modelDao.addToModel(Id, recommendations, Algorithm.COSINE_SIMILARITY);
+					threadService.execute(task);
+					// Set<Long> items = new HashSet<Long>();
+					// items.add(Id);
+					// System.out.println("Cosine: Generating recommendation for
+					// movie Id: " + Id);
+					// List<ScoredId> recommendations =
+					// globalItemRecommender.globalRecommend(items, 20);
+					//
+					// modelDao.addToModel(Id, recommendations,
+					// Algorithm.COSINE_SIMILARITY);
+				}
+				i++;
+
+				if (i % 100 == 0) {
+					System.out.println(System.currentTimeMillis() - startTime);
 				}
 			}
 

@@ -56,7 +56,7 @@ public class DBConnection {
 				/*conn = DriverManager.getConnection(
 			               "jdbc:" + "postgresql" + "://" +
 			               "54.218.101.198" +
-			               ":" + "5432" + "/Ericssonsmall",
+			               ":" + "5432" + "/Ericsson20m",
 			               connectionProps);
 			
 				omdbconn = DriverManager.getConnection(
@@ -82,7 +82,7 @@ public class DBConnection {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} //loads the jdbc driver
-				conn.setJdbcUrl("jdbc:postgresql://54.218.101.198:5432/Ericssonsmall");
+				conn.setJdbcUrl("jdbc:postgresql://54.218.101.198:5432/Ericsson20m");
 				conn.setUser("ini");
 				conn.setPassword("a12345");
 				
