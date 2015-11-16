@@ -3,7 +3,7 @@ package com.cmu.enums;
 public enum Algorithm {
 	
 	PEARSON_COEFFICIENT,
-	COSINE_SIMILARITY
-	
+	COSINE_SIMILARITY,
+	TMDB_SIMILARITY
 
 }
