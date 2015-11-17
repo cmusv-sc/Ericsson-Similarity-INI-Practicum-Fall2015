@@ -9,11 +9,14 @@
 	<http auto-config="true" use-expressions="true">
 
 		<intercept-url pattern="/login**" access="hasAnyRole('ROLE_ANONYMOUS', 'ROLE_USER', 'ROLE_ADMIN')" />
+		
 		<intercept-url pattern="/home**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
 		<intercept-url pattern="/itemSimilarity**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
 		<intercept-url pattern="/evaluation**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
 		<intercept-url pattern="/settings**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
 		<intercept-url pattern="/ranking**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
+		<intercept-url pattern="/visualized**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
+		
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/admin/algorithm**" access="hasRole('ROLE_ADMIN')" />		
 		<intercept-url pattern="/admin/statistics**" access="hasRole('ROLE_ADMIN')" />

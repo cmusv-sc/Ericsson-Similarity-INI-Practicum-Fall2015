@@ -47,8 +47,8 @@
 		<form class="form-signin"
 			action="<c:url value='/j_spring_security_check' />" method="POST">
 			<h2 class="form-signin-heading">Please sign in</h2>
-			<label for="inputEmail" class="sr-only">Email address</label> 
-			<input name='username' type="text" class="form-control" placeholder="Email address" required autofocus> 
+			<label for="inputEmail" class="sr-only">Username</label> 
+			<input name='username' type="text" class="form-control" placeholder="Username" required autofocus> 
 			
 			<label for="inputPassword" class="sr-only">Password</label> 
 			<input name='password' type="password" class="form-control" placeholder="Password" required>
