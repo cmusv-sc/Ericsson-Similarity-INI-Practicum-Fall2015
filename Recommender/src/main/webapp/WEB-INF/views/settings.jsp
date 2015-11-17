@@ -55,7 +55,7 @@ function checkPass()
 			</div>
 
 
-			<div class="col-xs-1 col-lg-1 col-md-offset-6"
+			<div class="col-xs-1 col-lg-1 col-md-offset-7"
 				style="margin-top: 20px;">
 				<button class="btn btn-default" onclick="return logout()">
 					Logout</button>
@@ -64,15 +64,15 @@ function checkPass()
 			<!-- /.col-lg-6 -->
 
 		</div>
-		<div class="row">
-			<div class="form-group col-xs-3 col-lg-3 col-md-offset-3">
+		<div class="row" style="margin-top: 100px">
+			<div class="form-group col-xs-4 col-lg-4 col-md-offset-4">
 				<h2>Update Password</h2>
 			</div>
 		</div>
 		<form method="POST" action="/Recommender/updatePassword">
 
 			<div class="row">
-				<div class="form-group col-xs-3 col-lg-3 col-md-offset-3">
+				<div class="form-group col-xs-4 col-lg-4 col-md-offset-4">
 					<label for="pwd">Password:</label> 
 					<input type="password" class="form-control" id="pwd">
 				</div>
@@ -80,14 +80,14 @@ function checkPass()
 
 			<div class="row">
 
-				<div class="form-group col-xs-3 col-lg-3 col-md-offset-3">
+				<div class="form-group col-xs-4 col-lg-4 col-md-offset-4">
 					<label for="pwd">Confirm Password:</label> 
 					<input name="password" type="password" class="form-control" id="confirmpwd" onkeyup="checkPass(); return false;"/> 
 					<span id="confirmMessage" class="confirmMessage"></span>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-xs-3 col-lg-3 col-md-offset-3">
+				<div class="col-xs-4 col-lg-4 col-md-offset-4">
 					<button type="submit" class="btn btn-default">Submit</button>
 				</div>
 			</div>

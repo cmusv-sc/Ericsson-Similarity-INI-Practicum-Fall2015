@@ -86,24 +86,27 @@ h4 {
 			window.location.href = "<c:url value="j_spring_security_logout" />";
 		}
 		
-		function yHandler(){
-			var wrap = document.getElementById('wrap');
-			var contentHeight = wrap.offsetHeight;
-			var yOffset = window.pageYOffset; 
-			var y = yOffset + window.innerHeight;
-			if(y >= contentHeight){
-				wrap.innerHTML += '<div class="row"> '+
-					'<div id="movieNew1" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
-					'<div id="movieNew2" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
-					'<div id="movieNew3" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
-					'<div id="movieNew4" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>' + 
-				'</div>';
-			}
-			getNewItem("New1");
-			getNewItem("New2");
-			getNewItem("New3");
-			getNewItem("New4");
+		
+		function yHandler() {
+			if (itemPosition < arraySize) {
 
+				var wrap = document.getElementById('wrap');
+				var contentHeight = wrap.offsetHeight;
+				var yOffset = window.pageYOffset;
+				var y = yOffset + window.innerHeight;
+				if (y >= contentHeight) {
+					wrap.innerHTML += '<div class="row"> '
+							+ '<div id="movieNew1" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>'
+							+ '<div id="movieNew2" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>'
+							+ '<div id="movieNew3" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>'
+							+ '<div id="movieNew4" class="col-xs-3 col-lg-3" style="margin-top:25px;"></div>'
+							+ '</div>';
+				}
+				getNewItem("New1");
+				getNewItem("New2");
+				getNewItem("New3");
+				getNewItem("New4");
+			}
 		}
 		window.onscroll = yHandler;
 	</script>
@@ -128,7 +131,7 @@ h4 {
 				<!-- /input-group -->
 			</div>
 
-			<div class="col-xs-1 col-lg-1 col-md-offset-1"
+			<div class="col-xs-1 col-lg-1 col-md-offset-2"
 				style="margin-top: 20px;">
 				<button class="btn btn-default" onclick="return logout()">
 					Logout</button>

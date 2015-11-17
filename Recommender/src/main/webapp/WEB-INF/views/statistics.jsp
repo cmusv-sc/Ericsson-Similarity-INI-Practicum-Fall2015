@@ -134,7 +134,7 @@ h4 {
 
 
 
-			<div class="col-xs-1 col-lg-1 col-md-offset-7"
+			<div class="col-xs-1 col-lg-1 col-md-offset-8"
 				style="margin-top: 20px;">
 				<button class="btn btn-default" onclick="return logout()">
 					Logout</button>

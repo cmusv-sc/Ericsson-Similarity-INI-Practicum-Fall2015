@@ -25,6 +25,7 @@ import com.cmu.dao.MovieDao;
 import com.cmu.dao.RecommendationDaoImpl;
 import com.cmu.dao.SearchDaoImpl;
 import com.cmu.dao.UserDetailsDaoImpl;
+import com.cmu.dao.VisualizedMoviesDaoImpl;
 import com.cmu.enums.Algorithm;
 import com.cmu.interfaces.EvaluationDao;
 import com.cmu.interfaces.ModelDao;
@@ -56,7 +57,7 @@ public class RecommenderController {
 		for(String algName : algorithmsDaoImpl.getEnabledAlgorithms()){
 			for(Algorithm a : Algorithm.values()){
 				if(a.name().equalsIgnoreCase(algName))
-					algorithms.add(a);
+					algorithms.add(a);	
 			}
 		}
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item), algorithms);
@@ -71,6 +72,7 @@ public class RecommenderController {
 		ModelAndView mv = new ModelAndView("itemSimilarity");
 		List<Long> movieIds = new ArrayList<Long>();
 		List<String> movieTitles = new ArrayList<String>();
+		List<String> years = new ArrayList<String>();
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName(); //get logged in username
@@ -81,9 +83,10 @@ public class RecommenderController {
 			if(alreadyRatedMovies.contains(m))
 				continue;
 			movieIds.add(m.getId());
-			movieTitles.add(m.getTitle() + " (" + m.getYear() + ")");
+			movieTitles.add(m.getTitle());
 			posters.add(m.getPoster());
 			moviesPlots.add(m.getSynopsis());
+			years.add("("+m.getYear()+")");
 		}
 
 		mv.addObject("selectedMovieId", movie.getId());
@@ -91,62 +94,7 @@ public class RecommenderController {
 		mv.addObject("posters", ControllerHelper.createSemicolonSeparatedStringFromArray(posters));
 		mv.addObject("synopsys", movie.getSynopsis());
 		mv.addObject("movieIds", movieIds);
-		mv.addObject("movieTitles", ControllerHelper.createSemicolonSeparatedStringFromArray(movieTitles));
-		mv.addObject("moviesPlots", ControllerHelper.createSemicolonSeparatedStringFromArray(moviesPlots));
-		mv.addObject("selectedMovieTitle", movie.getTitle() + " (" + movie.getYear()+ ")");
-		mv.addObject("item", item);
-		return mv;
-	}
-
-	@RequestMapping("/itemSimilarityType2")
-	public ModelAndView searchItemSimilaritiesType2(@RequestParam(value = "item", required = false, defaultValue = "1") String item,
-			@RequestParam(value = "algorithm", required = false, defaultValue = "") String algorithm) { 
-		RecommendationDaoImpl rec = new RecommendationDaoImpl();
-		Movie movie = rec.getMovieData(Long.valueOf(item));
-		List<Movie> recommendations = new ArrayList<Movie>();
-		List<String> posters = new ArrayList<String>();
-		List<String> moviesPlots = new ArrayList<String>();
-		AlgorithmsDaoImpl algorithmsDaoImpl = new AlgorithmsDaoImpl();
-		List<Algorithm> algorithms = new ArrayList<Algorithm>();
-
-		for(String algName : algorithmsDaoImpl.getEnabledAlgorithms()){
-			for(Algorithm a : Algorithm.values()){
-				if(a.name().equalsIgnoreCase(algName))
-					algorithms.add(a);
-			}
-		}
-		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item), algorithms);
-		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
-		
-		System.out.println("%%%%%%%%%%%%Recommendations%%%%%%%%%%");
-		for(Movie m : recommendationMap.keySet()) {
-			recommendations.add(m);
-			System.out.println(m.getTitle() + "->" + recommendationMap.get(m));
-		}
-
-		ModelAndView mv = new ModelAndView("itemSimilarityType2");
-		List<Long> movieIds = new ArrayList<Long>();
-		List<String> movieTitles = new ArrayList<String>();
-
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String username = auth.getName(); //get logged in username
-		UserDetailsDaoImpl u = new UserDetailsDaoImpl(username);
-		List<Movie> alreadyRatedMovies = u.getUserRatedMovies(username, movie.getId());
-
-		for(Movie m : recommendations){
-			if(alreadyRatedMovies.contains(m))
-				continue;
-			movieIds.add(m.getId());
-			movieTitles.add(m.getTitle() + " (" + m.getYear() + ")");
-			posters.add(m.getPoster());
-			moviesPlots.add(m.getSynopsis());
-		}
-
-		mv.addObject("selectedMovieId", movie.getId());
-		mv.addObject("selectedPoster", movie.getPoster());
-		mv.addObject("posters", ControllerHelper.createSemicolonSeparatedStringFromArray(posters));
-		mv.addObject("synopsys", movie.getSynopsis());
-		mv.addObject("movieIds", movieIds);
+		mv.addObject("years", ControllerHelper.createSemicolonSeparatedStringFromArray(years));
 		mv.addObject("movieTitles", ControllerHelper.createSemicolonSeparatedStringFromArray(movieTitles));
 		mv.addObject("moviesPlots", ControllerHelper.createSemicolonSeparatedStringFromArray(moviesPlots));
 		mv.addObject("selectedMovieTitle", movie.getTitle() + " (" + movie.getYear()+ ")");
@@ -173,7 +121,7 @@ public class RecommenderController {
 		List<Long> popularMovieIds = new ArrayList<Long>();
 		List<String> popularMovieTitles = new ArrayList<String>();
 		RecommendationDaoImpl r = new RecommendationDaoImpl();
-		for(Movie movie : r.getPopularMovies(50)){
+		for(Movie movie : r.getPopularMovies(100)){
 			popularPosters.add(movie.getPoster());
 			popularMovieIds.add(movie.getId());
 			popularMovieTitles.add(movie.getTitle()  + " (" + movie.getYear() + ")");
@@ -195,7 +143,7 @@ public class RecommenderController {
 		List<Long> movieIds = new ArrayList<Long>();
 		Random rand = new Random();
 		for (int i = 0; i < 12; i++){
-			Long id = new Long(rand.nextInt(80));
+			Long id = new Long(rand.nextInt(200));
 
 			while(containLong(movieIds, id) || (rec.getMovieData(id) == null))
 				id = new Long(rand.nextInt(80));
@@ -262,6 +210,16 @@ public class RecommenderController {
 		return similarity;
 	}
 
+	@RequestMapping(value = "/visualized", method = RequestMethod.GET)
+	public void visualized(@RequestParam("movieId1") String movieId1,
+			@RequestParam("movieId2") String movieId2) {
+		VisualizedMoviesDaoImpl visualizedMoviesDao = new VisualizedMoviesDaoImpl();	
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		System.out.println("@@@@@@@@@ User: "+ username + ",   selected: " + movieId1 + ",   visualized:" + movieId2);
+		visualizedMoviesDao.saveVisualizedMovie(username, movieId1, movieId2);
+	}
+	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public ModelAndView searchMovies(
 			@RequestParam("searchString") String searchString) {
