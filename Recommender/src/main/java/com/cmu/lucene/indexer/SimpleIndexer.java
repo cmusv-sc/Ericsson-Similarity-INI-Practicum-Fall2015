@@ -47,14 +47,22 @@ public class SimpleIndexer {
 			while (!done) {
 				List<Movie> movies = dao.getMovies(limit, offset);
 
-				if (movies != null) {
+				if (!movies.isEmpty()) {
 
 					for (Movie movie : movies) {
 						addDocument(indexWriter, movie.getId().toString(), movie.getTitle(), movie.getSynopsis(),
 								movie.getGenre());
 					}
-
+					
+					System.out.println("Indexing done for " + limit + " offset : " +offset);
 				}
+				else
+				{
+					System.out.println("Done");
+					done=true;
+				}
+				offset+=limit;
+				
 			}
 			indexWriter.close();
 
@@ -66,6 +74,17 @@ public class SimpleIndexer {
 	}
 
 	private void addDocument(IndexWriter index, String id, String title, String desc, String genres) {
+		
+		if(desc ==null)
+			desc= "N/A";
+		
+		if(title ==null)
+			title= "N/A";
+		
+		if(genres ==null)
+			genres= "N/A";
+		
+		
 		Document document = new Document();
 
 		FieldType type = new FieldType();
