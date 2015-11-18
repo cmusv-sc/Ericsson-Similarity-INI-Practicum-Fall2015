@@ -21,12 +21,15 @@ public class VisualizedMoviesDaoImpl implements VisualizedMoviesDao{
 		}
 		Connection conn = DBConnection.getConection();
 		
-		String sqlString = "insert into seenmovie (username,basemovie,tomovie) values(?,?,?)";
+		String sqlString = "insert into seenmovie (username,basemovie,tomovie) select ?,?,? WHERE NOT EXISTS (SELECT 1 FROM seenmovie WHERE username = ? and basemovie = ? and tomovie = ?);";
 		try {
 			PreparedStatement statement = conn.prepareStatement(sqlString);
 			statement.setString(1, username);
 			statement.setLong(2, Long.parseLong(selectedMovie));
 			statement.setLong(3, Long.parseLong(seenMovie));
+			statement.setString(4, username);
+			statement.setLong(5, Long.parseLong(selectedMovie));
+			statement.setLong(6, Long.parseLong(seenMovie));
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
