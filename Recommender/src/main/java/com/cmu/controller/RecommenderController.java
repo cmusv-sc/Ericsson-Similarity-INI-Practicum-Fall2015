@@ -296,5 +296,13 @@ public class RecommenderController {
 		int pp = 1;
 		return null;
 	}
+	
+	@RequestMapping("/tmdb")
+	public ModelAndView tmdb(){
+
+		RecommendationDaoImpl q = new RecommendationDaoImpl();
+		//q.generateTMDBrating();
+		return null;
+	}
 
 }
