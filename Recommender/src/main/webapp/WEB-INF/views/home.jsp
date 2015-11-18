@@ -208,19 +208,20 @@ h4 {
 			</div>
 
 			<div class="col-xs-1 col-lg-1 " style="margin-top: 20px;">
-				<button class="btn btn-default" onclick="return ranking()">
-					Ranking</button>
+				<button class="btn btn-default" onclick="return ranking()" style="padding-right: 5px;padding-left: 5px;">
+					Leaderboard</button>
 			</div>
 
-			<div class="col-xs-1 col-lg-1 " style="margin-top: 20px;">
-				<button class="btn btn-default" onclick="return logout()">
-					Logout</button>
-			</div>
-			<div class="col-xs-1 col-lg-1" style="margin-top: 20px;">
+			
+			<div class="col-xs-1 col-lg-1" style="margin-top: 20px;" >
 				<button type="button" class="btn btn-default"
-					aria-label="Left Align" onclick="return goToSettings()">
-					<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+					aria-label="Left Align" onclick="return goToSettings()" style="margin-left: 10px;padding-right: 5px;padding-left: 5px;">
+					Password
 				</button>
+			</div>
+			<div class="col-xs-1 col-lg-1 " style="margin-top: 20px;">
+				<button class="btn btn-default" onclick="return logout()" >
+					Logout</button>
 			</div>
 			<!-- /.col-lg-6 -->
 

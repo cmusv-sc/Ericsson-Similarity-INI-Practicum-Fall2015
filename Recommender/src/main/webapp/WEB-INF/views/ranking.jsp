@@ -103,7 +103,7 @@ h4 {
 				<!-- /input-group -->
 			</div>
 
-			<div class="col-xs-1 col-lg-1 col-md-offset-1"
+			<div class="col-xs-1 col-lg-1 col-md-offset-2"
 				style="margin-top: 20px;">
 				<button class="btn btn-default" onclick="return logout()">
 					Logout</button>
