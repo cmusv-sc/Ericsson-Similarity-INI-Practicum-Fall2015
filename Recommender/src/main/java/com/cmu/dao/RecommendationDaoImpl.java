@@ -8,13 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.grouplens.lenskit.scored.ScoredId;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.cmu.enums.Algorithm;
 import com.cmu.interfaces.RecommendationDao;
 import com.cmu.model.Recommendation;
-import com.cmu.model.User;
-import com.cmu.model.UserDetails;
 
 public class RecommendationDaoImpl implements RecommendationDao{
 
@@ -285,6 +285,64 @@ public class RecommendationDaoImpl implements RecommendationDao{
 				ids.add(rs.getString("imdb_id"));
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		List<Long> movieids = imdbIdtoMovielensId(ids);
+		return getMovieDatas(movieids);
+	}
+	
+	
+	public List<com.cmu.model.Movie> getMovies(int limit, int offset){
+		List<com.cmu.model.Movie> result = new ArrayList<com.cmu.model.Movie>();
+		List<String> ids = new ArrayList<String>();
+		
+		try {
+			//DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			DriverManager.registerDriver(new org.postgresql.Driver ());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Connection conn = DBConnection.getTMDBConection();
+		ResultSet rs;
+		String sqlString = "select key, data->>'title' as title, data->>'overview' as desc ,data->>'genres' as genres from tmdb20m order by key limit ? offset ?;";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sqlString);
+			statement.setInt(1, limit);
+			statement.setInt(2, offset);
+			
+			rs = statement.executeQuery();
+			while (rs.next()) {
+				String title = rs.getString("title");
+				String desc = rs.getString("desc");
+				String genres = rs.getString("genres");
+				
+				JSONArray jsonArray = new JSONArray(genres);
+				
+				StringBuffer sb = new StringBuffer();
+				
+				for(int i =0; i<jsonArray.length();i++)
+				{
+					JSONObject genre = jsonArray.getJSONObject(i);
+					sb.append(genre.get("name"));
+					sb.append(" ");
+				}
+				
+				
+				
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {

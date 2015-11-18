@@ -1,34 +1,73 @@
 package com.cmu.learner;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-import org.grouplens.lenskit.GlobalItemRecommender;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
+
 import org.grouplens.lenskit.scored.ScoredId;
 
 import com.cmu.enums.Algorithm;
-import com.cmu.interfaces.ModelDao;
+import com.cmu.model.ModelBean;
 
 public class CosineTask implements Runnable {
 
-	GlobalItemRecommender globalItemRecommender;
-	Long id;
+	int fileId;
 
-	ModelDao modelDao;
+	List<Long> ids;
 
-	public CosineTask(GlobalItemRecommender globalItemRecommender, Long id, ModelDao modelDao) {
+	BlockingQueue<ModelBean> queue;
+	CountDownLatch latch;
+
+	public CosineTask(int fileId, CountDownLatch latch, BlockingQueue<ModelBean> queue) {
 		super();
-		this.globalItemRecommender = globalItemRecommender;
-		this.id = id;
-		this.modelDao = modelDao;
+		this.queue = queue;
+		this.fileId = fileId;
+		this.latch = latch;
 	}
 
 	public void run() {
-		Set<Long> items = new HashSet<Long>();
-		items.add(id);
-		//System.out.println("Cosine: Generating recommendation for movie Id: " + id);
-		List<ScoredId> recommendations = globalItemRecommender.globalRecommend(items, 20);
-		modelDao.addToModel(id, recommendations, Algorithm.COSINE_SIMILARITY);
+
+		// System.out.println("Cosine: Generating recommendation for movie Id: "
+		// + id);
+
+		try {
+			BufferedWriter writer = new BufferedWriter(
+					new FileWriter(new File("/Users/ivash/rough/pearson/pearson_t3" + fileId + ".csv")), 8192 * 50);
+
+			int index = 1;
+			while (latch.getCount() > 0) {
+
+				ModelBean model = queue.poll();
+
+				if (model != null) {
+					Long id = model.getId();
+					List<ScoredId> recommendations = model.getRecommendations();
+					StringBuilder s = new StringBuilder();
+					for (int i = 0; i < recommendations.size(); i++) {
+						s.append(recommendations.get(i).getId());
+						s.append(",");
+						s.append(recommendations.get(i).getScore());
+						s.append(",");
+					}
+					if (index % 100 == 0) {
+						System.out.println(index + "Consumer" + fileId + " " + Thread.currentThread().getName());
+					}
+					writer.write(id + "\t" + Algorithm.PEARSON_COEFFICIENT.toString() + "\t" + s.toString() + "\n");
+					index++;
+				}
+
+			}
+
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }
