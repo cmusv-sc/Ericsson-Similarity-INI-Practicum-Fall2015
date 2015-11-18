@@ -1,8 +1,13 @@
 package com.cmu.learner;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -21,16 +26,21 @@ import org.apache.lucene.search.similarities.TFIDFSimilarity;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 
+import com.cmu.enums.Algorithm;
 import com.cmu.lucene.indexer.IndexerConstants;
+import com.cmu.model.IDScoreTuple;
 
 public class ContentBasedLearner {
 
 	Map<String, Float> docFrequencies = new HashMap<String, Float>();
 
+	Map<String, Double> fieldWeights = new HashMap<String, Double>();
+
 	public static void main(String[] args) {
 
 		ContentBasedLearner learner = new ContentBasedLearner();
 		learner.learn();
+
 	}
 
 	private Map<String, Float> getIdfs(IndexReader reader) throws IOException {
@@ -47,7 +57,8 @@ public class ContentBasedLearner {
 			while ((bytesRef = termEnum.next()) != null) {
 				if (termEnum.seekExact(bytesRef)) {
 					String term = bytesRef.utf8ToString();
-					float idf = tfidfSIM.idf(termEnum.docFreq(), reader.numDocs());
+					float idf = tfidfSIM.idf(termEnum.docFreq(),
+							reader.numDocs());
 					docFrequencies.put(term, idf);
 
 				}
@@ -80,10 +91,15 @@ public class ContentBasedLearner {
 		return score;
 	}
 
-	private double calculateScore(Fields fields, int i, int j, IndexReader reader, TFIDFSimilarity tfSimilarity) {
+	private double calculateScore(Fields fields, int i, int j,
+			IndexReader reader, TFIDFSimilarity tfSimilarity) {
 		double score = 0.0;
 
 		for (String f : fields) {
+
+			if (f.equals("movieid"))
+				break;
+
 			try {
 
 				Terms vector1 = reader.getTermVector(i, f);
@@ -114,8 +130,8 @@ public class ContentBasedLearner {
 					terms2Map.put(term1, tfSimilarity.tf(termFreq));
 				}
 
-				score += score(terms1Map, terms2Map);
-				System.out.println();
+				score += fieldWeights.get(f) * score(terms1Map, terms2Map);
+			//	System.out.println();
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -130,10 +146,13 @@ public class ContentBasedLearner {
 
 	public void learn() {
 
-		Queue<Double> maxHeap = new PriorityQueue<Double>(100);
+		fieldWeights.put("desc", 0.6);
+		fieldWeights.put("genres", 0.1);
+		fieldWeights.put("title", 0.3);
 
 		Path path = Paths.get(IndexerConstants.directoryPath);
-
+		DecimalFormat df = new DecimalFormat("#.####");
+		df.setRoundingMode(RoundingMode.CEILING);
 		try {
 			IndexReader reader = DirectoryReader.open(FSDirectory.open(path));
 			TFIDFSimilarity tfidfSIM = new DefaultSimilarity();
@@ -141,14 +160,60 @@ public class ContentBasedLearner {
 			docFrequencies = getIdfs(reader);
 
 			Fields fields = MultiFields.getFields(reader);
+			System.out.println("Number of indexed documents are : "
+					+ reader.maxDoc());
+			BufferedWriter writer = new BufferedWriter(
+					new FileWriter(
+							new File(
+									"/Users/ivash/rough/content_filtering.csv")),
+					8192 * 50);
 
 			for (int i = 0; i < reader.maxDoc(); i++) {
+				Queue<IDScoreTuple> minHeap = new PriorityQueue<IDScoreTuple>(
+						20);
 
-				for (int j = i + 1; j < reader.maxDoc(); j++) {		
-					System.out.println("Score between " +i +" j " + j + calculateScore(fields, i, j, reader, tfidfSIM));
+				Document doc = reader.document(i);
+				String imovId = doc.getField("movieid").stringValue();
+
+				for (int j = 0; j < 5000; j++) {
+
+					if (i != j) {
+						Document document = reader.document(j);
+						String movId = document.getField("movieid")
+								.stringValue();
+
+						Double tfidfScore = calculateScore(fields, i, j,
+								reader, tfidfSIM);
+
+						if (minHeap.size() < 20) {
+							minHeap.add(new IDScoreTuple(movId, tfidfScore));
+						} else {
+							if (minHeap.peek().score < tfidfScore) {
+								minHeap.remove();
+								minHeap.add(new IDScoreTuple(movId, tfidfScore));
+							}
+
+						}
+
+					}
 				}
 
+				StringBuilder s = new StringBuilder();
+
+				IDScoreTuple tuple;
+				while ((tuple = minHeap.poll()) != null) {
+					s.insert(0, ",");
+					s.insert(0, df.format(tuple.score));
+					s.insert(0, ",");
+					s.insert(0, tuple.id);
+				}
+
+				writer.write(imovId + "\t" + Algorithm.CONTENT_631.toString()
+						+ "\t" + s.toString() + "\n");
+				System.out.println("Done" + i);
+
 			}
+			writer.close();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
