@@ -143,10 +143,10 @@ public class RecommenderController {
 		List<Long> movieIds = new ArrayList<Long>();
 		Random rand = new Random();
 		for (int i = 0; i < 12; i++){
-			Long id = new Long(rand.nextInt(200));
+			Long id = new Long(rand.nextInt(20000));
 
 			while(containLong(movieIds, id) || (rec.getMovieData(id) == null))
-				id = new Long(rand.nextInt(80));
+				id = new Long(rand.nextInt(20000));
 
 			movieIds.add(id);
 			result.add(rec.getMovieData(id));
@@ -191,19 +191,18 @@ public class RecommenderController {
 		}
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(movieId1), usedAlgorithms);
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
-
 		Movie selected = new Movie("", 0l,"","","","", "");
-		for(Movie m : recommendationMap.keySet())
-			if(m.getId() == Long.valueOf(movieId2))
+		for(Movie m : recommendationMap.keySet()){
+			if(m.getId().toString().compareTo(movieId2) == 0)
 				selected = m;
+		}
 		List<Algorithm> algorithms = recommendationMap.get(selected);
-		System.out.println(algorithms);
 		Map<Algorithm, Double> algorithmScores = new HashMap<Algorithm, Double>();
 		for(Algorithm a : algorithms)
 			algorithmScores.put(a, 0.0);
 
 		feedback.setAlgorithmScores(algorithmScores);
-
+		System.out.println(username + " rated the similarity between " + movieId1 + " and " + movieId2 + " as " + similarity);
 		EvaluationDaoImpl evaluationDao = new EvaluationDaoImpl();
 		evaluationDao.submitFeedback(feedback);
 

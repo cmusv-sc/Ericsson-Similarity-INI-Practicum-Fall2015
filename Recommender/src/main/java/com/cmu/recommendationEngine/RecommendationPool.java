@@ -48,7 +48,14 @@ public class RecommendationPool {
 		List<Recommendation> recommendations = null;
 		for (Algorithm a : algorithms){
 			recommendations = recommendationDaoImpl.getRecommendation(movieId, a);
-			
+			System.out.println("#####################" + a.name() + "#########");
+			int index =0; 
+			for (Recommendation rec : recommendations)
+			{
+				System.out.println(index + ". " + rec.getMovie().getTitle() + "->" + rec.getScore());
+				index++;
+			}
+			System.out.println("#####################" + "END" + "#########");
 			merge(generatePool(recommendations));
 		}		
 	}

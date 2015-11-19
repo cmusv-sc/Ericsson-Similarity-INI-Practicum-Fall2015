@@ -16,8 +16,15 @@ public class RecommendationBuilder {
 	
 	public RecommendationBuilder(Long movieId, List<Algorithm> algorithms) {
 		recommendations = new LinkedHashMap<Movie, List<Algorithm>>();
-		selector = new RecommendationsSelector(algorithms);
 		recommendationPool = new RecommendationPool(movieId, algorithms);
+		List<Algorithm> algorithmsUsed = new ArrayList<Algorithm>();
+		for(int index = 0; index < recommendationPool.getRecommendationPool().size(); index++){
+			Algorithm a = recommendationPool.getRecommendationPool().get(index).getAlgorithms().get(0);
+			if(!algorithmsUsed.contains(a))
+				algorithmsUsed.add(a);
+		}
+		selector = new RecommendationsSelector(algorithmsUsed);
+
 		buildRecommendations(); 
 	}
 	
@@ -52,7 +59,7 @@ public class RecommendationBuilder {
 					Movie movie = recommendationPoolList.get(i).getMovie();
 					List<Algorithm> algorithms = new ArrayList<Algorithm>();
 					for(RecommendationPoolUnit r : recommendationPoolList){
-						if(r.getMovie().getTitle().contains( movie.getTitle())){
+						if(r.getMovie().getTitle().contentEquals( movie.getTitle())){
 							algorithms.addAll(r.getAlgorithms());
 							toBeRemoved.add(r);
 						}

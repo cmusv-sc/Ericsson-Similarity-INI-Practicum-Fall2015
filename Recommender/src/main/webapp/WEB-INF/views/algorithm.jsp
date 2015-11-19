@@ -116,10 +116,7 @@
 			$.ajax({
 				url : "/Recommender/admin/algorithmManagement?algorithm="
 						+ algorithm + "&action=" + action,
-				type : "GET",
-				error : function(xhr, status, error) {
-					alert(xhr.responseText);
-				}
+				type : "GET"
 			});
 			window.location.href = "/Recommender/admin/algorithm";
 		}

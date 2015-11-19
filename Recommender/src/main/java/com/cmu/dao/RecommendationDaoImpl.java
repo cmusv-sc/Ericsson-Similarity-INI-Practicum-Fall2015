@@ -79,7 +79,9 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		ResultSet rs;
 		com.cmu.model.Movie mv = null;
 		String poster;
-		String sqlString2 = "select Title,Genre,Plot, Poster, imdbId, year from smalldata where movieId = ?";
+		//String sqlString2 = "select Title,Genre,Plot, Poster, imdbId, year from smalldata where movieId = ?";
+		String sqlString2 = "select Title,Genre,Plot, Poster, imdbId, year from data20m where movieId = ?";
+
 		try {
 			PreparedStatement statement = conn2.prepareStatement(sqlString2);
 			statement.setLong(1, id);
@@ -123,7 +125,8 @@ public class RecommendationDaoImpl implements RecommendationDao{
 		if(ids.size() == 0)
 			return movies;
 
-		sqlBuilder.append("select * from (select DISTINCT movieId, Title,Genre,Plot,Poster,imdbId,year from smalldata where movieId in(");
+		//sqlBuilder.append("select * from (select DISTINCT movieId, Title,Genre,Plot,Poster,imdbId,year from smalldata where movieId in(");
+		sqlBuilder.append("select * from (select DISTINCT movieId, Title,Genre,Plot,Poster,imdbId,year from data20m where movieId in(");
 		for (int i = 0; i < ids.size(); i++) {
 			sqlBuilder.append(" ?,"); 
 		} 
