@@ -36,6 +36,12 @@ h4 {
 		function statistics() {
 			window.location.href = "/Recommender/admin/statistics";
 		}
+		function userManagement() {
+			window.location.href = "/Recommender/admin/userManagement";
+		}
+		function newAlgorithm() {
+			window.location.href = "/Recommender/admin/uploadAlgorithm";
+		}
 		$(document).ready(function() {
 
 		});
@@ -59,13 +65,25 @@ h4 {
 
 		</div>
 		<div class="row">
-			<div class="col-xs-2 col-lg-2 col-md-offset-5 "
+			<div class="col-xs-4 col-lg-3 col-md-offset-4 "
 				style="margin-top:60px;">
-				<button class="btn btn-default centerBlock" onclick="return algorithms()">Algorithms Management</button>
+				<h2 class="centerBlock" style="text-align:center">Admin Options:</h2>
 			</div>
-			<div class="col-xs-2 col-lg-2 col-md-offset-5 "
+			<div class="col-xs-4 col-lg-3 col-md-offset-4 "
+				style="margin-top:60px;">
+				<button class="btn btn-default btn-block centerBlock" onclick="return algorithms()">Algorithms Management</button>
+			</div>
+			<div class="col-xs-4 col-lg-3 col-md-offset-4 "
 				style="margin-top: 20px;">
-				<button class="btn btn-default centerBlock" onclick="return statistics()">Statistics</button>
+				<button class="btn btn-default btn-block centerBlock" onclick="return statistics()">Statistics</button>
+			</div>
+			<div class="col-xs-4 col-lg-3 col-md-offset-4 "
+				style="margin-top: 20px;">
+				<button class="btn btn-default btn-block centerBlock" onclick="return userManagement()">Users Management</button>
+			</div>
+			<div class="col-xs-4 col-lg-3 col-md-offset-4 "
+				style="margin-top: 20px;">
+				<button class="btn btn-default btn-block centerBlock" onclick="return newAlgorithm()">Upload New Algorithm</button>
 			</div>
 		</div>
 

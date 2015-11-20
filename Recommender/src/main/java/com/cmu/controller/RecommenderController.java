@@ -235,13 +235,16 @@ public class RecommenderController {
 			System.out.println(m.getTitle());
 		}
 
-		mv.addObject("posters", ControllerHelper.createSemicolonSeparatedStringFromArray(posters));
 		mv.addObject("movieIds", movieIds);
-		if(titles.isEmpty())
+		
+		if(titles.isEmpty()){
 			mv.addObject("movieTitles", titles);
-		else
+			mv.addObject("posters", posters);
+		}
+		else{
 			mv.addObject("movieTitles", ControllerHelper.createSemicolonSeparatedStringFromArray(titles));
-
+			mv.addObject("posters", ControllerHelper.createSemicolonSeparatedStringFromArray(posters));
+		}
 		return mv;
 	}
 

@@ -36,7 +36,8 @@ public class RankingController {
 		  ratings.add(String.valueOf(userdetail.getNumberOfRatedMovies()));
 	  }
       
-	  
+	  System.out.println(users);
+
 	  model.addObject("users", ControllerHelper.createSemicolonSeparatedStringFromArray(users));
 	  model.addObject("ratings", ControllerHelper.createSemicolonSeparatedStringFromArray(ratings));
 	  model.addObject("username", username);
