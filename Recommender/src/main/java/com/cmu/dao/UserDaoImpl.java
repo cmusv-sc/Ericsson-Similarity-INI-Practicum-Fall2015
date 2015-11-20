@@ -56,6 +56,11 @@ public class UserDaoImpl implements UserDao {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void addUser(User user) {
+		// TODO Auto-generated method stub
+		
+	}
  
     
 }

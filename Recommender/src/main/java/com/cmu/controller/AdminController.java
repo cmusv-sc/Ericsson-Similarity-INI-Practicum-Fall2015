@@ -106,8 +106,8 @@ public class AdminController {
 
 		ModelAndView model = new ModelAndView();
 
-		//List<User> users = userDao.getUsers();
-		List<User> users = new ArrayList<User>();
+		List<User> users = userDao.getUsers();
+		//List<User> users = new ArrayList<User>();
 		users.add(new User("username1", "pwd", "ROLE"));
 		users.add(new User("username2", "pwd2", "ROLE2"));
 		
@@ -134,7 +134,7 @@ public class AdminController {
 		
 		UserDaoImpl userDao = new UserDaoImpl();
 		System.out.println(username + " was deleted!");
-		//userDao.deleteUser(username);
+		userDao.deleteUser(username);
 		
 
 	}
@@ -157,7 +157,7 @@ public class AdminController {
 		String password = "$2a$10$9cH17x6PZ8Dx54yaHgpt9O2rfcuQYD84Tg0m/q3/yAQKOfpkNjd6a";
 		User user = new User(username, password, userRole);
 		System.out.println(username + " was added!");
-		//userDao.addUser(user);
+		userDao.addUser(user);
 		
 
 	}

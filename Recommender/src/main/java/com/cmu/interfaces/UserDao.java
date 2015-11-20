@@ -10,4 +10,5 @@ public interface UserDao {
 	public void updatePassword(String username, String hashedPassword);	
 	public List<User> getUsers();
 	public void deleteUser(String username);
+	public void addUser(User user);
 }
