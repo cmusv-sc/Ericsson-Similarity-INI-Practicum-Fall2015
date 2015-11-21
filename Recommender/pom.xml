@@ -148,7 +148,7 @@
 						<argument>-Xmx7168m</argument>
 						<argument>-classpath</argument>
 						<classpath />
-						<argument>com.cmu.learner.CosineModelLearner</argument>
+						<argument>com.cmu.learner.ContentBasedLearner</argument>
 					</arguments>
 				</configuration>
 			</plugin>
