@@ -36,7 +36,7 @@ public class CosineTask implements Runnable {
 
 		try {
 			BufferedWriter writer = new BufferedWriter(
-					new FileWriter(new File("/Users/ivash/rough/pearson/pearson_t3" + fileId + ".csv")), 8192 * 50);
+					new FileWriter(new File("/Users/ivash/rough/pearson/cosine_t1" + fileId + ".csv")), 8192 * 50);
 
 			int index = 1;
 			while (latch.getCount() > 0) {
@@ -56,7 +56,7 @@ public class CosineTask implements Runnable {
 					if (index % 100 == 0) {
 						System.out.println(index + "Consumer" + fileId + " " + Thread.currentThread().getName());
 					}
-					writer.write(id + "\t" + Algorithm.PEARSON_COEFFICIENT.toString() + "\t" + s.toString() + "\n");
+					writer.write(id + "\t" + Algorithm.COSINE_SIMILARITY.toString() + "\t" + s.toString() + "\n");
 					index++;
 				}
 

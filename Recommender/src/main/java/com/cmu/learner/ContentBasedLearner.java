@@ -39,7 +39,9 @@ public class ContentBasedLearner {
 	public static void main(String[] args) {
 
 		ContentBasedLearner learner = new ContentBasedLearner();
-		learner.learn();
+		int start = Integer.parseInt(args[0]);
+		int end = Integer.parseInt(args[1]);
+		learner.learn(start, end);
 
 	}
 
@@ -57,8 +59,7 @@ public class ContentBasedLearner {
 			while ((bytesRef = termEnum.next()) != null) {
 				if (termEnum.seekExact(bytesRef)) {
 					String term = bytesRef.utf8ToString();
-					float idf = tfidfSIM.idf(termEnum.docFreq(),
-							reader.numDocs());
+					float idf = tfidfSIM.idf(termEnum.docFreq(), reader.numDocs());
 					docFrequencies.put(term, idf);
 
 				}
@@ -91,8 +92,7 @@ public class ContentBasedLearner {
 		return score;
 	}
 
-	private double calculateScore(Fields fields, int i, int j,
-			IndexReader reader, TFIDFSimilarity tfSimilarity) {
+	private double calculateScore(Fields fields, int i, int j, IndexReader reader, TFIDFSimilarity tfSimilarity) {
 		double score = 0.0;
 
 		for (String f : fields) {
@@ -131,7 +131,7 @@ public class ContentBasedLearner {
 				}
 
 				score += fieldWeights.get(f) * score(terms1Map, terms2Map);
-			//	System.out.println();
+				// System.out.println();
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -144,11 +144,14 @@ public class ContentBasedLearner {
 
 	}
 
-	public void learn() {
+	public void learn(int start, int end) {
 
-		fieldWeights.put("desc", 0.6);
-		fieldWeights.put("genres", 0.1);
-		fieldWeights.put("title", 0.3);
+		fieldWeights.put(IndexerConstants.DESC, 0.1);
+		fieldWeights.put(IndexerConstants.GENRES, 0.2);
+		fieldWeights.put(IndexerConstants.TITLE, 0.25);
+		fieldWeights.put(IndexerConstants.WRITER, 0.15);
+		fieldWeights.put(IndexerConstants.DIRECTOR, 0.10);
+		fieldWeights.put(IndexerConstants.STARS, 0.2);
 
 		Path path = Paths.get(IndexerConstants.directoryPath);
 		DecimalFormat df = new DecimalFormat("#.####");
@@ -160,30 +163,24 @@ public class ContentBasedLearner {
 			docFrequencies = getIdfs(reader);
 
 			Fields fields = MultiFields.getFields(reader);
-			System.out.println("Number of indexed documents are : "
-					+ reader.maxDoc());
+			System.out.println("Number of indexed documents are : " + reader.maxDoc());
 			BufferedWriter writer = new BufferedWriter(
-					new FileWriter(
-							new File(
-									"/Users/ivash/rough/content_filtering.csv")),
+					new FileWriter(new File("/Users/ivash/rough/content_filtering" + start + "_" + end + ".csv")),
 					8192 * 50);
 
 			for (int i = 0; i < reader.maxDoc(); i++) {
-				Queue<IDScoreTuple> minHeap = new PriorityQueue<IDScoreTuple>(
-						20);
+				Queue<IDScoreTuple> minHeap = new PriorityQueue<IDScoreTuple>(20);
 
 				Document doc = reader.document(i);
 				String imovId = doc.getField("movieid").stringValue();
 
-				for (int j = 0; j < 5000; j++) {
+				for (int j = start; j < end; j++) {
 
 					if (i != j) {
 						Document document = reader.document(j);
-						String movId = document.getField("movieid")
-								.stringValue();
+						String movId = document.getField("movieid").stringValue();
 
-						Double tfidfScore = calculateScore(fields, i, j,
-								reader, tfidfSIM);
+						Double tfidfScore = calculateScore(fields, i, j, reader, tfidfSIM);
 
 						if (minHeap.size() < 20) {
 							minHeap.add(new IDScoreTuple(movId, tfidfScore));
@@ -208,8 +205,7 @@ public class ContentBasedLearner {
 					s.insert(0, tuple.id);
 				}
 
-				writer.write(imovId + "\t" + Algorithm.CONTENT_631.toString()
-						+ "\t" + s.toString() + "\n");
+				writer.write(imovId + "\t" + Algorithm.CONTENT_ALLFIELDS.toString() + "\t" + s.toString() + "\n");
 				System.out.println("Done" + i);
 
 			}

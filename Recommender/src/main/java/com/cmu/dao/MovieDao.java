@@ -130,7 +130,7 @@ public class MovieDao {
 
 		PreparedStatement statement;
 
-		String sqlQuery = "Select movieID from movies WHERE movieID >=90000 order by movieID";
+		String sqlQuery = "Select movieID from movies WHERE movieID <10000 order by movieID";
 
 		// execute select SQL stetement
 		ResultSet rs;

@@ -40,7 +40,7 @@ public class CosineModelLearner implements OfflineLearner {
 		LenskitConfiguration config = new LenskitConfiguration();
 
 		config.bind(GlobalItemScorer.class).to(ItemItemGlobalScorer.class);
-		config.within(ItemVectorSimilarity.class).bind(VectorSimilarity.class).to(PearsonCorrelation.class);
+		//config.within(ItemVectorSimilarity.class).bind(VectorSimilarity.class).to(PearsonCorrelation.class);
 		try {
 			Connection conn = DBConnection.getConection();
 
@@ -53,7 +53,7 @@ public class CosineModelLearner implements OfflineLearner {
 
 			JDBCRatingDAO dao = jdbcDaoBuilder.build(conn);
 
-			System.out.println("Cosine/Pearson Similarity learner started");
+			System.out.println("The New OnlyCosine/Pearson Similarity learner started");
 			long startTime = System.currentTimeMillis();
 			config.addComponent(dao);
 			LenskitRecommender rec = LenskitRecommender.build(config);
@@ -96,32 +96,9 @@ public class CosineModelLearner implements OfflineLearner {
 				thread.start();
 			}
 
+			
 			latch.await();
-			// int i = 0;
-			// for (Long Id : movieDao.getAllMovieIds()) {
-			//
-			// if (Id != null) {
-			// CosineTask task = new CosineTask(globalItemRecommender, Id,
-			// modelDao);
-			//
-			// threadService.execute(task);
-			// // Set<Long> items = new HashSet<Long>();
-			// // items.add(Id);
-			// // System.out.println("Cosine: Generating recommendation for
-			// // movie Id: " + Id);
-			// // List<ScoredId> recommendations =
-			// // globalItemRecommender.globalRecommend(items, 20);
-			// //
-			// // modelDao.addToModel(Id, recommendations,
-			// // Algorithm.COSINE_SIMILARITY);
-			// }
-			// i++;
-			//
-			// if (i % 100 == 0) {
-			// System.out.println(System.currentTimeMillis() - startTime);
-			// }
-			// }
-
+			
 			System.out.println("###############################" + (System.currentTimeMillis() - startTime));
 			try {
 				conn.close();

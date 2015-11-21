@@ -57,7 +57,7 @@ public class RecommendationPool {
 		List<RecommendationPoolUnit> pool = new ArrayList<RecommendationPoolUnit>();
 		for(Recommendation r : recommendations)
 			pool.add(exportRecommendationToUnit(r));
-		pool.sort(RecommendationPoolUnit.scoreComparator);
+		//pool.sort(RecommendationPoolUnit.scoreComparator);
 		return pool;
 	}
 
@@ -138,10 +138,10 @@ public class RecommendationPool {
 	}
 
 	public void sortPoolByMovieId(List<RecommendationPoolUnit> pool){
-		pool.sort(RecommendationPoolUnit.movieIdComparator);	
+		//pool.sort(RecommendationPoolUnit.movieIdComparator);	
 	}
 
 	public void sortPoolByRanking(List<RecommendationPoolUnit> pool){
-		pool.sort(RecommendationPoolUnit.scoreComparator);	
+		//pool.sort(RecommendationPoolUnit.scoreComparator);	
 	}
 }
