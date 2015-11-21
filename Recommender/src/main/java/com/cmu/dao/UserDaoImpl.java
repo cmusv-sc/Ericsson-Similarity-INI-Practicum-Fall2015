@@ -46,6 +46,21 @@ public class UserDaoImpl implements UserDao {
 			}
 		}
 	}
+
+	public List<User> getUsers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void deleteUser(String username) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void addUser(User user) {
+		// TODO Auto-generated method stub
+		
+	}
  
     
 }

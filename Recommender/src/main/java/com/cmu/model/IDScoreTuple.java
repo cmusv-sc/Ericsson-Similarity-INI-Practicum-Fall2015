@@ -15,7 +15,7 @@ public class IDScoreTuple implements Comparable<IDScoreTuple> {
 
 
 
-	@Override
+	//@Override
 	public int compareTo(IDScoreTuple arg0) {
 		// TODO Auto-generated method stub
 		return this.score.compareTo(arg0.score);

@@ -1,24 +1,25 @@
 package com.cmu.model;
 
 public class User {
-     
-    private Integer id;
-     
+          
     private String login;
      
     private String password;
      
-    private Role role;
+    private String role;
+    
+    public User(String username, String password, String role) {
+    	this.login = username;
+    	this.password = password;
+    	this.role = role;
+
+	}
  
-    public Integer getId() {
-        return id;
-    }
- 
-    public void setId(Integer id) {
-        this.id = id;
-    }
- 
-    public String getLogin() {
+    public User() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getLogin() {
         return login;
     }
  
@@ -34,11 +35,11 @@ public class User {
         this.password = password;
     }
  
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
  
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }   
  

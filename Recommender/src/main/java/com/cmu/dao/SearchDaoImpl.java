@@ -20,7 +20,8 @@ public class SearchDaoImpl implements SearchDao{
 
 		PreparedStatement statement;
 
-		String sqlQuery = "Select movieid, Title,Year,movieID,Poster from smalldata where LOWER(Title) ~ LOWER('"+token+"') ORDER BY Year DESC";
+		//String sqlQuery = "Select movieid, Title,Year,movieID,Poster from smalldata where LOWER(Title) ~ LOWER('"+token+"') ORDER BY Year DESC";
+		String sqlQuery = "Select movieid, Title,Year,movieID,Poster from data20m where LOWER(Title) ~ LOWER('"+token+"') ORDER BY Year DESC";
 
 
 

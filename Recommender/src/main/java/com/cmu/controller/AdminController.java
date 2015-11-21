@@ -18,11 +18,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cmu.dao.AlgorithmsDaoImpl;
 import com.cmu.dao.EvaluationDaoImpl;
+import com.cmu.dao.UserDaoImpl;
 import com.cmu.enums.Algorithm;
 import com.cmu.model.EvaluationStatistics;
 import com.cmu.model.Movie;
+import com.cmu.model.User;
 import com.cmu.model.UserFeedback;
 import com.cmu.recommendationEngine.RecommendationBuilder;
+import com.cmu.security.BCryptPasswordEncoder;
 
 
 @Controller
@@ -80,7 +83,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/admin/algorithmManagement", method = RequestMethod.GET)
-	public @ResponseBody void processAJAXRequest(
+	public @ResponseBody void algorithmManagement(
 			@RequestParam("algorithm") String algorithm,
 			@RequestParam("action") String action) {
 		
@@ -96,5 +99,73 @@ public class AdminController {
 		}
 
 	}
+	
+	@RequestMapping(value = "/admin/userManagement", method = RequestMethod.GET)
+	public ModelAndView userManagement() {
+		UserDaoImpl userDao = new UserDaoImpl();
 
+		ModelAndView model = new ModelAndView();
+
+		List<User> users = userDao.getUsers();
+		//List<User> users = new ArrayList<User>();
+		users.add(new User("username1", "pwd", "ROLE"));
+		users.add(new User("username2", "pwd2", "ROLE2"));
+		
+		
+		List<String> usernames = new ArrayList<String>();
+		List<String> userRoles = new ArrayList<String>();
+		for(User u : users){
+			usernames.add(u.getLogin());
+			userRoles.add(u.getRole());
+		}
+		
+		model.addObject("users", ControllerHelper.createSemicolonSeparatedStringFromArray(usernames));
+		model.addObject("userRoles", ControllerHelper.createSemicolonSeparatedStringFromArray(userRoles));
+		
+		model.setViewName("userManagement");
+
+		return model;
+
+	}
+
+	@RequestMapping(value = "/admin/deleteUser", method = RequestMethod.GET)
+	public @ResponseBody void deleteUser(
+			@RequestParam("username") String username) {
+		
+		UserDaoImpl userDao = new UserDaoImpl();
+		System.out.println(username + " was deleted!");
+		userDao.deleteUser(username);
+		
+
+	}
+	
+	@RequestMapping(value = "/admin/addUser", method = RequestMethod.GET)
+	public ModelAndView addUser() {
+		ModelAndView model = new ModelAndView();		
+		model.setViewName("addUser");
+		return model;
+	}
+	
+	@RequestMapping(value = "/admin/addUserAction", method = RequestMethod.GET)
+	public @ResponseBody void deleteUser(
+			@RequestParam("username") String username, 
+			@RequestParam("userRole") String userRole) {
+		
+		UserDaoImpl userDao = new UserDaoImpl();
+		
+		//password = "default"
+		String password = "$2a$10$9cH17x6PZ8Dx54yaHgpt9O2rfcuQYD84Tg0m/q3/yAQKOfpkNjd6a";
+		User user = new User(username, password, userRole);
+		System.out.println(username + " was added!");
+		userDao.addUser(user);
+		
+
+	}
+	
+	@RequestMapping(value = "/admin/uploadAlgorithm", method = RequestMethod.GET)
+	public ModelAndView uploadAlgorithm() {
+		ModelAndView model = new ModelAndView();		
+		model.setViewName("uploadAlgorithm");
+		return model;
+	}
 }

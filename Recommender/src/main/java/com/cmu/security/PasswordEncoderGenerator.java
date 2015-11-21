@@ -6,7 +6,7 @@ public class PasswordEncoderGenerator {
 
   public static void main(String[] args) {
 
-		String password = "admin";
+		String password = "default";
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String hashedPassword = passwordEncoder.encode(password);
 
