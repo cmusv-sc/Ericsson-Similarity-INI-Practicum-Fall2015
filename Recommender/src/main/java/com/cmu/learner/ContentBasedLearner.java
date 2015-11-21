@@ -105,6 +105,7 @@ public class ContentBasedLearner {
 
 			try {
 
+				System.out.println("Field is " + f);
 				Terms vector1 = reader.getTermVector(i, f);
 				Terms vector2 = reader.getTermVector(j, f);
 
