@@ -101,7 +101,7 @@ public class ContentBasedLearner {
 		for (String f : fields) {
 
 			if (f.equals("movieid"))
-				break;
+				continue;
 
 			try {
 
