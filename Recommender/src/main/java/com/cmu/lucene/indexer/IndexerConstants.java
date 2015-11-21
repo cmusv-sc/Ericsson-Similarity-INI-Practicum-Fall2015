@@ -2,8 +2,8 @@ package com.cmu.lucene.indexer;
 
 public class IndexerConstants {
 
-	// public final static String directoryPath = "/home/ubuntu/lucene_index";
-	public final static String directoryPath = "/Users/ivash/Documents/Ericsson-Similarity-INI-Practicum-Fall2015/lucene_index";
+	 public final static String directoryPath = "/home/ubuntu/lucene_index";
+	//public final static String directoryPath = "/Users/ivash/Documents/Ericsson-Similarity-INI-Practicum-Fall2015/lucene_index";
 
 	public final static String movie1_title = "The Matrix";
 	public final static String movie1_actors = " Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss";
