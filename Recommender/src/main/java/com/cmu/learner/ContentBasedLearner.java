@@ -38,9 +38,12 @@ public class ContentBasedLearner {
 
 	public static void main(String[] args) {
 
+		for (String arg : args) {
+			System.out.println(arg);
+		}
 		ContentBasedLearner learner = new ContentBasedLearner();
-		int start = Integer.parseInt(args[0]);
-		int end = Integer.parseInt(args[1]);
+		int start = Integer.parseInt(args[1]);
+		int end = Integer.parseInt(args[3]);
 		learner.learn(start, end);
 
 	}

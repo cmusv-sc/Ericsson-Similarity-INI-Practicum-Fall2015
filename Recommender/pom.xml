@@ -149,6 +149,10 @@
 						<argument>-classpath</argument>
 						<classpath />
 						<argument>com.cmu.learner.ContentBasedLearner</argument>
+						<argument>-a</argument>
+						<argument>${argumentA}</argument>
+						<argument>-b</argument>
+						<argument>${argumentB}</argument>
 					</arguments>
 				</configuration>
 			</plugin>
