@@ -165,8 +165,7 @@ public class ContentBasedLearner {
 			Fields fields = MultiFields.getFields(reader);
 			System.out.println("Number of indexed documents are : " + reader.maxDoc());
 			BufferedWriter writer = new BufferedWriter(
-					new FileWriter(new File("/Users/ivash/rough/content_filtering" + start + "_" + end + ".csv")),
-					8192 * 50);
+					new FileWriter(new File("/home/ubuntu/content_filtering" + start + "_" + end + ".csv")), 8192 * 50);
 
 			for (int i = 0; i < reader.maxDoc(); i++) {
 				Queue<IDScoreTuple> minHeap = new PriorityQueue<IDScoreTuple>(20);
