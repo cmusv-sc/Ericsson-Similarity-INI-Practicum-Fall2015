@@ -170,13 +170,13 @@ public class ContentBasedLearner {
 			BufferedWriter writer = new BufferedWriter(
 					new FileWriter(new File("/home/ubuntu/content_filtering" + start + "_" + end + ".csv")), 8192 * 50);
 
-			for (int i = 0; i < reader.maxDoc(); i++) {
+			for (int i = start; i < end; i++) {
 				Queue<IDScoreTuple> minHeap = new PriorityQueue<IDScoreTuple>(20);
 
 				Document doc = reader.document(i);
 				String imovId = doc.getField("movieid").stringValue();
 
-				for (int j = start; j < end; j++) {
+				for (int j = 0; j < reader.maxDoc(); j++) {
 
 					if (i != j) {
 						Document document = reader.document(j);
