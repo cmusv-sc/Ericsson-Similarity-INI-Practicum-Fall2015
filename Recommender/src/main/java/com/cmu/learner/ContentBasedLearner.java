@@ -44,7 +44,8 @@ public class ContentBasedLearner {
 		ContentBasedLearner learner = new ContentBasedLearner();
 		int start = Integer.parseInt(args[1]);
 		int end = Integer.parseInt(args[3]);
-		learner.learn(start, end);
+		
+		learner.learn(start, end,args[5]);
 
 	}
 
@@ -148,7 +149,7 @@ public class ContentBasedLearner {
 
 	}
 
-	public void learn(int start, int end) {
+	public void learn(int start, int end, String suffix) {
 
 		fieldWeights.put(IndexerConstants.DESC, 0.1);
 		fieldWeights.put(IndexerConstants.GENRES, 0.2);
@@ -157,7 +158,7 @@ public class ContentBasedLearner {
 		fieldWeights.put(IndexerConstants.DIRECTOR, 0.10);
 		fieldWeights.put(IndexerConstants.STARS, 0.2);
 
-		Path path = Paths.get(IndexerConstants.directoryPath);
+		Path path = Paths.get(IndexerConstants.directoryPath+suffix);
 		DecimalFormat df = new DecimalFormat("#.####");
 		df.setRoundingMode(RoundingMode.CEILING);
 		try {

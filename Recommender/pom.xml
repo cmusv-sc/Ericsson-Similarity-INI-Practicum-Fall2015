@@ -153,6 +153,8 @@
 						<argument>${argumentA}</argument>
 						<argument>-b</argument>
 						<argument>${argumentB}</argument>
+						<argument>-c</argument>
+						<argument>${argumentC}</argument>
 					</arguments>
 				</configuration>
 			</plugin>
