@@ -24,6 +24,7 @@ import com.cmu.dao.ModelDaoImpl;
 import com.cmu.dao.MovieDao;
 import com.cmu.dao.RecommendationDaoImpl;
 import com.cmu.dao.SearchDaoImpl;
+import com.cmu.dao.UserDaoImpl;
 import com.cmu.dao.UserDetailsDaoImpl;
 import com.cmu.dao.VisualizedMoviesDaoImpl;
 import com.cmu.enums.Algorithm;
@@ -35,6 +36,7 @@ import com.cmu.interfaces.UserDetailsDao;
 import com.cmu.model.EvaluationStatistics;
 import com.cmu.model.ItemScore;
 import com.cmu.model.Movie;
+import com.cmu.model.User;
 import com.cmu.model.UserFeedback;
 import com.cmu.recommendationEngine.RecommendationBuilder;
 
@@ -294,6 +296,12 @@ public class RecommenderController {
 		//List<String> aa = al.getEnabledAlgorithms();
 		//al.enableAlgorithm("COSINE_SIMILARITY");
 		//aa = al.getEnabledAlgorithms();
+		
+		UserDaoImpl udi = new UserDaoImpl();
+		User uu = new User("tt1","tt22","tt33");
+		System.out.println(udi.addUser(uu));
+		//udi.deleteUser("tt1");
+		//List<User> us = udi.getUsers();
 		
 		int pp = 1;
 		return null;
