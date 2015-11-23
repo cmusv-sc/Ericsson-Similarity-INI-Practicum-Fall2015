@@ -103,7 +103,7 @@ public class RecommenderController {
 	}
 
 
-	@RequestMapping("/home")
+	@RequestMapping(value={"/home", "/"})
 	public ModelAndView home() { 
 		List<String> posters = new ArrayList<String>();
 		
