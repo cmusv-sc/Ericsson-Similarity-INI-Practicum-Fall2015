@@ -49,10 +49,11 @@ public class RecommendationDaoImpl implements RecommendationDao {
 					silist.add(Long.parseLong(similarities[i]));
 				}
 				List<com.cmu.model.Movie> allmovies = getMovieDatas(silist);
-				for (int i = 1; i < similarities.length; i += 2) {
-					Recommendation rec = new Recommendation(alg, Double.parseDouble(similarities[i]),
-							allmovies.get(i / 2));
-
+				int simid = 0;
+				for(int i = 1; i < allmovies.size(); i++){
+					while(!similarities[simid].equals(allmovies.get(i).getId().toString()))
+						simid += 2;
+					Recommendation rec = new Recommendation(alg,Double.parseDouble(similarities[simid+1]),allmovies.get(i));
 					recs.add(rec);
 				}
 			}
@@ -176,10 +177,10 @@ public class RecommendationDaoImpl implements RecommendationDao {
 			index = 0;
 			while (rs.next()) {
 				if (DBConnection.getPosterpath().length() > 0)
-					poster = DBConnection.getPosterpath() + "/" + ids.get(index) + ".jpg";
+					poster = DBConnection.getPosterpath() + "/" + rs.getLong("movieId") + ".jpg";
 				else
 					poster = rs.getString("Poster");
-				com.cmu.model.Movie mv = new com.cmu.model.Movie(rs.getString("Title"), ids.get(index++),
+				com.cmu.model.Movie mv = new com.cmu.model.Movie(rs.getString("Title"), rs.getLong("movieId"),
 						rs.getString("Genre"), rs.getString("Plot"), poster, rs.getString("imdbId"),
 						rs.getString("year"));
 				mv.setSynopsis(rs.getString("Plot"));
