@@ -34,7 +34,8 @@
 		var arrayOfTitles = "${movieTitles}".split("||");
 		var arrayOfYears = "${years}".split("||");;
 		var arrayOfPosters = "${posters}".split("||");
-	
+		var defaultPoster = "'${defaultposter}'"
+
 		var itemPosition = 0;
 
 		function nextItem() {
@@ -43,7 +44,7 @@
 			}
 			var item = arrayOfIds[itemPosition];
 			if(arrayOfPlots[itemPosition] == "")
-				arrayOfPlots[itemPosition] = "Sorry, we don't have that plot!"
+				arrayOfPlots[itemPosition] = "Sorry, we don't have this plot!"
 			var code = '<div id="title" >'
 					+ '<h4  class="ellipsis centerBlock" style="text-align: center; font-size:15px; width: 180px; height: 20px; margin-top:20px;">'
 					+ arrayOfTitles[itemPosition]
@@ -54,7 +55,7 @@
 					+ '</div>'
 					+ '<a data-toggle="popover" title="'+arrayOfTitles[itemPosition]+'" data-content="'+arrayOfPlots[itemPosition]+'">'
 					+ '<img' 
-				+ '	src="'+arrayOfPosters[itemPosition]+'"' 
+					+ '	src="'+arrayOfPosters[itemPosition]+'"' + 'onerror="this.src=' + defaultPoster + '"' 
 				+ '	alt="Mountain View" class="img-responsive centerBlock"' 
 				+ '	style="height: 206px; width: 144px">'
 					+ '</a>'
@@ -247,16 +248,15 @@
 
 			<div class="col-xs-6 col-lg-3">
 				<div class="jumbotron" style="min-height:600px; padding-top: 10px;padding-bottom: 0px;padding-left: 30px;padding-right: 30px;">
-   						<p>My salary is: <c:out value="${salary}"/><p>
 					<div class="row">
 						<h4 style="text-align: center;">${selectedMovieTitle}</h4>
-						<img src="${selectedPoster}" alt="Mountain View"
+						<img src="${selectedPoster}" alt="Mountain View" onerror="this.src='https://www.dropbox.com/s/0y0gi5rgq0v1c9d/Default_Poster.jpg?dl=1'"
 							class="img-responsive centerBlock" style="height: 247px; width: 173px">
 					</div>
 					<div class="row">
 						<h4>Plot</h4>
 						<c:if test='${synopsys == ""}'>
-							<p style="font-size: 15px">Sorry, we don't have that plot!</p>
+							<p style="font-size: 15px">Sorry, we don't have this plot!</p>
 						</c:if>
 						<c:if test='${synopsys != ""}'>
 							<p style="font-size: 15px">${synopsys}</p>

@@ -81,10 +81,6 @@ h4 {
 				style="margin-top: 20px;">
 				<button class="btn btn-default btn-block centerBlock" onclick="return userManagement()">Users Management</button>
 			</div>
-			<div class="col-xs-4 col-lg-3 col-md-offset-4 "
-				style="margin-top: 20px;">
-				<button class="btn btn-default btn-block centerBlock" onclick="return newAlgorithm()">Upload New Algorithm</button>
-			</div>
 		</div>
 
 	</div>

@@ -1,15 +1,23 @@
 package com.cmu.controller;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
+import javax.imageio.ImageIO;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +41,6 @@ import com.cmu.interfaces.ModelDao;
 import com.cmu.interfaces.RecommendationDao;
 import com.cmu.interfaces.SearchDao;
 import com.cmu.interfaces.UserDetailsDao;
-import com.cmu.model.EvaluationStatistics;
 import com.cmu.model.ItemScore;
 import com.cmu.model.Movie;
 import com.cmu.model.User;
@@ -90,6 +97,7 @@ public class RecommenderController {
 			moviesPlots.add(m.getSynopsis());
 			years.add("("+m.getYear()+")");
 		}
+		mv.addObject("defaultposter", "https://www.dropbox.com/s/0y0gi5rgq0v1c9d/Default_Poster.jpg?dl=1");
 
 		mv.addObject("selectedMovieId", movie.getId());
 		mv.addObject("selectedPoster", movie.getPoster());
@@ -109,7 +117,7 @@ public class RecommenderController {
 	public ModelAndView home() { 
 		List<String> posters = new ArrayList<String>();
 		RecommendationDaoImpl r = new RecommendationDaoImpl();
-		List<Movie> randomItems = r.getTopRandomMovies(200, 32);
+		List<Movie> randomItems = r.getTopRandomMovies(200, 12);
 		ModelAndView mv = new ModelAndView("home");
 		List<Long> movieIds = new ArrayList<Long>();
 		List<String> movieTitles = new ArrayList<String>();
@@ -127,7 +135,8 @@ public class RecommenderController {
 			popularMovieIds.add(movie.getId());
 			popularMovieTitles.add(movie.getTitle()  + " (" + movie.getYear() + ")");
 		}
-		
+		mv.addObject("defaultposter", "https://www.dropbox.com/s/0y0gi5rgq0v1c9d/Default_Poster.jpg?dl=1");
+
 		mv.addObject("posters", ControllerHelper.createSemicolonSeparatedStringFromArray(posters));
 		mv.addObject("movieIds", movieIds);
 		mv.addObject("movieTitles", ControllerHelper.createSemicolonSeparatedStringFromArray(movieTitles));
@@ -136,24 +145,6 @@ public class RecommenderController {
 		mv.addObject("popularMovieTitles", ControllerHelper.createSemicolonSeparatedStringFromArray(popularMovieTitles));
 
 		return mv;
-	}
-
-	private List<Movie> getRandomItems() {
-		RecommendationDaoImpl rec = new RecommendationDaoImpl();
-		List<Movie> result = new ArrayList<Movie>();
-		List<Long> movieIds = new ArrayList<Long>();
-		Random rand = new Random();
-		for (int i = 0; i < 12; i++){
-			Long id = new Long(rand.nextInt(20000));
-
-			while(containLong(movieIds, id) || (rec.getMovieData(id) == null))
-				id = new Long(rand.nextInt(20000));
-
-			movieIds.add(id);
-			result.add(rec.getMovieData(id));
-		}
-
-		return result;	
 	}
 
 	private boolean containLong(List<Long> movieIds, Long id){
@@ -237,7 +228,8 @@ public class RecommenderController {
 		}
 
 		mv.addObject("movieIds", movieIds);
-		
+		mv.addObject("defaultposter", "https://www.dropbox.com/s/0y0gi5rgq0v1c9d/Default_Poster.jpg?dl=1");
+
 		if(titles.isEmpty()){
 			mv.addObject("movieTitles", titles);
 			mv.addObject("posters", posters);

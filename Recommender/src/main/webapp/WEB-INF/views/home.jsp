@@ -41,6 +41,7 @@ h4 {
 		var popularArrayOfTitles = "${popularMovieTitles}".split("||");
 		var popularArrayOfPosters = "${popularPosters}".split("||");
 		var popularItemPosition = 0;
+		var defaultPoster = "'${defaultposter}'"
 
 
 		function nextItem() {
@@ -52,7 +53,7 @@ h4 {
 					+ item
 					+ '">'
 					+ '<img' +
-		'	src="'+arrayOfPosters[itemPosition]+'"' +
+					'	src="'+arrayOfPosters[itemPosition]+'"' + 'onerror="this.src=' + defaultPoster + '"' +
 		'	style="height: 206px; width: 144px"' +
 		'	alt="Mountain View" class="img-responsive centerBlock"></a>' +
 		'<h4 class="centerBlock" id="title' + arrayOfIds[itemPosition] + '">'

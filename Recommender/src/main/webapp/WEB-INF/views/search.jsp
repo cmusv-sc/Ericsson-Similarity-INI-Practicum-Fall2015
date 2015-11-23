@@ -24,15 +24,15 @@ h4 {
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script>
+		
 		var arrayOfIds = JSON.parse("${movieIds}");
 		var arraySize = "${movieIds.size()}";
 		var strLen = "${movieTitles}".length;
 		var posterLen = "${posters}".length;
 		var arrayOfTitles = "${movieTitles}".split("||");
 		var arrayOfPosters = "${posters}".split("||");
-		var defaultImg = "'http://www.onlineseowebservice.com/news/wp-content/themes/creativemag/images/default.png'"
 		var itemPosition = 0;
-
+		var defaultPoster = "'${defaultposter}'"
 		function nextItem() {
 			if (itemPosition > arraySize) {
 				return;
@@ -42,7 +42,7 @@ h4 {
 				+ item
 				+ '">'
 				+ '<img' +
-	'	src="'+arrayOfPosters[itemPosition]+'"' + 'onerror="this.src=' + defaultImg + '"' +
+	'	src="'+arrayOfPosters[itemPosition]+'"' + 'onerror="this.src=' + defaultPoster + '"' +
 	'	style="height: 206px; width: 144px"' +
 	'	alt="Mountain View" class="img-responsive centerBlock"></a>' +
 	'<h4 class="centerBlock" id="title' + arrayOfIds[itemPosition] + '">'

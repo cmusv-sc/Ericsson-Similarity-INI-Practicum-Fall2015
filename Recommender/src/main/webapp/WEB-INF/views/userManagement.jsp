@@ -33,7 +33,7 @@ h4 {
 			var heading = new Array();
 			heading[0] = "User";
 			heading[1] = "UserRole";
-			heading[2] = "";
+			//heading[2] = "";
 
 			//TABLE COLUMNS
 			var tr = document.createElement('TR');
@@ -56,7 +56,7 @@ h4 {
 				userRolesCell.appendChild(document.createTextNode(arrayOfUserRoles[i]));
 				tr.appendChild(userRolesCell)
 
-				var deletebutton = document.createElement('button');
+				/*var deletebutton = document.createElement('button');
 				deletebutton.innerHTML = "Delete";
 				deletebutton.className = "btn btn-default";
 				deletebutton.id = "delete".concat(i);
@@ -64,7 +64,7 @@ h4 {
 				var deleteButtonCell = document.createElement('TD');
 				deleteButtonCell.appendChild(deletebutton);
 				tr.appendChild(deleteButtonCell)
-
+				*/
 				
 				tableBody.appendChild(tr);
 			}

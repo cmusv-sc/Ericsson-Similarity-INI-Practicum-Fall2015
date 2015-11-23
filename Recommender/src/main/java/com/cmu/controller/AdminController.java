@@ -108,9 +108,6 @@ public class AdminController {
 
 		List<User> users = userDao.getUsers();
 		//List<User> users = new ArrayList<User>();
-		users.add(new User("username1", "pwd", "ROLE"));
-		users.add(new User("username2", "pwd2", "ROLE2"));
-		
 		
 		List<String> usernames = new ArrayList<String>();
 		List<String> userRoles = new ArrayList<String>();
