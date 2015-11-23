@@ -303,6 +303,8 @@ public class RecommenderController {
 		//udi.deleteUser("tt1");
 		//List<User> us = udi.getUsers();
 		
+		List<Movie> qc = q.getTopRandomMovies(100, 12);
+		
 		int pp = 1;
 		return null;
 	}

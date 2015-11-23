@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -130,9 +131,12 @@ public class RecommendationDaoImpl implements RecommendationDao {
 		if (ids.size() == 0)
 			return movies;
 
+		//sqlBuilder.append(
+		//		"select * from (select DISTINCT movieId, Title,Genre,Plot,Poster,imdbId,year from smalldata where movieId in(");
+		
 		sqlBuilder.append(
-				"select * from (select DISTINCT movieId, Title,Genre,Plot,Poster,imdbId,year from smalldata where movieId in(");
-
+				"select * from (select movieId, Title,Genre,Plot,Poster,imdbId,year from data20m where movieId in(");
+				
 		for (int i = 0; i < ids.size(); i++) {
 			sqlBuilder.append(" ?,");
 		}
@@ -352,7 +356,7 @@ public class RecommendationDaoImpl implements RecommendationDao {
 		}
 		Connection conn = DBConnection.getTMDBConection();
 		ResultSet rs;
-		String sqlString = "select distinct data->>'imdb_id' as imdb_id, (data->>'revenue')::bigint from tmdb20m order by (data->>'revenue')::bigint desc limit ?";
+		String sqlString = "select data->>'imdb_id' as imdb_id, (data->>'revenue')::bigint from tmdb20m order by (data->>'revenue')::bigint desc limit ?";
 		try {
 			PreparedStatement statement = conn.prepareStatement(sqlString);
 			statement.setInt(1, count);
@@ -497,5 +501,63 @@ public class RecommendationDaoImpl implements RecommendationDao {
 		System.out.println("end!");
 
 	}
+	
+	public List<com.cmu.model.Movie> getTopRandomMovies(int topx, int ranx) {
+		if (topx < ranx)
+			throw new IllegalArgumentException("too few movies for the random movies required");
+		List<com.cmu.model.Movie> movies = new ArrayList<com.cmu.model.Movie>();
+		String poster;
+
+		try {
+			// DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			DriverManager.registerDriver(new org.postgresql.Driver());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Random rand = new Random();
+		int notselected = topx - ranx;
+		int threshold = (int)(ranx + notselected * 0.05); //some advantage to highly ranked movies
+
+		Connection conn = DBConnection.getOMDBConection();
+		ResultSet rs;
+		String sqlString = "select movieId, Title,Genre,Plot,Poster,imdbId,year from data20m where imdbvotes<>'NA' order by cast(imdbvotes as int) desc limit ?";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sqlString);
+			statement.setInt(1, topx);
+			rs = statement.executeQuery();
+			int count = -1;
+			while (rs.next()) {
+				count++;
+				if(movies.size()==ranx)
+					continue;
+				if(notselected == 0 || rand.nextInt(topx) < threshold){
+					if (DBConnection.getPosterpath().length() > 0)
+						poster = DBConnection.getPosterpath() + "/" + rs.getLong("movieId") + ".jpg";
+					else
+						poster = rs.getString("Poster");
+					com.cmu.model.Movie mv = new com.cmu.model.Movie(rs.getString("Title"), rs.getLong("movieId"),
+							rs.getString("Genre"), rs.getString("Plot"), poster, rs.getString("imdbId"),
+							rs.getString("year"));
+					mv.setSynopsis(rs.getString("Plot"));
+					movies.add(mv);
+					System.out.println(count);
+				}
+				else
+					notselected--;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return movies;
+	}
+
 
 }
