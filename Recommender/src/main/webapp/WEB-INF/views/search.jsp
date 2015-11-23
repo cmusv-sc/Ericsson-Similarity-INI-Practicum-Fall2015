@@ -30,7 +30,7 @@ h4 {
 		var posterLen = "${posters}".length;
 		var arrayOfTitles = "${movieTitles}".split("||");
 		var arrayOfPosters = "${posters}".split("||");
-
+		var defaultImg = "'http://www.onlineseowebservice.com/news/wp-content/themes/creativemag/images/default.png'"
 		var itemPosition = 0;
 
 		function nextItem() {
@@ -42,7 +42,7 @@ h4 {
 				+ item
 				+ '">'
 				+ '<img' +
-	'	src="'+arrayOfPosters[itemPosition]+'"' +
+	'	src="'+arrayOfPosters[itemPosition]+'"' + 'onerror="this.src=' + defaultImg + '"' +
 	'	style="height: 206px; width: 144px"' +
 	'	alt="Mountain View" class="img-responsive centerBlock"></a>' +
 	'<h4 class="centerBlock" id="title' + arrayOfIds[itemPosition] + '">'

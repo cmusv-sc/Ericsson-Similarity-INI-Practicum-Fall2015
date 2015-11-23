@@ -108,8 +108,8 @@ public class RecommenderController {
 	@RequestMapping(value={"/home", "/"})
 	public ModelAndView home() { 
 		List<String> posters = new ArrayList<String>();
-		
-		List<Movie> randomItems = getRandomItems();
+		RecommendationDaoImpl r = new RecommendationDaoImpl();
+		List<Movie> randomItems = r.getTopRandomMovies(200, 32);
 		ModelAndView mv = new ModelAndView("home");
 		List<Long> movieIds = new ArrayList<Long>();
 		List<String> movieTitles = new ArrayList<String>();
@@ -122,7 +122,6 @@ public class RecommenderController {
 		List<String> popularPosters = new ArrayList<String>();
 		List<Long> popularMovieIds = new ArrayList<Long>();
 		List<String> popularMovieTitles = new ArrayList<String>();
-		RecommendationDaoImpl r = new RecommendationDaoImpl();
 		for(Movie movie : r.getPopularMovies(100)){
 			popularPosters.add(movie.getPoster());
 			popularMovieIds.add(movie.getId());
