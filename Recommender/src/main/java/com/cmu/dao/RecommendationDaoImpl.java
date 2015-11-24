@@ -50,7 +50,9 @@ public class RecommendationDaoImpl implements RecommendationDao {
 				}
 				List<com.cmu.model.Movie> allmovies = getMovieDatas(silist);
 				int simid = 0;
-				for(int i = 1; i < allmovies.size(); i++){
+				for(int i = 0; i < allmovies.size(); i++){
+					String aa = similarities[simid];
+					String bb = allmovies.get(i).getId().toString();
 					while(!similarities[simid].equals(allmovies.get(i).getId().toString()))
 						simid += 2;
 					Recommendation rec = new Recommendation(alg,Double.parseDouble(similarities[simid+1]),allmovies.get(i));
