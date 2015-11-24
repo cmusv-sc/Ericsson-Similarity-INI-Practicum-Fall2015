@@ -79,8 +79,7 @@
 					+ '			aria-label="Center Align" onclick="sendSimilarity('
 					+ item
 					+ ', 2)">'
-					+ '			<span class="glyphicon  glyphicon-question-sign"' 
-				+ ' aria-hidden="true"></span>'
+					+ 'skip'
 					//Btn Similar
 					+ '		</button>'
 					+ '		<button title="This movie is similar" style="width: 49px" id="ok'
