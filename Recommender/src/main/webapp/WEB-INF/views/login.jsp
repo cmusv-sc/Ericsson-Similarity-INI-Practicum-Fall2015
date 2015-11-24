@@ -25,7 +25,7 @@
 
 	<div class="container"></div>
 	<div class="header clearfix ">
-		<h3 class="text-muted col-md-offset-2">Item-Item Similarity</h3>
+		<h3 class="text-muted col-md-offset-2">Find Similar</h3>
 	</div>
 
 	<div class="col-xs-6 col-lg-4  col-md-offset-4"

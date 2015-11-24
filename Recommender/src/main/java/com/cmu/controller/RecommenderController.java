@@ -1,22 +1,11 @@
 package com.cmu.controller;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
-import javax.imageio.ImageIO;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -224,9 +213,11 @@ public class RecommenderController {
 			posters.add(m.getPoster());
 			movieIds.add(m.getId());
 			titles.add(m.getTitle() + " (" + m.getYear() + ")");
-			System.out.println(m.getTitle());
 		}
-
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		searchDao.recordSearch(username, searchString);
+		
 		mv.addObject("movieIds", movieIds);
 		mv.addObject("defaultposter", "https://www.dropbox.com/s/0y0gi5rgq0v1c9d/Default_Poster.jpg?dl=1");
 

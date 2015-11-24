@@ -88,7 +88,7 @@ h4 {
 
 			<div class="col-xs-3 col-lg-3">
 				<a href="/Recommender/home" style="text-decoration: none"><h3
-						class="text-muted">Item-Item Similarity</h3></a>
+						class="text-muted">Find Similar</h3></a>
 			</div>
 
 

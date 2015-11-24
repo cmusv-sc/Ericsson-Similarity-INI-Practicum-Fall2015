@@ -142,7 +142,7 @@
 		<div class="row">
 
 			<div class="col-xs-3 col-lg-3">
-				<a href="/Recommender/home" style="text-decoration:none"><h3 class="text-muted">Item-Item Similarity</h3></a>
+				<a href="/Recommender/home" style="text-decoration:none"><h3 class="text-muted">Find Similar</h3></a>
 			</div>
 
 

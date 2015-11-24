@@ -50,7 +50,7 @@ public class RecommendationsSelector {
 
 	public void removeOneRecommendationFromAlgorithm(Algorithm algorithm){
 		int newNumber = recommendationsPerAlgorithm.get(algorithm)-1;
-		//recommendationsPerAlgorithm.replace(algorithm, newNumber);
+		recommendationsPerAlgorithm.replace(algorithm, newNumber);
 	}
 
 	public Algorithm selectNextAlgorithm(){

@@ -64,7 +64,7 @@
 					+ '<div class="btn-toolbar" style="margin-left: 16px;" role="toolbar">'
 					+ '	<div class="btn-group">'
 					//btn Not Similar
-					+ '			<button style="width: 49px" id="remove'
+					+ '			<button title="This movie is not similar" style="width: 49px" id="remove'
 					+ item
 					+ '" type="button" class="btn btn-default"'
 					+ '				aria-label="Left Align" onclick="sendSimilarity('
@@ -73,17 +73,17 @@
 					+ '			<span class="glyphicon  glyphicon-remove" aria-hidden="true"></span>'
 					+ '		</button>'
 					//Btn Don't Know
-					+ '		<button style="width: 50px" id="question'
+					+ '		<button title="Skip this movie" style="width: 50px" id="question'
 					+ item
 					+ '"type="button" class="btn btn-default"'
-					+ '			aria-label="Center Align" onclick="getNewItem('
+					+ '			aria-label="Center Align" onclick="sendSimilarity('
 					+ item
-					+ ')">'
+					+ ', 2)">'
 					+ '			<span class="glyphicon  glyphicon-question-sign"' 
 				+ ' aria-hidden="true"></span>'
 					//Btn Similar
 					+ '		</button>'
-					+ '		<button style="width: 49px" id="ok'
+					+ '		<button title="This movie is similar" style="width: 49px" id="ok'
 					+ item
 					+ '"type="button" class="btn btn-default"'
 					+ '			aria-label="Right Align" onclick="sendSimilarity('
@@ -215,7 +215,7 @@
 
 			<div class="col-xs-3 col-lg-3">
 				<a href="/Recommender/home" style="text-decoration: none"><h3
-						class="text-muted">Item-Item Similarity</h3></a>
+						class="text-muted">Find Similar</h3></a>
 			</div>
 
 

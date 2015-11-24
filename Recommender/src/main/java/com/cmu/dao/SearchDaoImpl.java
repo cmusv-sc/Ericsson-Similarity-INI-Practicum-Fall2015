@@ -67,5 +67,10 @@ public class SearchDaoImpl implements SearchDao{
 		
 	}
 
+	public void recordSearch(String username, String searchString) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

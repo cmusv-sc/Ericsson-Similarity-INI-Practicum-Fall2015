@@ -24,7 +24,7 @@ public class RecommendationBuilder {
 				algorithmsUsed.add(a);
 		}
 		selector = new RecommendationsSelector(algorithmsUsed);
-
+		
 		buildRecommendations(); 
 	}
 	
