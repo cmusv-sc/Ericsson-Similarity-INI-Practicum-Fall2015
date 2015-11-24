@@ -81,7 +81,7 @@ public class UserDetailsDaoImpl implements UserDetailsDao{
 		}
 		Connection conn = DBConnection.getConection();
 		ResultSet rs;
-		String sqlString = "select d.username, count(d.*) as c from (select distinct movieid1, movieid2, username from evaluation) as d group by username order by c desc";
+		String sqlString = "select d.username, count(d.*) as c from (select distinct movieid1, movieid2, username from evaluation where rating = 0 or rating = 1) as d group by username order by c desc";
 		try {
 			PreparedStatement statement = conn.prepareStatement(sqlString);
 			rs = statement.executeQuery();

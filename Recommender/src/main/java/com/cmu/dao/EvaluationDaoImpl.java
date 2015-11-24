@@ -31,7 +31,7 @@ public class EvaluationDaoImpl implements EvaluationDao{
 		}
 		Connection conn = DBConnection.getConection();
 		ResultSet rs;
-		String sqlString = "select algorithm, count(*) as all, SUM(CASE WHEN rating = 0 THEN 1 ELSE 0 END) bad from evaluation group by algorithm;";
+		String sqlString = "select algorithm, SUM(CASE WHEN rating = 0 OR rating = 1 THEN 1 ELSE 0 END) as all, SUM(CASE WHEN rating = 0 THEN 1 ELSE 0 END) bad from evaluation group by algorithm;";
 		try {
 			PreparedStatement statement = conn.prepareStatement(sqlString);
 			rs = statement.executeQuery();

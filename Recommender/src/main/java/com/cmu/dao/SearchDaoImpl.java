@@ -1,12 +1,15 @@
 package com.cmu.dao;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.cmu.enums.Algorithm;
 import com.cmu.interfaces.SearchDao;
 import com.cmu.model.Movie;
 
@@ -68,9 +71,30 @@ public class SearchDaoImpl implements SearchDao{
 	}
 
 	public void recordSearch(String username, String searchString) {
-		// TODO Auto-generated method stub
+		try {
+			//DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+			DriverManager.registerDriver(new org.postgresql.Driver ());
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		Connection conn = DBConnection.getConection();
 		
+		String sqlString = "insert into searchlog (username, term) values(?,?)";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sqlString);
+			statement.setString(1, username);
+			statement.setString(2, searchString);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
 	}
-
-	
 }
