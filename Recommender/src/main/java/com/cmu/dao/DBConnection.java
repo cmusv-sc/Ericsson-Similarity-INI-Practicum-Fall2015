@@ -101,22 +101,22 @@ public class DBConnection {
 				
 				conn.setMinPoolSize(3);
 				conn.setAcquireIncrement(5);
-				conn.setMaxPoolSize(20);
+				conn.setMaxPoolSize(80);
 				conn.setMaxStatements(180);
 		        
 				omdbconn.setMinPoolSize(3);
 				omdbconn.setAcquireIncrement(5);
-				omdbconn.setMaxPoolSize(20);
+				omdbconn.setMaxPoolSize(80);
 				omdbconn.setMaxStatements(180);
 				
 				tmdbconn.setMinPoolSize(3);
 				tmdbconn.setAcquireIncrement(5);
-				tmdbconn.setMaxPoolSize(20);
+				tmdbconn.setMaxPoolSize(80);
 				tmdbconn.setMaxStatements(180);
 		        
 				usrconn.setMinPoolSize(3);
 				usrconn.setAcquireIncrement(5);
-				usrconn.setMaxPoolSize(20);
+				usrconn.setMaxPoolSize(80);
 				usrconn.setMaxStatements(180);
 				
 				posterpath = "http://54.218.101.198:8080/recimg/JPG_REPO/";
