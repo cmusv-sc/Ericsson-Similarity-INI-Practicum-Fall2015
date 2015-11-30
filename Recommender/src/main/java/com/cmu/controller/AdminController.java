@@ -27,10 +27,11 @@ import com.cmu.model.UserFeedback;
 import com.cmu.recommendationEngine.RecommendationBuilder;
 import com.cmu.security.BCryptPasswordEncoder;
 
-
+//Class that controls all the admin pages
 @Controller
 public class AdminController {
 
+	//Controller for the main admin page
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public ModelAndView admin() {
 
@@ -42,6 +43,7 @@ public class AdminController {
 
 	}
 
+	//Controller for the statistics page
 	@RequestMapping(value = "/admin/statistics", method = RequestMethod.GET)
 	public ModelAndView statistics() {
 		ModelAndView model = new ModelAndView();
@@ -52,6 +54,7 @@ public class AdminController {
 		List<String> falsePositives = new ArrayList<String>(); 	  
 		List<String> totalEvaluations = new ArrayList<String>(); 
 
+		//Populate the arrays with the statistics form DAO
 		for (EvaluationStatistics e : statistics){
 			algorithms.add(e.getAlgorithm().toString());
 			falsePositives.add(String.valueOf(e.getFalsePositives()));
@@ -67,10 +70,10 @@ public class AdminController {
 
 	}
 
+	//Controller for the algorithm management page
 	@RequestMapping(value = "/admin/algorithm", method = RequestMethod.GET)
 	public ModelAndView algorithm() {
 		AlgorithmsDaoImpl algorithmsDao = new AlgorithmsDaoImpl();
-
 		ModelAndView model = new ModelAndView();
 
 		model.addObject("algorithms", ControllerHelper.createSemicolonSeparatedStringFromArray(algorithmsDao.getAlgorithms()));
@@ -82,6 +85,7 @@ public class AdminController {
 
 	}
 
+	//Controller for retrieving information of enabling/disabling algorithms
 	@RequestMapping(value = "/admin/algorithmManagement", method = RequestMethod.GET)
 	public @ResponseBody void algorithmManagement(
 			@RequestParam("algorithm") String algorithm,
@@ -91,15 +95,14 @@ public class AdminController {
 		AlgorithmsDaoImpl algorithmsDao = new AlgorithmsDaoImpl();
 		if(action.contains("0")){
 			algorithmsDao.disableAlgorithm(algorithm);
-			System.out.println("Disabled");
 		}
 		else{
 			algorithmsDao.enableAlgorithm(algorithm);
-			System.out.println("Enabled");
 		}
 
 	}
 	
+	//Controller for the user management page
 	@RequestMapping(value = "/admin/userManagement", method = RequestMethod.GET)
 	public ModelAndView userManagement() {
 		UserDaoImpl userDao = new UserDaoImpl();
@@ -107,7 +110,6 @@ public class AdminController {
 		ModelAndView model = new ModelAndView();
 
 		List<User> users = userDao.getUsers();
-		//List<User> users = new ArrayList<User>();
 		
 		List<String> usernames = new ArrayList<String>();
 		List<String> userRoles = new ArrayList<String>();
@@ -125,17 +127,18 @@ public class AdminController {
 
 	}
 
+	//Controller that deletes user. It is not integrated with the UI since deleting user
+	// was found to be not a usual feature
 	@RequestMapping(value = "/admin/deleteUser", method = RequestMethod.GET)
 	public @ResponseBody void deleteUser(
 			@RequestParam("username") String username) {
 		
 		UserDaoImpl userDao = new UserDaoImpl();
-		System.out.println(username + " was deleted!");
 		userDao.deleteUser(username);
-		
 
 	}
 	
+	//Controller for the add user page
 	@RequestMapping(value = "/admin/addUser", method = RequestMethod.GET)
 	public ModelAndView addUser() {
 		ModelAndView model = new ModelAndView();		
@@ -143,6 +146,7 @@ public class AdminController {
 		return model;
 	}
 	
+	//Controller that actually adds the user to the DB
 	@RequestMapping(value = "/admin/addUserAction", method = RequestMethod.GET)
 	public @ResponseBody void deleteUser(
 			@RequestParam("username") String username, 
@@ -150,7 +154,9 @@ public class AdminController {
 		
 		UserDaoImpl userDao = new UserDaoImpl();
 		
-		//password = "default"
+		//The password for new users is "default"
+		// If other password is wanted, one can easily initiate com.cmu.security.PasswordEncoderGenerator
+		//in order to retrieve the hash for the default password
 		String password = "$2a$10$9cH17x6PZ8Dx54yaHgpt9O2rfcuQYD84Tg0m/q3/yAQKOfpkNjd6a";
 		User user = new User(username, password, userRole);
 		System.out.println(username + " was added!");
@@ -159,6 +165,8 @@ public class AdminController {
 
 	}
 	
+	//Not being used by the UI, but it would control the upload of models
+	//in order to add algorithms to the DB
 	@RequestMapping(value = "/admin/uploadAlgorithm", method = RequestMethod.GET)
 	public ModelAndView uploadAlgorithm() {
 		ModelAndView model = new ModelAndView();		

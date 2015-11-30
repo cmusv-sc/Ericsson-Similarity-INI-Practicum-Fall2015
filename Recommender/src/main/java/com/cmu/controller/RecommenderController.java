@@ -36,11 +36,13 @@ import com.cmu.model.User;
 import com.cmu.model.UserFeedback;
 import com.cmu.recommendationEngine.RecommendationBuilder;
 
+//Main controller class. Controls the home page, the similarity page and search.
 @Controller
 public class RecommenderController {
 
 	MovieDao movieDao = new MovieDao();
 
+	//Controller for the similarity page
 	@RequestMapping("/itemSimilarity")
 	public ModelAndView searchItemSimilarities(@RequestParam(value = "item", required = false, defaultValue = "1") String item,
 			@RequestParam(value = "algorithm", required = false, defaultValue = "") String algorithm) { 
@@ -52,6 +54,7 @@ public class RecommenderController {
 		AlgorithmsDaoImpl algorithmsDaoImpl = new AlgorithmsDaoImpl();
 		List<Algorithm> algorithms = new ArrayList<Algorithm>();
 
+		//get recommendations just for the enabled algorithms
 		for(String algName : algorithmsDaoImpl.getEnabledAlgorithms()){
 			for(Algorithm a : Algorithm.values()){
 				if(a.name().equalsIgnoreCase(algName))
@@ -61,6 +64,7 @@ public class RecommenderController {
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(item), algorithms);
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
 		
+		//get recommendations from map to array
 		System.out.println("%%%%%%%%%%%%Recommendations%%%%%%%%%%");
 		for(Movie m : recommendationMap.keySet()) {
 			recommendations.add(m);
@@ -76,7 +80,9 @@ public class RecommenderController {
 		String username = auth.getName(); //get logged in username
 		UserDetailsDaoImpl u = new UserDetailsDaoImpl(username);
 		List<Movie> alreadyRatedMovies = u.getUserRatedMovies(username, movie.getId());
-
+		
+		//populate the arrays that will contain the information.
+		//controls if the movie was already rated by the user to avoid repeated ratings.
 		for(Movie m : recommendations){
 			if(alreadyRatedMovies.contains(m))
 				continue;
@@ -86,6 +92,8 @@ public class RecommenderController {
 			moviesPlots.add(m.getSynopsis());
 			years.add("("+m.getYear()+")");
 		}
+		
+		//default poster is being retrieved from a dropbox account with the image. Further changes will be needed here
 		mv.addObject("defaultposter", "https://www.dropbox.com/s/0y0gi5rgq0v1c9d/Default_Poster.jpg?dl=1");
 
 		mv.addObject("selectedMovieId", movie.getId());
@@ -101,11 +109,12 @@ public class RecommenderController {
 		return mv;
 	}
 
-
+	//Controller for the home page
 	@RequestMapping(value={"/home", "/"})
 	public ModelAndView home() { 
 		List<String> posters = new ArrayList<String>();
 		RecommendationDaoImpl r = new RecommendationDaoImpl();
+		//Get random movies from most rated list. Gets 12 random movies from the top 200.
 		List<Movie> randomItems = r.getTopRandomMovies(200, 12);
 		ModelAndView mv = new ModelAndView("home");
 		List<Long> movieIds = new ArrayList<Long>();
@@ -124,6 +133,8 @@ public class RecommenderController {
 			popularMovieIds.add(movie.getId());
 			popularMovieTitles.add(movie.getTitle()  + " (" + movie.getYear() + ")");
 		}
+		
+		//default poster is being retrieved from a dropbox account with the image. Further changes will be needed here
 		mv.addObject("defaultposter", "https://www.dropbox.com/s/0y0gi5rgq0v1c9d/Default_Poster.jpg?dl=1");
 
 		mv.addObject("posters", ControllerHelper.createSemicolonSeparatedStringFromArray(posters));
@@ -136,15 +147,10 @@ public class RecommenderController {
 		return mv;
 	}
 
-	private boolean containLong(List<Long> movieIds, Long id){
-		for(Long i : movieIds){
-			if(i.compareTo(id) == 0)
-				return true;
-		}
-
-		return false;
-	}
-
+	//Controller that receives the evaluation of the similarity between movies.
+	//Similarity = 0 -> not similar
+	//			 = 1 -> similar
+	//			 = 2 -> The user pressed the skip button
 	@RequestMapping(value = "/evaluation", method = RequestMethod.GET)
 	public @ResponseBody String processAJAXRequest(
 			@RequestParam("similarity") String similarity,
@@ -163,13 +169,13 @@ public class RecommenderController {
 		
 		AlgorithmsDaoImpl algorithmsDaoImpl = new AlgorithmsDaoImpl();
 		List<Algorithm> usedAlgorithms = new ArrayList<Algorithm>();
-		
 		for(String algName : algorithmsDaoImpl.getEnabledAlgorithms()){
 			for(Algorithm a : Algorithm.values()){
 				if(a.name().equalsIgnoreCase(algName))
 					usedAlgorithms.add(a);
 			}
 		}
+		
 		RecommendationBuilder recommendationBuilder= new RecommendationBuilder(Long.valueOf(movieId1), usedAlgorithms);
 		LinkedHashMap<Movie, List<Algorithm>> recommendationMap = (LinkedHashMap<Movie, List<Algorithm>>) recommendationBuilder.getRecommendations();
 		Movie selected = new Movie("", 0l,"","","","", "");
@@ -177,6 +183,7 @@ public class RecommenderController {
 			if(m.getId().toString().compareTo(movieId2) == 0)
 				selected = m;
 		}
+		
 		List<Algorithm> algorithms = recommendationMap.get(selected);
 		Map<Algorithm, Double> algorithmScores = new HashMap<Algorithm, Double>();
 		for(Algorithm a : algorithms)
@@ -190,16 +197,18 @@ public class RecommenderController {
 		return similarity;
 	}
 
+	//Controller that receives all the visualized movies from the UI
 	@RequestMapping(value = "/visualized", method = RequestMethod.GET)
 	public void visualized(@RequestParam("movieId1") String movieId1,
 			@RequestParam("movieId2") String movieId2) {
 		VisualizedMoviesDaoImpl visualizedMoviesDao = new VisualizedMoviesDaoImpl();	
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		System.out.println("@@@@@@@@@ User: "+ username + ",   selected: " + movieId1 + ",   visualized:" + movieId2);
+		//System.out.println("@@@@@@@@@ User: "+ username + ",   selected: " + movieId1 + ",   visualized:" + movieId2);
 		visualizedMoviesDao.saveVisualizedMovie(username, movieId1, movieId2);
 	}
 	
+	//Controller for the search pages
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public ModelAndView searchMovies(
 			@RequestParam("searchString") String searchString) {

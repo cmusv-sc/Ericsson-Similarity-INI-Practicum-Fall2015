@@ -3,6 +3,10 @@ package com.cmu.controller;
 import java.util.List;
 
 public class ControllerHelper {
+	
+	//In order to have a better use of arrays in javascript, this function
+	//receives an array and returns a String with the values from the array
+	//divided by the characters "||"
 	public static String createSemicolonSeparatedStringFromArray(List<String> array){
 		StringBuilder nameBuilder = new StringBuilder();
 

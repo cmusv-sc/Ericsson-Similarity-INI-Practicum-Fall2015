@@ -14,10 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cmu.dao.UserDetailsDaoImpl;
 import com.cmu.model.UserDetails;
 
-
+//Class to control the leaderboard page
 @Controller
 public class RankingController {
 
+	//Controller for the leaderboard page
 	@RequestMapping(value = "/ranking", method = RequestMethod.GET)
 	public ModelAndView ranking() {
 
@@ -36,7 +37,6 @@ public class RankingController {
 		  ratings.add(String.valueOf(userdetail.getNumberOfRatedMovies()));
 	  }
       
-	  System.out.println(users);
 
 	  model.addObject("users", ControllerHelper.createSemicolonSeparatedStringFromArray(users));
 	  model.addObject("ratings", ControllerHelper.createSemicolonSeparatedStringFromArray(ratings));

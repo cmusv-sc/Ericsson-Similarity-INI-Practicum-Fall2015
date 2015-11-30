@@ -11,20 +11,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cmu.dao.UserDaoImpl;
 
+//Class to control the settings page and functions
 @Controller
 public class SettingsController {
 
+	//Controller for the settings page
 	@RequestMapping(value = "/settings", method = RequestMethod.GET)
 	public ModelAndView settings() {
-
-	  ModelAndView model = new ModelAndView();
-	  
+	  ModelAndView model = new ModelAndView();  
 	  model.setViewName("settings");
-
 	  return model;
-
 	}
 	
+	//Controller to update the user's password
 	@RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
 	public ModelAndView updatePassword(@RequestParam("password") String password) {
 
@@ -33,9 +32,9 @@ public class SettingsController {
 		  
 		  BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		  String hashedPassword = passwordEncoder.encode(password);
+	      //get logged in username
 	      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	      String username = auth.getName(); //get logged in username
-	      System.out.println(password);
+	      String username = auth.getName(); 
 	      	
 		  u.updatePassword(username, hashedPassword);
 		  model.setViewName("home");
