@@ -9,6 +9,7 @@ import com.cmu.model.Movie;
 import com.cmu.model.Recommendation;
 import com.cmu.model.RecommendationPoolUnit;
 
+//Get the recommendations from all the algorithms and put in a pool
 public class RecommendationPool {
 	private List<RecommendationPoolUnit> recommendationPool;
 	RecommendationDaoImpl recommendationDaoImpl;

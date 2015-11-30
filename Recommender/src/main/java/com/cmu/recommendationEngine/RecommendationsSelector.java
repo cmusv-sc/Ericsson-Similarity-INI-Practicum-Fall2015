@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.cmu.enums.Algorithm;
 
+//Class that controls which algorithm should be the next to present a recommendation
 public class RecommendationsSelector {
 	private HashMap <Algorithm, Integer> recommendationsPerAlgorithm;
 	private int defaultNumberOfRecommendations = 20;
@@ -53,6 +54,8 @@ public class RecommendationsSelector {
 		recommendationsPerAlgorithm.replace(algorithm, newNumber);
 	}
 
+	//Suggest the least used algorithm as the next one.
+	//If all the algorithms were used the same amount, the first one has priority
 	public Algorithm selectNextAlgorithm(){
 		Algorithm next = null;
 		int biggerValue = 0;
