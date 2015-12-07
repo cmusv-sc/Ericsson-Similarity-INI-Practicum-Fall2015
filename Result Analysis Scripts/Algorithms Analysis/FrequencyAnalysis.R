@@ -1,0 +1,33 @@
+setwd("/Users/LucasColucci/Desktop/Algorithms Analysis/")
+myvalues <- read.csv("Content631.csv")
+h<-hist(myvalues$values, breaks=100, col="red", xlab="Score", main="Content Filtering 631") 
+xfit<-seq(min(myvalues$values),max(myvalues$values),length=40) 
+yfit<-dnorm(xfit,mean=mean(myvalues$values),sd=sd(myvalues$values)) 
+yfit <- yfit*diff(h$mids[1:2])*length(myvalues$values) 
+lines(xfit, yfit, col="blue", lwd=2)
+
+setwd("/Users/LucasColucci/Desktop/Algorithms Analysis/")
+myvalues <- read.csv("ContentAllFields.csv")
+h<-hist(myvalues$values, breaks=100, col="red", xlab="Score", main="Content Filtering All Fields") 
+xfit<-seq(min(myvalues$values),max(myvalues$values),length=40) 
+yfit<-dnorm(xfit,mean=mean(myvalues$values),sd=sd(myvalues$values)) 
+yfit <- yfit*diff(h$mids[1:2])*length(myvalues$values) 
+lines(xfit, yfit, col="blue", lwd=2)
+
+setwd("/Users/LucasColucci/Desktop/Algorithms Analysis/")
+myvalues <- read.csv("CosineSimilarity.csv")
+h<-hist(myvalues$values, breaks=100, col="red", xlab="Score", main="Cosine Similarity") 
+xfit<-seq(min(myvalues$values),max(myvalues$values),length=40) 
+yfit<-dnorm(xfit,mean=mean(myvalues$values),sd=sd(myvalues$values)) 
+yfit <- yfit*diff(h$mids[1:2])*length(myvalues$values) 
+lines(xfit, yfit, col="blue", lwd=2)
+
+setwd("/Users/LucasColucci/Desktop/Algorithms Analysis/")
+myvalues <- read.csv("PearsonCoefficient.csv")
+h<-hist(myvalues$values, breaks=100, col="red", xlab="Score", main="Pearson Coefficient") 
+xfit<-seq(min(myvalues$values),max(myvalues$values),length=40) 
+yfit<-dnorm(xfit,mean=mean(myvalues$values),sd=sd(myvalues$values)) 
+yfit <- yfit*diff(h$mids[1:2])*length(myvalues$values) 
+lines(xfit, yfit, col="blue", lwd=2)
+
+
