@@ -1,0 +1,493 @@
+Statistics: 
+1) MovieLens -> TMDB not exists: 138
+2) MovieLens -> TMDB outdated: 350
+
+
+[ERROR] TMDB records not exist!!! 48374
+[ERROR] Bad Request 105435
+[ERROR] TMDB records not exist!!! 72363
+[ERROR] TMDB records not exist!!! 121592
+[ERROR] Bad Request 113743
+[ERROR] Bad Request 113743
+[ERROR] TMDB records not exist!!! 81107
+[ERROR] Bad Request 31797
+[ERROR] Bad Request 93775
+[ERROR] TMDB records not exist!!! 106990
+[ERROR] Bad Request 101172
+[ERROR] Bad Request 8003
+[ERROR] Bad Request 32952
+[ERROR] Bad Request 33113
+[ERROR] Bad Request 27328
+[ERROR] Bad Request 31535
+[ERROR] Bad Request 109193
+[ERROR] Bad Request 27475
+[ERROR] TMDB records not exist!!! 69687
+[ERROR] Bad Request 2666
+[ERROR] Bad Request 107098
+[ERROR] Bad Request 109355
+[ERROR] Bad Request 109106
+[ERROR] TMDB records not exist!!! 118954
+[ERROR] TMDB records not exist!!! 121320
+[ERROR] TMDB records not exist!!! 125994
+[ERROR] Bad Request 41596
+[ERROR] Bad Request 32959
+[ERROR] Bad Request 89100
+[ERROR] TMDB records not exist!!! 118962
+[ERROR] Bad Request 110493
+[ERROR] TMDB records not exist!!! 107569
+[ERROR] Bad Request 90303
+[ERROR] TMDB records not exist!!! 118242
+[ERROR] Bad Request 97548
+[ERROR] TMDB records not exist!!! 113630
+[ERROR] Bad Request 98856
+[ERROR] Bad Request 86237
+[ERROR] Bad Request 79568
+[ERROR] Bad Request 106024
+[ERROR] Bad Request 80738
+[ERROR] TMDB records not exist!!! 97494
+[ERROR] Bad Request 113470
+[ERROR] Bad Request 102976
+[ERROR] Bad Request 108942
+[ERROR] Bad Request 113834
+[ERROR] Bad Request 94765
+[ERROR] Bad Request 33397
+[ERROR] TMDB records not exist!!! 104116
+[ERROR] Bad Request 31290
+[ERROR] Bad Request 2251
+[ERROR] Bad Request 1107
+[ERROR] TMDB records not exist!!! 105618
+[ERROR] Bad Request 107456
+[ERROR] Bad Request 110657
+[ERROR] Bad Request 772
+[ERROR] TMDB records not exist!!! 101897
+[ERROR] Bad Request 752
+[ERROR] TMDB records not exist!!! 100147
+[ERROR] TMDB records not exist!!! 1319
+[ERROR] TMDB records not exist!!! 67865
+[ERROR] Bad Request 92747
+[ERROR] Bad Request 560
+[ERROR] Bad Request 2270
+[ERROR] TMDB records not exist!!! 78054
+[ERROR] TMDB records not exist!!! 87547
+[ERROR] Bad Request 875
+[ERROR] Bad Request 32335
+[ERROR] Bad Request 1146
+[ERROR] Bad Request 1555
+[ERROR] Bad Request 1166
+[ERROR] Bad Request 738
+[ERROR] Bad Request 1421
+[ERROR] Bad Request 32497
+[ERROR] Bad Request 133
+[ERROR] Bad Request 81349
+[ERROR] TMDB records not exist!!! 78054
+[ERROR] Bad Request 727
+[ERROR] Bad Request 1314
+[ERROR] Bad Request 42335
+[ERROR] Bad Request 1142
+[ERROR] Bad Request 644
+[ERROR] TMDB records not exist!!! 1423
+[ERROR] Bad Request 859
+[ERROR] Bad Request 1740
+[ERROR] TMDB records not exist!!! 1788
+[ERROR] Bad Request 73165
+[ERROR] Bad Request 1657
+[ERROR] Bad Request 1434
+[ERROR] Bad Request 113723
+[ERROR] Bad Request 2591
+[ERROR] Bad Request 730
+[ERROR] Bad Request 114535
+[ERROR] TMDB records not exist!!! 121592
+[ERROR] Bad Request 27031
+[ERROR] Bad Request 1314
+[ERROR] Bad Request 91058
+[ERROR] Bad Request 108752
+[ERROR] Bad Request 75402
+[ERROR] Bad Request 2230
+[ERROR] Bad Request 101483
+[ERROR] Bad Request 79281
+[ERROR] Bad Request 76149
+[ERROR] Bad Request 2592
+[ERROR] Bad Request 109006
+[ERROR] Bad Request 79283
+[ERROR] Bad Request 109565
+[ERROR] Bad Request 72609
+[ERROR] TMDB records not exist!!! 88071
+[ERROR] Bad Request 95023
+[ERROR] TMDB records not exist!!! 129881
+[ERROR] TMDB records not exist!!! 102841
+[ERROR] TMDB records not exist!!! 122944
+[ERROR] Bad Request 27152
+[ERROR] Bad Request 3290
+[ERROR] TMDB records not exist!!! 120932
+[ERROR] TMDB records not exist!!! 117847
+[ERROR] TMDB records not exist!!! 117865
+[ERROR] TMDB records not exist!!! 107640
+[ERROR] Bad Request 66008
+[ERROR] Bad Request 100050
+[ERROR] Bad Request 107836
+[ERROR] Bad Request 41820
+[ERROR] Bad Request 27215
+[ERROR] Bad Request 93991
+[ERROR] TMDB records not exist!!! 119082
+[ERROR] Bad Request 95765
+[ERROR] Bad Request 27274
+[ERROR] Bad Request 4377
+[ERROR] TMDB records not exist!!! 114327
+[ERROR] Bad Request 27291
+[ERROR] Bad Request 27307
+[ERROR] Bad Request 27320
+[ERROR] TMDB records not exist!!! 126082
+[ERROR] Bad Request 42634
+[ERROR] Bad Request 79568
+[ERROR] Bad Request 108653
+[ERROR] TMDB records not exist!!! 98617
+[ERROR] Bad Request 27423
+[ERROR] Bad Request 27431
+[ERROR] TMDB records not exist!!! 98411
+[ERROR] Bad Request 111546
+[ERROR] Bad Request 80160
+[ERROR] Bad Request 27475
+[ERROR] Bad Request 33410
+[ERROR] Bad Request 88203
+[ERROR] Bad Request 113972
+[ERROR] TMDB records not exist!!! 129887
+[ERROR] TMDB records not exist!!! 91904
+[ERROR] Bad Request 95901
+[ERROR] Bad Request 27667
+[ERROR] Bad Request 105189
+[ERROR] Bad Request 93490
+[ERROR] TMDB records not exist!!! 118340
+[ERROR] TMDB records not exist!!! 99566
+[ERROR] Bad Request 41094
+[ERROR] Bad Request 94421
+[ERROR] TMDB records not exist!!! 101200
+[ERROR] Bad Request 34238
+[ERROR] Bad Request 112844
+[ERROR] Bad Request 96704
+[ERROR] TMDB records not exist!!! 98815
+[ERROR] Bad Request 40291
+[ERROR] Bad Request 27899
+[ERROR] TMDB records not exist!!! 97236
+[ERROR] TMDB records not exist!!! 96905
+[ERROR] TMDB records not exist!!! 96316
+[ERROR] Bad Request 31954
+[ERROR] Bad Request 73453
+[ERROR] TMDB records not exist!!! 97955
+[ERROR] Bad Request 103087
+[ERROR] Bad Request 114193
+[ERROR] Bad Request 81405
+[ERROR] Bad Request 112493
+[ERROR] Bad Request 81758
+[ERROR] TMDB records not exist!!! 98929
+[ERROR] TMDB records not exist!!! 126979
+[ERROR] Bad Request 82751
+[ERROR] Bad Request 113670
+[ERROR] TMDB records not exist!!! 126012
+[ERROR] Bad Request 96755
+[ERROR] TMDB records not exist!!! 129478
+[ERROR] TMDB records not exist!!! 98936
+[ERROR] TMDB records not exist!!! 105030
+[ERROR] TMDB records not exist!!! 118932
+[ERROR] TMDB records not exist!!! 98335
+[ERROR] TMDB records not exist!!! 116435
+[ERROR] Bad Request 84861
+[ERROR] TMDB records not exist!!! 97874
+[ERROR] TMDB records not exist!!! 81064
+[ERROR] Bad Request 93568
+[ERROR] TMDB records not exist!!! 112733
+[ERROR] TMDB records not exist!!! 72956
+[ERROR] Bad Request 96018
+[ERROR] Bad Request 100655
+[ERROR] Bad Request 68533
+[ERROR] Bad Request 99891
+[ERROR] Bad Request 74679
+[ERROR] Bad Request 107434
+[ERROR] Bad Request 105191
+[ERROR] Bad Request 72332
+[ERROR] Bad Request 77770
+[ERROR] TMDB records not exist!!! 93894
+[ERROR] TMDB records not exist!!! 100653
+[ERROR] TMDB records not exist!!! 98817
+[ERROR] TMDB records not exist!!! 107143
+[ERROR] TMDB records not exist!!! 129849
+[ERROR] TMDB records not exist!!! 81330
+[ERROR] Bad Request 99420
+[ERROR] Bad Request 105299
+[ERROR] TMDB records not exist!!! 131110
+[ERROR] Bad Request 90273
+[ERROR] Bad Request 106098
+[ERROR] Bad Request 113855
+[ERROR] TMDB records not exist!!! 109571
+[ERROR] Bad Request 91229
+[ERROR] Bad Request 85785
+[ERROR] Bad Request 85624
+[ERROR] TMDB records not exist!!! 96532
+[ERROR] Bad Request 91187
+[ERROR] Bad Request 99901
+[ERROR] TMDB records not exist!!! 98619
+[ERROR] Bad Request 110097
+[ERROR] TMDB records not exist!!! 114333
+[ERROR] Bad Request 113545
+[ERROR] Bad Request 103143
+[ERROR] Bad Request 96769
+[ERROR] Bad Request 107970
+[ERROR] Bad Request 106068
+[ERROR] Bad Request 110412
+[ERROR] Bad Request 108667
+[ERROR] TMDB records not exist!!! 110196
+[ERROR] TMDB records not exist!!! 115441
+[ERROR] TMDB records not exist!!! 115006
+[ERROR] Bad Request 109201
+[ERROR] Bad Request 103631
+[ERROR] TMDB records not exist!!! 107567
+[ERROR] TMDB records not exist!!! 127003
+[ERROR] TMDB records not exist!!! 106820
+[ERROR] Bad Request 112163
+[ERROR] TMDB records not exist!!! 109623
+[ERROR] Bad Request 101678
+[ERROR] Bad Request 107202
+[ERROR] Bad Request 107623
+[ERROR] TMDB records not exist!!! 106680
+[ERROR] TMDB records not exist!!! 115004
+[ERROR] Bad Request 110800
+[ERROR] Bad Request 107484
+[ERROR] TMDB records not exist!!! 111601
+[ERROR] Bad Request 115821
+[ERROR] Bad Request 114909
+[ERROR] Bad Request 98751
+[ERROR] Bad Request 98398
+[ERROR] Bad Request 115254
+[ERROR] Bad Request 115801
+[ERROR] Bad Request 31948
+[ERROR] Bad Request 113128
+[ERROR] TMDB records not exist!!! 118938
+[ERROR] TMDB records not exist!!! 128942
+[ERROR] Bad Request 78980
+[ERROR] Bad Request 91163
+[ERROR] Bad Request 770
+[ERROR] Bad Request 41762
+[ERROR] Bad Request 31655
+[ERROR] Bad Request 109353
+[ERROR] TMDB records not exist!!! 118938
+[ERROR] Bad Request 112606
+[ERROR] Bad Request 105890
+[ERROR] Bad Request 36816
+[ERROR] Bad Request 101916
+[ERROR] TMDB records not exist!!! 93455
+[ERROR] Bad Request 109002
+[ERROR] TMDB records not exist!!! 130420
+[ERROR] TMDB records not exist!!! 101634
+[ERROR] TMDB records not exist!!! 105304
+[ERROR] Bad Request 108846
+[ERROR] Bad Request 68544
+[ERROR] Bad Request 106107
+[ERROR] Bad Request 112648
+[ERROR] Bad Request 115279
+[ERROR] Bad Request 3047
+[ERROR] TMDB records not exist!!! 97849
+[ERROR] Bad Request 1001
+[ERROR] Bad Request 32840
+[ERROR] Bad Request 774
+[ERROR] Bad Request 98224
+[ERROR] TMDB records not exist!!! 74782
+[ERROR] Bad Request 98063
+[ERROR] Bad Request 96242
+[ERROR] Bad Request 115038
+[ERROR] Bad Request 8122
+[ERROR] Bad Request 99673
+[ERROR] Bad Request 36363
+[ERROR] Bad Request 90258
+[ERROR] TMDB records not exist!!! 131052
+[ERROR] Bad Request 1155
+[ERROR] Bad Request 105115
+[ERROR] TMDB records not exist!!! 109231
+[ERROR] Bad Request 142
+[ERROR] Bad Request 115205
+[ERROR] Bad Request 83616
+[ERROR] TMDB records not exist!!! 74319
+[ERROR] TMDB records not exist!!! 106549
+[ERROR] Bad Request 2452
+[ERROR] Bad Request 8425
+[ERROR] Bad Request 91856
+[ERROR] TMDB records not exist!!! 104524
+[ERROR] Bad Request 31577
+[ERROR] Bad Request 26754
+[ERROR] Bad Request 26764
+[ERROR] Bad Request 32968
+[ERROR] Bad Request 758
+[ERROR] Bad Request 90617
+[ERROR] Bad Request 32773
+[ERROR] Bad Request 26809
+[ERROR] Bad Request 26853
+[ERROR] Bad Request 311
+[ERROR] Bad Request 1133
+[ERROR] Bad Request 1692
+[ERROR] Bad Request 403
+[ERROR] Bad Request 143
+[ERROR] Bad Request 26900
+[ERROR] Bad Request 36286
+[ERROR] Bad Request 139
+[ERROR] Bad Request 1316
+[ERROR] Bad Request 113872
+[ERROR] Bad Request 739
+[ERROR] Bad Request 1568
+[ERROR] Bad Request 769
+[ERROR] Bad Request 3817
+[ERROR] Bad Request 66549
+[ERROR] TMDB records not exist!!! 118352
+[ERROR] Bad Request 1708
+[ERROR] Bad Request 1738
+[ERROR] Bad Request 109381
+[ERROR] Bad Request 103614
+[ERROR] Bad Request 94080
+[ERROR] Bad Request 1720
+[ERROR] Bad Request 1709
+[ERROR] TMDB records not exist!!! 121598
+[ERROR] Bad Request 105901
+[ERROR] Bad Request 108476
+[ERROR] TMDB records not exist!!! 105595
+[ERROR] TMDB records not exist!!! 99596
+[ERROR] Bad Request 96732
+[ERROR] Bad Request 3084
+[ERROR] Bad Request 2503
+[ERROR] Bad Request 4311
+[ERROR] Bad Request 27114
+[ERROR] Bad Request 95230
+[ERROR] Bad Request 108476
+[ERROR] Bad Request 27158
+[ERROR] Bad Request 113618
+[ERROR] Bad Request 107316
+[ERROR] Bad Request 107503
+[ERROR] Bad Request 8224
+[ERROR] Bad Request 90292
+[ERROR] Bad Request 105104
+[ERROR] Bad Request 27216
+[ERROR] Bad Request 93885
+[ERROR] Bad Request 75434
+[ERROR] Bad Request 3193
+[ERROR] Bad Request 86288
+[ERROR] Bad Request 109287
+[ERROR] TMDB records not exist!!! 88038
+[ERROR] Bad Request 32788
+[ERROR] Bad Request 94423
+[ERROR] Bad Request 90432
+[ERROR] TMDB records not exist!!! 5871
+[ERROR] Bad Request 69201
+[ERROR] Bad Request 91634
+[ERROR] TMDB records not exist!!! 73475
+[ERROR] Bad Request 93291
+[ERROR] Bad Request 79594
+[ERROR] Bad Request 97117
+[ERROR] Bad Request 27395
+[ERROR] Bad Request 4449
+[ERROR] TMDB records not exist!!! 111809
+[ERROR] TMDB records not exist!!! 97190
+[ERROR] Bad Request 93885
+[ERROR] Bad Request 27544
+[ERROR] TMDB records not exist!!! 87751
+[ERROR] TMDB records not exist!!! 97872
+[ERROR] TMDB records not exist!!! 97876
+[ERROR] Bad Request 114963
+[ERROR] Bad Request 27656
+[ERROR] Bad Request 27668
+[ERROR] Bad Request 95977
+[ERROR] TMDB records not exist!!! 94737
+[ERROR] Bad Request 2588
+[ERROR] Bad Request 42636
+[ERROR] TMDB records not exist!!! 69203
+[ERROR] Bad Request 33799
+[ERROR] TMDB records not exist!!! 99568
+[ERROR] Bad Request 66811
+[ERROR] Bad Request 27856
+[ERROR] Bad Request 105115
+[ERROR] Bad Request 89211
+[ERROR] Bad Request 27891
+[ERROR] Bad Request 39048
+[ERROR] Bad Request 27909
+[ERROR] Bad Request 67852
+[ERROR] Bad Request 39524
+[ERROR] TMDB records not exist!!! 129411
+[ERROR] TMDB records not exist!!! 116108
+[ERROR] Bad Request 97336
+[ERROR] Bad Request 87370
+[ERROR] TMDB records not exist!!! 99489
+[ERROR] Bad Request 53187
+[ERROR] TMDB records not exist!!! 116108
+[ERROR] Bad Request 94972
+[ERROR] TMDB records not exist!!! 98339
+[ERROR] Bad Request 96298
+[ERROR] Bad Request 40752
+[ERROR] TMDB records not exist!!! 97759
+[ERROR] TMDB records not exist!!! 98931
+[ERROR] TMDB records not exist!!! 118294
+[ERROR] TMDB records not exist!!! 98409
+[ERROR] Bad Request 102421
+[ERROR] Bad Request 77734
+[ERROR] TMDB records not exist!!! 113634
+[ERROR] Bad Request 93911
+[ERROR] Bad Request 93628
+[ERROR] Bad Request 96516
+[ERROR] Bad Request 105150
+[ERROR] Bad Request 72781
+[ERROR] TMDB records not exist!!! 87769
+[ERROR] Bad Request 70800
+[ERROR] Bad Request 65558
+[ERROR] Bad Request 85442
+[ERROR] Bad Request 91747
+[ERROR] TMDB records not exist!!! 111230
+[ERROR] Bad Request 66513
+[ERROR] TMDB records not exist!!! 101407
+[ERROR] Bad Request 87771
+[ERROR] TMDB records not exist!!! 98337
+[ERROR] Bad Request 80740
+[ERROR] TMDB records not exist!!! 97845
+[ERROR] TMDB records not exist!!! 120873
+[ERROR] TMDB records not exist!!! 84551
+[ERROR] Bad Request 93391
+[ERROR] Bad Request 96300
+[ERROR] Bad Request 84974
+[ERROR] Bad Request 78974
+[ERROR] Bad Request 110293
+[ERROR] Bad Request 98294
+[ERROR] Bad Request 103551
+[ERROR] Bad Request 86970
+[ERROR] TMDB records not exist!!! 110951
+[ERROR] Bad Request 91683
+[ERROR] Bad Request 109239
+[ERROR] Bad Request 105244
+[ERROR] Bad Request 92412
+[ERROR] Bad Request 113636
+[ERROR] Bad Request 83268
+[ERROR] Bad Request 100494
+[ERROR] TMDB records not exist!!! 126426
+[ERROR] Bad Request 96210
+[ERROR] TMDB records not exist!!! 113721
+[ERROR] Bad Request 106527
+[ERROR] Bad Request 94949
+[ERROR] Bad Request 106082
+[ERROR] Bad Request 96939
+[ERROR] Bad Request 109715
+[ERROR] Bad Request 106914
+[ERROR] TMDB records not exist!!! 94148
+[ERROR] Bad Request 106363
+[ERROR] Bad Request 96937
+[ERROR] Bad Request 106682
+[ERROR] TMDB records not exist!!! 98819
+[ERROR] Bad Request 110802
+[ERROR] Bad Request 110895
+[ERROR] Bad Request 97888
+[ERROR] Bad Request 107579
+[ERROR] Bad Request 101616
+[ERROR] Bad Request 108692
+[ERROR] Bad Request 110042
+[ERROR] Bad Request 104798
+[ERROR] Bad Request 107581
+[ERROR] Bad Request 112764
+[ERROR] TMDB records not exist!!! 118288
+[ERROR] TMDB records not exist!!! 120128
+[ERROR] TMDB records not exist!!! 115529
+[ERROR] Bad Request 106076
+[ERROR] Bad Request 107199
+[ERROR] TMDB records not exist!!! 128904
+[ERROR] Bad Request 111519
+[ERROR] Bad Request 113122
