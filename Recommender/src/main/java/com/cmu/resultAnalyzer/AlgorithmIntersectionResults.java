@@ -14,7 +14,9 @@ import com.cmu.model.Recommendation;
 
 public class AlgorithmIntersectionResults {
     public static void main(String [] args) {
-        String fileName = "/Users/LucasColucci/Downloads/similarityv2.csv";
+    	//In this folder there's an example of the file
+    	//It is a dump of the Similarity table of the DB
+        String fileName = "/Path/To/Similarity/CSV";
 
         String line = null;
 
