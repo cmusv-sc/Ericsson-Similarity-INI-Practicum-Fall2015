@@ -462,7 +462,7 @@ public class RecommendationDaoImpl implements RecommendationDao {
 				+ "data->>'similar_movies top 7', data->>'similar_movies top 8', data->>'similar_movies top 9', data->>'similar_movies top 10', "
 				+ "data->>'similar_movies top 11', data->>'similar_movies top 12', data->>'similar_movies top 13', data->>'similar_movies top 14', "
 				+ "data->>'similar_movies top 15', data->>'similar_movies top 16', data->>'similar_movies top 17', data->>'similar_movies top 18', "
-				+ "data->>'similar_movies top 19' from tmdb20m3";
+				+ "data->>'similar_movies top 19' from tmdb20m2";
 		String sqlString2 = "insert into similarity values(?,?,?)";
 		try {
 			PreparedStatement statement = conn.prepareStatement(sqlString);
